@@ -43,8 +43,14 @@ class FunctionDataset(dataset.Dataset):
             minimum_radius = rnd.randint(minimum_radius_range[0], minimum_radius_range[1])
             maximum_radius = rnd.randint(maximum_radius_range[0], maximum_radius_range[1])
 
-            X.append(generate_dataset.generate_data(num_points, self.opt.dataset.image_size, self.opt.dataset.image_size,
-                                   maximum_radius, minimum_radius))
+            X.append(np.uint8(generate_dataset.generate_data(num_points, self.opt.dataset.image_size, self.opt.dataset.image_size,
+                                   maximum_radius, minimum_radius)))
+
+            ''' 
+            from PIL import Image;
+            img = Image.fromarray(128 * X[-1]);
+            img.save('testrgb.png')
+            '''
             labels.append(X[-1].reshape(self.opt.dataset.image_size**2))
 
         train_addrs = []
@@ -74,8 +80,8 @@ class FunctionDataset(dataset.Dataset):
             minimum_radius = rnd.randint(minimum_radius_range[0], minimum_radius_range[1])
             maximum_radius = rnd.randint(maximum_radius_range[0], maximum_radius_range[1])
 
-            X.append(generate_dataset.generate_data(num_points, self.opt.dataset.image_size, self.opt.dataset.image_size,
-                                   maximum_radius, minimum_radius))
+            X.append(np.uint8(generate_dataset.generate_data(num_points, self.opt.dataset.image_size, self.opt.dataset.image_size,
+                                   maximum_radius, minimum_radius)))
             labels.append(X[-1].reshape(self.opt.dataset.image_size**2))
 
         return X, labels
