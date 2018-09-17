@@ -4,16 +4,7 @@ from matplotlib import pyplot as plt
 import random as rnd
 import math
 np.set_printoptions(linewidth=400)
-img_width = 100
-img_height = 100
 margins = 2
-img = np.zeros((img_width,img_height))
-
-img_rgb = np.zeros((img_width,img_height,3))
-
-
-problem_points = []
-
 
 INFINITY = float('inf')
 PI = math.pi
@@ -22,10 +13,12 @@ sin = math.sin
 DIRECTION = {'north':(-1,0), 'south':(1,0), 'east':(0,1), 'west':(0,-1),
               'northeast':(-1,1), 'northwest':(-1,-1), 'southeast':(1,1), 'southwest':(1,-1)}
 
+#test
 
 #return new coordinates of a point when moved one unit in direction 'direction'
 def move(start_position, direction):
     return (start_position[0] + direction[0], start_position[1] + direction[1])
+
 
 def new_position(start_position, index, direction_sign):
     if direction_sign == 0:
@@ -63,13 +56,13 @@ def sign(number):
     return 0
     
 
-def generate_points(num_points, max_radius, min_radius, center_coords):
+def generate_points(num_points, image_width, image_height, max_radius, min_radius, center_coords):
     coords = []
     mean = (max_radius + min_radius)/2.
     std_dev = (max_radius - min_radius)/2.
 
     #make sure point axis of rotation is inside the image
-    center_coords = (clip(center_coords[0],img_height-1,0), clip(center_coords[1],img_width-1,0))
+    center_coords = (clip(center_coords[0],image_height-margins,0), clip(center_coords[1],image_width-margins,0))
 
     #iterate thru 360 degrees (2PI radians) and get corresponding cartesian coordinates
     for i in range(num_points):
@@ -78,33 +71,14 @@ def generate_points(num_points, max_radius, min_radius, center_coords):
         x = int(round(center_coords[0] + radius*cos(theta)))
         y = int(round(center_coords[1] + radius*sin(theta)))
 
-        x,y = clip(x, img_height-margins, margins), clip(y, img_width-margins,margins)
+        x,y = clip(x, image_height-margins, margins), clip(y, image_width-margins,margins)
         coords.append((x,y))
 
     #add first point to the end to complete cycle       
     coords.append(coords[0])
     return coords
 
-'''
-ALGORITHM FOR DRAWING THE CURVE:
-init a cache
-examine a = abs(x-x1) and b = abs(y-y1)
-if a > b -->map 'first'  to x, or index 0, 'second'  to y, or index 1, and vice versa
-inc = min(a,b)/max(a,b)
-we start with variables first == second == 0
-until either x == x1 or y == y1:
-    raise first by 1 and second by inc
-    if first >= 1:
-        move point (x,y) by 1 in the proper direction along the map['first'] axis
-        add the resulting new point (x',y') to the cache
-        first -= 1
-    if second >= 1:
-        same deal but replace first w second
 
-while either x != x1 or y != y1:
-    increment until current point = target point
-
-'''
 def generate_curve(points):
     curve = []
     
@@ -184,70 +158,33 @@ def generate_curve(points):
             curve.append(current)
     return curve
 
-#example
-start = (int(img_width/2),int(img_height/2))       
 
-points = generate_points(30,60,5,start)
-curve = generate_curve(points)
-print(problem_points)
-print(len(problem_points), 'out of', len(points))
 
-for i in range(len(curve)):
-    c = curve[i]
-    x = c[0]
-    y = c[1]
+def generate_data(num_points, image_width, image_height, max_radius, min_radius):
+    center_coords = (int(image_width/2),int(image_height/2))
     
-    img[x][y] = 1.
+    img = np.zeros((image_width,image_height))
+    
+    points = generate_points(num_points, image_width, image_height, max_radius, min_radius, center_coords)
+    curve = generate_curve(points)
 
-    img_rgb[x,y,0] = 1.
-    img_rgb[x,y,1] = 1.
-    img_rgb[x,y,2] = 1.
+    for i in range(len(curve)):
+        c = curve[i]
+        x = c[0]
+        y = c[1]
 
-for i in range(len(points)):
-    p = points[i]
-    x = p[0]
-    y = p[1]
-    if i in problem_points:       
         img[x][y] = 1.
 
-        img_rgb[x,y,0] = 1.
-        img_rgb[x,y,1] = 0
-        img_rgb[x,y,2] = 0
-    else:
-        img[p[0]][p[1]] = 1.
+    for i in range(len(points)):
+        p = points[i]
+        x = p[0]
+        y = p[1]
 
-        img_rgb[x,y,0] = 0.
-        img_rgb[x,y,1] = 1.
-        img_rgb[x,y,2] = 0.
+        img[x][y] = 1.
 
-for i in range(len(problem_points)):
-    p = points[i]
-    x = p[0]
-    y = p[1]
+    return img
 
-    if p not in points:
-        img_rgb[x,y,0] = 0.
-        img_rgb[x,y,1] = 0
-        img_rgb[x,y,2] = 1.
+
     
 
-print(img_rgb.shape)
 
-plt.imshow(img_rgb)
-plt.show()
-
-# example points
-##[(94, 50), (80, 56), (99, 74), (54, 53), (79, 82),
-## (74, 92), (66, 98), (52, 66), (44, 99), (44, 68),
-## (45, 56), (46, 53), (12, 67), (31, 54), (1, 15),
-## (39, 38), (20, 0), (31, 0), (44, 0), (55, 0), (61, 17),
-## (57, 38), (53, 46), (61, 42), (99, 27), (94, 50)]
-
-# test for errors
-##data = []
-##for i in range(1000):
-##    print i
-##    points = generate_points(30,60,5,start)
-##    curve = generate_curve(points)
-##
-##print(problem_points)
