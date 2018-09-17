@@ -23,6 +23,7 @@ class FunctionDataset(dataset.Dataset):
 
         self.create_tfrecords()
 
+
     # Virtual functions:
     def get_data_trainval(self):
 
@@ -30,7 +31,7 @@ class FunctionDataset(dataset.Dataset):
         X = []
         labels = []
         for i in range(self.opt.dataset.num_images_training):
-            X.append(get_new_data_point())
+            X.append(get_new_data_point(self.opt.dataset.image_size, self.opt.dataset.complexity))
             labels.append(X[-1].reshape(self.opt.dataset.num_images_training, self.opt.dataset.image_size**2))
 
         train_addrs = []
@@ -47,15 +48,17 @@ class FunctionDataset(dataset.Dataset):
 
         return train_addrs, train_labels, val_addrs, val_labels
 
+
     def get_data_test(self):
         # read the 5 batch files of cifar
         X = []
         labels = []
         for i in range(self.opt.dataset.num_images_training):
-            X.append(get_new_data_point())
+            X.append(get_new_data_point(self.opt.dataset.image_size, self.opt.dataset.complexity))
             labels.append(X[-1].reshape(self.opt.dataset.num_images_training, self.opt.dataset.image_size**2))
 
         return X, labels
+
 
     def preprocess_image(self, augmentation, standarization, image):
 
