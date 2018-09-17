@@ -67,6 +67,7 @@ def MLP3(x, opt, labels_id, dropout_rate):
 
 def MLP1(x, opt, labels_id, dropout_rate):
     parameters = []
+    activations = []
 
     aa = x
     num_neurons_before_fc = int(prod(aa.get_shape()[1:]))
@@ -84,18 +85,21 @@ def MLP1(x, opt, labels_id, dropout_rate):
         summ.activation_summaries(fc1, opt)
         dropout1 = tf.nn.dropout(fc1, dropout_rate)
 
+        activations += [fc1]
 
     # fc8
     with tf.name_scope('fc_out') as scope:
-        W = tf.Variable(tf.truncated_normal([int(512 * opt.dnn.neuron_multiplier[0]), len(labels_id)],
+        W = tf.Variable(tf.truncated_normal([int(512 * opt.dnn.neuron_multiplier[0]), labels_id],
                                             dtype=tf.float32,
                                             stddev=1e-2), name='weights')
-        b = tf.Variable(tf.zeros([len(labels_id)]), name='bias')
+        b = tf.Variable(tf.zeros([labels_id]), name='bias')
         parameters += [W, b]
         summ.variable_summaries(W, b, opt)
 
         fc8 = tf.nn.bias_add(tf.matmul(dropout1, W), b, name=scope)
         summ.activation_summaries(fc8, opt)
 
-    return fc8, parameters
+        activations += [fc8]
+
+    return fc8, parameters, activations
 

@@ -37,7 +37,7 @@ def run(opt):
         print("Error: no valid dataset specified")
 
     # Repeatable datasets for training
-    train_dataset = dataset.create_dataset(augmentation=opt.hyper.augmentation, standarization=False, set_name='train', repeat=True)
+    train_dataset = dataset.create_dataset(augmentation=False, standarization=False, set_name='train', repeat=True)
     val_dataset = dataset.create_dataset(augmentation=False, standarization=False, set_name='val', repeat=True)
 
     # No repeatable dataset for testing
@@ -66,15 +66,15 @@ def run(opt):
     # Get data from dataset dataset
     image, y_ = iterator.get_next()
 
-    image.set_shape([opt.hyper.batch_size, opt.hyper.image_size, opt.hyper.image_size, 3])
 
     if opt.extense_summary:
         tf.summary.image('input', image)
+        tf.summary.image('output', tf.reshape(tf.cast(y_, tf.float32), [opt.dataset.image_size, opt.dataset.image_size]))
 
     # Call DNN
     dropout_rate = tf.placeholder(tf.float32)
     to_call = getattr(nets, opt.dnn.name)
-    y, parameters, _ = to_call(image, dropout_rate, opt, dataset.list_labels)
+    y, parameters, _ = to_call(image, dropout_rate, opt, len(dataset.list_labels)*dataset.num_outputs)
 
     # Loss function
     with tf.name_scope('loss'):
@@ -85,11 +85,14 @@ def run(opt):
             name='weights_norm')
         tf.summary.scalar('weight_decay', weights_norm)
 
+        flat_y = tf.reshape(tensor=y, shape=(-1, opt.dataset.image_size**2, len(dataset.list_labels)))
         cross_entropy = tf.reduce_mean(
-            tf.nn.sparse_softmax_cross_entropy_with_logits(labels=y_, logits=y))
-        tf.summary.scalar('cross_entropy', cross_entropy)
+            tf.nn.sparse_softmax_cross_entropy_with_logits(labels=y_, logits=flat_y))
+        cross_entropy_sum = tf.reduce_sum(cross_entropy)
 
-        total_loss = weights_norm + cross_entropy
+        tf.summary.scalar('cross_entropy', cross_entropy_sum)
+
+        total_loss = weights_norm + cross_entropy_sum
         tf.summary.scalar('total_loss', total_loss)
 
     global_step = tf.Variable(0, name='global_step', trainable=False)
@@ -113,7 +116,7 @@ def run(opt):
 
     # Accuracy
     with tf.name_scope('accuracy'):
-        correct_prediction = tf.equal(tf.argmax(y, 1), y_)
+        correct_prediction = tf.equal(tf.argmax(flat_y, 2), y_)
         correct_prediction = tf.cast(correct_prediction, tf.float32)
         accuracy = tf.reduce_mean(correct_prediction)
         tf.summary.scalar('accuracy', accuracy)
@@ -238,7 +241,6 @@ def run(opt):
         if flag_testable:
 
             test_handle_full = sess.run(test_iterator_full.string_handle())
-            validation_handle_full = sess.run(val_iterator_full.string_handle())
             train_handle_full = sess.run(train_iterator_full.string_handle())
 
             # Run one pass over a batch of the validation dataset.
@@ -252,20 +254,6 @@ def run(opt):
             val_acc = acc_tmp / float(15)
             print("Full train acc = " + str(val_acc))
             sys.stdout.flush()
-
-
-            # Run one pass over a batch of the validation dataset.
-            sess.run(val_iterator_full.initializer)
-            acc_tmp = 0.0
-            for num_iter in range(15):
-                acc_val = sess.run([accuracy], feed_dict={handle: validation_handle_full,
-                                                          dropout_rate: opt.hyper.drop_test})
-                acc_tmp += acc_val[0]
-
-            val_acc = acc_tmp / float(15)
-            print("Full val acc = " + str(val_acc))
-            sys.stdout.flush()
-
 
             # Run one pass over a batch of the test dataset.
             sess.run(test_iterator_full.initializer)

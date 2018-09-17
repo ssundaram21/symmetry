@@ -3,6 +3,7 @@ from datasets import generate_dataset
 import numpy as np
 import random as rnd
 
+
 class FunctionDataset(dataset.Dataset):
 
     def __init__(self, opt):
@@ -10,7 +11,8 @@ class FunctionDataset(dataset.Dataset):
 
         self.num_threads = 8
 
-        self.list_labels = range(0, 1)
+        self.num_outputs = self.opt.dataset.image_size**2
+        self.list_labels = range(0, 2)
         self.num_images_training = self.opt.dataset.num_images_training
         self.num_images_test = self.opt.dataset.num_images_testing
 
@@ -18,7 +20,6 @@ class FunctionDataset(dataset.Dataset):
         self.num_images_val = self.num_images_training - self.num_images_epoch
 
         self.create_tfrecords()
-
 
     def get_parameters_complexity(self, complexity):
         if complexity == 0:
@@ -87,6 +88,7 @@ class FunctionDataset(dataset.Dataset):
         return X, labels
 
 
-    def preprocess_image(self, augmentation, standarization, image):
-
-        return image
+    def preprocess_image(self, augmentation, standarization, image, label):
+        image.set_shape([self.opt.dataset.image_size, self.opt.dataset.image_size])
+        label.set_shape([self.opt.dataset.image_size*self.opt.dataset.image_size])
+        return image, label

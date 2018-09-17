@@ -13,7 +13,7 @@ code_path = {
     '/om': '/om/user/xboix/src/insideness/'}[FLAGS.host_filesystem]
 
 output_path = {
-    'xavier': '/Users/xboix/src/insideness',
+    'xavier': '/Users/xboix/src/insideness/log/',
     '/om': '/om/user/xboix/share/insideness/'}[FLAGS.host_filesystem]
 
 opt = experiments.get_experiments(output_path)[FLAGS.experiment_index]

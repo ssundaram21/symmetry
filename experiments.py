@@ -39,7 +39,7 @@ class Dataset(object):
 class DNN(object):
 
     def __init__(self):
-        self.name = "Alexnet"
+        self.name = "MLP1"
         self.pretrained = False
         self.version = 1
         self.layers = 4
@@ -60,8 +60,6 @@ class Hyperparameters(object):
         self.learning_rate_factor_per_decay = 0.95
         self.weight_decay = 0
         self.max_num_epochs = 60
-        self.crop_size = 28
-        self.image_size = 32
         self.drop_train = 1
         self.drop_test = 1
         self.momentum = 0.9
@@ -108,7 +106,7 @@ def get_experiments(output_path):
     neuron_multiplier = [0.25, 0.5, 1, 2, 4]
     crop_sizes = [28, 24, 20, 16, 12]
     training_data = [1]
-    name = ["Alexnet"]
+    name = ["MLP1"]
     num_layers = [5]
     max_epochs = [100]
 
