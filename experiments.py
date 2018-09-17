@@ -8,6 +8,8 @@ class Dataset(object):
         # # #
         # Dataset general
         self.dataset_path = ""
+        self.num_images_training = 1
+        self.num_images_testing = 1
         self.proportion_training_set = 0.95
         self.shuffle_data = True
 
@@ -17,7 +19,9 @@ class Dataset(object):
         self.reuse_TFrecords_ID = 0
         self.reuse_TFrecords_path = ""
 
-        self.dataset_name = "?"
+        self.dataset_name = "insideness"
+        self.complexity = 0
+        self.image_size = 100
 
     # # #
     # Dataset general
@@ -111,10 +115,11 @@ def get_experiments(output_path):
     idx = 0
     # Create base for TF records:
     opt += [Experiments(idx, "data", output_path)]
-    opt[-1].dataset.dataset_name = 'function'
+    opt[-1].dataset.num_images_training = 1e6
+    opt[-1].dataset.num_images_testing = 1e4
+    opt[-1].dataset.complexity = 0
     opt[-1].hyper.max_num_epochs = 0
     idx += 1
-
 
     for name_NN, num_layers_NN, max_epochs_NN in zip(name, num_layers, max_epochs):
         for crop_size in range(len(crop_sizes)):
