@@ -9,7 +9,7 @@ from nets import nets
 from util import summary
 
 
-def train(opt):
+def run(opt):
 
     ################################################################################################
     # Read experiment to run
@@ -282,5 +282,3 @@ def train(opt):
         else:
             print("MODEL WAS NOT TRAINED")
 
-if __name__ == "__main__":
-    train(sys.argv[1])

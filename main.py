@@ -16,15 +16,17 @@ output_path = {
     'xavier': '/Users/xboix/src/insideness',
     '/om': '/om/user/xboix/share/insideness/'}[FLAGS.host_filesystem]
 
+opt = experiments.get_experiments(output_path)[FLAGS.experiment_index]
 
-def train(experiment_index):
+
+def run_train(run_opt):
     from runs import train
-    train(experiment_index)
+    train.run(run_opt)
+
 
 switcher = {
-    'train': train
+    'train': run_train
 }
 
-opt = experiments.get_experiments(code_path, output_path)[FLAGS.experiment_index]
 
 switcher[FLAGS.run](opt)

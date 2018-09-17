@@ -109,7 +109,7 @@ def get_experiments(output_path):
 
     idx = 0
     # Create base for TF records:
-    opt += [Experiments(idx, "data")]
+    opt += [Experiments(idx, "data", output_path)]
     opt[-1].hyper.max_num_epochs = 0
     idx += 1
 
@@ -132,6 +132,3 @@ def get_experiments(output_path):
             idx += 1
     return opt
 
-
-if __name__ == "__main__":
-    get_experiments(sys.argv[1])
