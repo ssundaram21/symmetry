@@ -115,8 +115,8 @@ def get_experiments(output_path):
     idx = 0
     # Create base for TF records:
     opt += [Experiments(idx, "data", output_path)]
-    opt[-1].dataset.num_images_training = 1e6
-    opt[-1].dataset.num_images_testing = 1e4
+    opt[-1].dataset.num_images_training = 1e4
+    opt[-1].dataset.num_images_testing = 1e3
     opt[-1].dataset.complexity = 0
     opt[-1].hyper.max_num_epochs = 0
     idx += 1

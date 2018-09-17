@@ -1,6 +1,7 @@
 from datasets import dataset
-import generate_dataset
+from datasets import generate_dataset
 import numpy as np
+import random as rnd
 
 class FunctionDataset(dataset.Dataset):
 
@@ -32,26 +33,26 @@ class FunctionDataset(dataset.Dataset):
     def get_data_trainval(self):
 
         num_points_range, maximum_radius_range, minimum_radius_range = \
-            get_parameters_complexity(self.opt.dataset.complexity)
+            self.get_parameters_complexity(self.opt.dataset.complexity)
 
         # read the 5 batch files of cifar
         X = []
         labels = []
-        for i in range(self.opt.dataset.num_images_training):
-            num_points = np.randint(num_points_range[0],num_points_range[1])
-            minimum_radius = np.randint(minimum_radius_range[0], minimum_radius_range[1])
-            maximum_radius = np.randint(maximum_radius_range[0], maximum_radius_range[1])
+        for i in range(int(self.opt.dataset.num_images_training)):
+            num_points = rnd.randint(num_points_range[0],num_points_range[1])
+            minimum_radius = rnd.randint(minimum_radius_range[0], minimum_radius_range[1])
+            maximum_radius = rnd.randint(maximum_radius_range[0], maximum_radius_range[1])
 
             X.append(generate_dataset.generate_data(num_points, self.opt.dataset.image_size, self.opt.dataset.image_size,
                                    maximum_radius, minimum_radius))
-            labels.append(X[-1].reshape(self.opt.dataset.num_images_training, self.opt.dataset.image_size**2))
+            labels.append(X[-1].reshape(self.opt.dataset.image_size**2))
 
         train_addrs = []
         train_labels = []
         val_addrs = []
         val_labels = []
 
-        # Divide the data into 95% train, 5% validation
+        # Divide the data into train and validation
         [train_addrs.append(elem) for elem in X[0:int(self.opt.dataset.proportion_training_set * len(X))]]
         [train_labels.append(elem) for elem in labels[0:int(self.opt.dataset.proportion_training_set * len(X))]]
 
@@ -62,12 +63,20 @@ class FunctionDataset(dataset.Dataset):
 
 
     def get_data_test(self):
+        num_points_range, maximum_radius_range, minimum_radius_range = \
+            self.get_parameters_complexity(self.opt.dataset.complexity)
+
         # read the 5 batch files of cifar
         X = []
         labels = []
-        for i in range(self.opt.dataset.num_images_training):
-            X.append(get_new_data_point(self.opt.dataset.image_size, self.opt.dataset.complexity))
-            labels.append(X[-1].reshape(self.opt.dataset.num_images_training, self.opt.dataset.image_size**2))
+        for i in range(int(self.opt.dataset.num_images_training)):
+            num_points = rnd.randint(num_points_range[0],num_points_range[1])
+            minimum_radius = rnd.randint(minimum_radius_range[0], minimum_radius_range[1])
+            maximum_radius = rnd.randint(maximum_radius_range[0], maximum_radius_range[1])
+
+            X.append(generate_dataset.generate_data(num_points, self.opt.dataset.image_size, self.opt.dataset.image_size,
+                                   maximum_radius, minimum_radius))
+            labels.append(X[-1].reshape(self.opt.dataset.image_size**2))
 
         return X, labels
 

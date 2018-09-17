@@ -30,9 +30,11 @@ def run(opt):
 
     # Initialize dataset and creates TF records if they do not exist
 
-    if opt.dataset.dataset_name == 'function':
+    if opt.dataset.dataset_name == 'insideness':
         from datasets import insideness_dataset
         dataset = insideness_dataset.FunctionDataset(opt)
+    else:
+        print("Error: no valid dataset specified")
 
     # Repeatable datasets for training
     train_dataset = dataset.create_dataset(augmentation=opt.hyper.augmentation, standarization=False, set_name='train', repeat=True)
