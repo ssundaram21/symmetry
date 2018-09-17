@@ -1,4 +1,6 @@
 import argparse
+import experiments
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--experiment_index', type=int, required=True)
@@ -23,4 +25,6 @@ switcher = {
     'train': train
 }
 
-switcher[FLAGS.run](FLAGS.experiment_index)
+opt = experiments.get_experiments(code_path, output_path)[FLAGS.experiment_index]
+
+switcher[FLAGS.run](opt)

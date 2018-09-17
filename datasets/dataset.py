@@ -3,12 +3,7 @@ import sys
 import os.path
 import shutil
 
-from abc import ABCMeta, abstractmethod
-
-
 class Dataset:
-
-    __metaclass__ = ABCMeta
 
     num_threads = 8
     output_buffer_size = 1024
@@ -20,17 +15,17 @@ class Dataset:
     def __init__(self, opt):
         self.opt = opt
 
-    @abstractmethod
+    #ABSTRACT METHOD
     def get_data_trainval(self):
         # Returns images training & labels
         pass
 
-    @abstractmethod
+    #ABSTRACT METHOD
     def get_data_test(self):
         # Returns images training & labels
         pass
 
-    @abstractmethod
+    #ABSTRACT METHOD
     def preprocess_image(self, image):
         # Returns images training & labels
         pass
@@ -131,7 +126,7 @@ class Dataset:
             tfrecords_path = self.opt.log_dir_base + self.opt.dataset.reuse_TFrecords_path + '/data/'
 
         filenames = [tfrecords_path + set_name_app + '.tfrecords']
-        dataset = tf.contrib.data.TFRecordDataset(filenames)
+        dataset = tf.data.TFRecordDataset(filenames)
         dataset = dataset.map(_parse_function, num_threads=self.num_threads, output_buffer_size=self.output_buffer_size)
 
         if repeat:

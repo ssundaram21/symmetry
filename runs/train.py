@@ -5,19 +5,15 @@ import numpy as np
 
 import tensorflow as tf
 
-import experiments
-from datasets import cifar_dataset
 from nets import nets
 from util import summary
 
 
-def train(ID):
+def train(opt):
 
     ################################################################################################
     # Read experiment to run
     ################################################################################################
-
-    opt = experiments.opt[ID]
 
     # Skip execution if instructed in experiment
     if opt.skip:
@@ -33,7 +29,10 @@ def train(ID):
     ################################################################################################
 
     # Initialize dataset and creates TF records if they do not exist
-    dataset = cifar_dataset.Cifar10(opt)
+
+    if opt.dataset_name == 'function':
+        from datasets import function_dataset
+        dataset = function_dataset.Cifar10(opt)
 
     # Repeatable datasets for training
     train_dataset = dataset.create_dataset(augmentation=opt.hyper.augmentation, standarization=False, set_name='train', repeat=True)
@@ -284,4 +283,4 @@ def train(ID):
             print("MODEL WAS NOT TRAINED")
 
 if __name__ == "__main__":
-    train(sys.argv[1], sys.argv[2], sys.argv[3])
+    train(sys.argv[1])
