@@ -1,11 +1,6 @@
-import glob
-import tensorflow as tf
-import pickle
-import numpy as np
-from random import randint
-
 from datasets import dataset
-
+import generate_dataset
+import numpy as np
 
 class FunctionDataset(dataset.Dataset):
 
@@ -24,14 +19,31 @@ class FunctionDataset(dataset.Dataset):
         self.create_tfrecords()
 
 
+    def get_parameters_complexity(self, complexity):
+        if complexity == 0:
+            num_points = [3,5]
+            minimum_radius =[23,25]
+            maximum_radius = [25,28]
+
+        return num_points, maximum_radius, minimum_radius
+
+
     # Virtual functions:
     def get_data_trainval(self):
+
+        num_points_range, maximum_radius_range, minimum_radius_range = \
+            get_parameters_complexity(self.opt.dataset.complexity)
 
         # read the 5 batch files of cifar
         X = []
         labels = []
         for i in range(self.opt.dataset.num_images_training):
-            X.append(get_new_data_point(self.opt.dataset.image_size, self.opt.dataset.complexity))
+            num_points = np.randint(num_points_range[0],num_points_range[1])
+            minimum_radius = np.randint(minimum_radius_range[0], minimum_radius_range[1])
+            maximum_radius = np.randint(maximum_radius_range[0], maximum_radius_range[1])
+
+            X.append(generate_dataset.generate_data(num_points, self.opt.dataset.image_size, self.opt.dataset.image_size,
+                                   maximum_radius, minimum_radius))
             labels.append(X[-1].reshape(self.opt.dataset.num_images_training, self.opt.dataset.image_size**2))
 
         train_addrs = []

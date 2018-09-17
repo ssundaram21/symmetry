@@ -75,7 +75,7 @@ class Experiments(object):
         self.log_dir_base = output_path
 
         # Recordings
-        self.max_to_keep_checkpoints = 5
+        self.max_to_keep_checkpoints = 2
 
         # Test after training:
         self.test = False
