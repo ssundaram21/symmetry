@@ -17,6 +17,7 @@ class Dataset(object):
         self.reuse_TFrecords_ID = 0
         self.reuse_TFrecords_path = ""
 
+        self.dataset_name = "?"
 
     # # #
     # Dataset general
@@ -110,6 +111,7 @@ def get_experiments(output_path):
     idx = 0
     # Create base for TF records:
     opt += [Experiments(idx, "data", output_path)]
+    opt[-1].dataset.dataset_name = 'function'
     opt[-1].hyper.max_num_epochs = 0
     idx += 1
 
@@ -117,6 +119,8 @@ def get_experiments(output_path):
     for name_NN, num_layers_NN, max_epochs_NN in zip(name, num_layers, max_epochs):
         for crop_size in range(len(crop_sizes)):
             opt += [Experiments(idx, name_NN + "_augmentation_" + str(crop_size), output_path)]
+
+            opt[-1].dataset.dataset_name = 'function'
 
             opt[-1].hyper.max_num_epochs = max_epochs_NN
             opt[-1].hyper.crop_size = crop_size

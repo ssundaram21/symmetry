@@ -7,10 +7,10 @@ from random import randint
 from datasets import dataset
 
 
-class Cifar10(dataset.Dataset):
+class FunctionDataset(dataset.Dataset):
 
     def __init__(self, opt):
-        super(Cifar10, self).__init__(opt)
+        super(FunctionDataset, self).__init__(opt)
 
         self.num_threads = 8
         self.output_buffer_size = 1024
