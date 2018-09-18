@@ -52,7 +52,7 @@ class FunctionDataset(dataset.Dataset):
             img = Image.fromarray(128 * X[-1]);
             img.save('testrgb.png')
             '''
-            labels.append(X[-1].reshape(self.opt.dataset.image_size**2))
+            labels.append(X[-1])
 
         train_addrs = []
         train_labels = []
@@ -64,7 +64,7 @@ class FunctionDataset(dataset.Dataset):
         [train_labels.append(elem) for elem in labels[0:int(self.opt.dataset.proportion_training_set * len(X))]]
 
         [val_addrs.append(elem) for elem in X[int(self.opt.dataset.proportion_training_set * len(X)):]]
-        [val_labels.append(elem) for elem in labels[int(self.opt.dataset.proportion_training_set * len(X))]]
+        [val_labels.append(elem) for elem in labels[int(self.opt.dataset.proportion_training_set * len(X)):]]
 
         return train_addrs, train_labels, val_addrs, val_labels
 
@@ -83,12 +83,12 @@ class FunctionDataset(dataset.Dataset):
 
             X.append(np.uint8(generate_dataset.generate_data(num_points, self.opt.dataset.image_size, self.opt.dataset.image_size,
                                    maximum_radius, minimum_radius)))
-            labels.append(X[-1].reshape(self.opt.dataset.image_size**2))
+            labels.append(X[-1])
 
         return X, labels
 
 
     def preprocess_image(self, augmentation, standarization, image, label):
         image.set_shape([self.opt.dataset.image_size, self.opt.dataset.image_size])
-        label.set_shape([self.opt.dataset.image_size*self.opt.dataset.image_size])
+        label.set_shape([self.opt.dataset.image_size, self.opt.dataset.image_size])
         return image, label

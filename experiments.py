@@ -119,6 +119,15 @@ def get_experiments(output_path):
     opt[-1].hyper.max_num_epochs = 0
     idx += 1
 
+    opt += [Experiments(idx, "MLP1", output_path)]
+    opt[-1].dataset.reuse_tfrecords(opt[0])
+    opt[-1].dataset.num_images_training = 1e4
+    opt[-1].dataset.num_images_testing = 1e3
+    opt[-1].dataset.complexity = 0
+    opt[-1].hyper.max_num_epochs = 100
+    idx += 1
+
+
     for name_NN, num_layers_NN, max_epochs_NN in zip(name, num_layers, max_epochs):
         for crop_size in range(len(crop_sizes)):
             opt += [Experiments(idx, name_NN + "_augmentation_" + str(crop_size), output_path)]

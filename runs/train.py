@@ -67,9 +67,9 @@ def run(opt):
     image, y_ = iterator.get_next()
 
 
-    if opt.extense_summary:
-        tf.summary.image('input', image)
-        tf.summary.image('output', tf.reshape(tf.cast(y_, tf.float32), [opt.dataset.image_size, opt.dataset.image_size]))
+    #if opt.extense_summary:
+        #tf.summary.image('input',  tf.expand_dims(image, 3))
+        #tf.summary.image('output', tf.expand_dims(tf.reshape(tf.cast(y_, tf.float32), [opt.dataset.image_size, opt.dataset.image_size]),1))
 
     # Call DNN
     dropout_rate = tf.placeholder(tf.float32)
@@ -85,10 +85,10 @@ def run(opt):
             name='weights_norm')
         tf.summary.scalar('weight_decay', weights_norm)
 
-        flat_y = tf.reshape(tensor=y, shape=(-1, opt.dataset.image_size**2, len(dataset.list_labels)))
-        cross_entropy = tf.reduce_mean(
-            tf.nn.sparse_softmax_cross_entropy_with_logits(labels=y_, logits=flat_y))
-        cross_entropy_sum = tf.reduce_sum(cross_entropy)
+        flat_y = tf.reshape(tensor=y, shape=[-1, opt.dataset.image_size**2, len(dataset.list_labels)])
+        flat_y_ = tf.reshape(tensor=y_, shape=[-1, opt.dataset.image_size**2])
+        cross_entropy_sum = tf.reduce_mean(
+            tf.nn.sparse_softmax_cross_entropy_with_logits(labels=flat_y_, logits=flat_y))
 
         tf.summary.scalar('cross_entropy', cross_entropy_sum)
 
@@ -116,7 +116,7 @@ def run(opt):
 
     # Accuracy
     with tf.name_scope('accuracy'):
-        correct_prediction = tf.equal(tf.argmax(flat_y, 2), y_)
+        correct_prediction = tf.equal(tf.argmax(flat_y, 2), flat_y_)
         correct_prediction = tf.cast(correct_prediction, tf.float32)
         accuracy = tf.reduce_mean(correct_prediction)
         tf.summary.scalar('accuracy', accuracy)

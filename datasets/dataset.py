@@ -116,6 +116,10 @@ class Dataset:
             image = tf.reshape(image, S)
 
             label = tf.decode_raw(parsed_features[set_name_app + '/label'], tf.uint8)
+            label = tf.cast(label, tf.float32)
+            S = tf.stack([tf.cast(parsed_features[set_name_app + '/height'], tf.int32),
+                          tf.cast(parsed_features[set_name_app + '/width'], tf.int32)])
+            label = tf.reshape(label, S)
             label = tf.cast(label, tf.int64)
 
             float_image, float_labels = self.preprocess_image(augmentation, standarization, image, label)
