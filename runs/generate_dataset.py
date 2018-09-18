@@ -25,8 +25,8 @@ def run(opt):
     # Initialize dataset and creates TF records if they do not exist
 
     if opt.dataset_name == 'insideness':
-        from datasets import insideness_dataset
-        dataset = insideness_dataset.FunctionDataset(opt)
+        from data import insideness_data
+        dataset = insideness_data.FunctionDataset(opt)
     else:
         print("Error: no valid dataset specified")
 
@@ -54,7 +54,8 @@ def run(opt):
     image, y_ = iterator.get_next()
 
     # Call DNN
-    y, _, _ = nets.MLP1(image, 1, opt, len(dataset.list_labels)*dataset.num_outputs)
+    dropout_rate = tf.placeholder(tf.float32)
+    y, _, _ = nets.MLP1(image, dropout_rate, opt, len(dataset.list_labels)*dataset.num_outputs)
 
 
     with tf.Session() as sess:
@@ -68,22 +69,18 @@ def run(opt):
         ################################################################################################
 
         # Steps for doing one epoch
-        batch_size = 128
-        for iStep in range(int(dataset.num_images_epoch/batch_size)):
+        batch_size = 100
+        for num_iter in range(int(dataset.num_images_train / batch_size)):
+            tmp_gt = sess.run([y], feed_dict={handle: training_handle,
+                                                       dropout_rate: 1.0})
 
-            y = sess.run([merged, accuracy],
-                                            feed_dict={handle: training_handle,
-                                                       dropout_rate: opt.hyper.drop_train})
-            train_writer.add_summary(summ, k)
-            print("train acc: " + str(acc_train))
-            sys.stdout.flush()
+        for num_iter in range(int(dataset.num_images_val / batch_size)):
+            tmp_gt = sess.run([y], feed_dict={handle: validation_handle,
+                                                       dropout_rate: 1.0})
 
-            summ, acc_val = sess.run([merged, accuracy], feed_dict={handle: validation_handle,
-                                                                    dropout_rate: opt.hyper.drop_test})
-            val_writer.add_summary(summ, k)
-            print("val acc: " + str(acc_val))
-            sys.stdout.flush()
-
+        for num_iter in range(int(dataset.num_images_test / batch_size)):
+            tmp_gt = sess.run([y], feed_dict={handle: test_handle,
+                                                       dropout_rate: 1.0})
 
 
         print("----------------")

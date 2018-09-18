@@ -54,7 +54,6 @@ def run(opt):
     val_iterator = val_dataset.make_one_shot_iterator()
 
     train_iterator_full = train_dataset_full.make_initializable_iterator()
-    val_iterator_full = val_dataset_full.make_initializable_iterator()
     test_iterator_full = test_dataset_full.make_initializable_iterator()
     ################################################################################################
 

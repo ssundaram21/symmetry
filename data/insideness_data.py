@@ -4,10 +4,10 @@ import numpy as np
 import random as rnd
 
 
-class FunctionDataset(data.Dataset):
+class InsidenessDataset(data.Dataset):
 
     def __init__(self, opt):
-        super(FunctionDataset, self).__init__(opt)
+        super(InsidenessDataset, self).__init__(opt)
 
         self.num_threads = 8
 
@@ -23,9 +23,9 @@ class FunctionDataset(data.Dataset):
 
     def get_parameters_complexity(self, complexity):
         if complexity == 0:
-            num_points = [3,5]
-            minimum_radius =[23,25]
-            maximum_radius = [25,28]
+            num_points = [3, 5]
+            minimum_radius =[23, 25]
+            maximum_radius = [25, 28]
 
         return num_points, maximum_radius, minimum_radius
 

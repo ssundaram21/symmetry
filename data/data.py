@@ -11,6 +11,7 @@ class Dataset:
     num_outputs = 0
     list_labels = range(0)
     num_images_training = 0
+    num_images_val = 0
     num_images_test = 0
 
     def __init__(self, opt):
