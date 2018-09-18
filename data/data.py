@@ -69,7 +69,7 @@ class Dataset:
     # Create all TFrecords files
     def create_tfrecords(self):
 
-        tfrecords_path = self.opt.log_dir_base + self.opt.dataset.name + '/data/'
+        tfrecords_path = self.opt.log_dir_base + self.opt.dataset.log_name + '/data/'
 
         if os.path.isfile(tfrecords_path + 'test.tfrecords'):
             print("REUSING TFRECORDS")
@@ -90,9 +90,25 @@ class Dataset:
         test_addrs, test_labels = self.get_data_test()
         self.write_tfrecords(tfrecords_path, 'test', test_addrs, test_labels, self.opt.dataset.image_size)
 
-    def delete_tfrecords(self):
-        tfrecords_path = self.opt.log_dir_base + self.opt.name + '/data/'
-        shutil.rmtree(tfrecords_path)
+
+    # Create all TFrecords files
+    def create_tfrecords_from_numpy(self, data):
+
+        tfrecords_path = self.opt.log_dir_base + self.opt.dataset.log_name + '/data/'
+
+        if os.path.isfile(tfrecords_path + 'test.tfrecords'):
+            print("OVERWRITTING TFRECORDS")
+
+        print("CREATING TFRECORDS")
+        print(self.opt.dataset.dataset_path)
+
+        train_addrs = data['train_img']; train_labels = data['train_gt']
+        val_addrs = data['val_img']; val_labels = data['val_gt']
+        self.write_tfrecords(tfrecords_path, 'train', train_addrs, train_labels, self.opt.dataset.image_size)
+        self.write_tfrecords(tfrecords_path, 'val', val_addrs, val_labels, self.opt.dataset.image_size)
+
+        test_addrs = data['test_img']; test_labels = data['test_gt']
+        self.write_tfrecords(tfrecords_path, 'test', test_addrs, test_labels, self.opt.dataset.image_size)
 
     def create_dataset(self, augmentation=False, standarization=False, set_name='train', repeat=False):
         set_name_app = set_name
@@ -123,7 +139,7 @@ class Dataset:
             float_image, float_labels = self.preprocess_image(augmentation, standarization, image, label)
             return float_image, label
 
-        tfrecords_path = self.opt.log_dir_base + self.opt.dataset.name + '/data/'
+        tfrecords_path = self.opt.log_dir_base + self.opt.dataset.log_name + '/data/'
 
         filenames = [tfrecords_path + set_name_app + '.tfrecords']
         dataset = tf.contrib.data.TFRecordDataset(filenames)

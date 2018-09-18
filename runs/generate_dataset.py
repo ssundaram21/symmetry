@@ -24,16 +24,16 @@ def run(opt):
 
     # Initialize dataset and creates TF records if they do not exist
 
-    if opt.dataset_name == 'insideness':
+    if opt.dataset.dataset_name == 'insideness':
         from data import insideness_data
-        dataset = insideness_data.FunctionDataset(opt)
+        dataset = insideness_data.InsidenessDataset(opt)
     else:
         print("Error: no valid dataset specified")
 
     # Repeatable datasets for training
-    train_dataset = dataset.create_dataset(augmentation=False, standarization=False, set_name='train', repeat=False)
-    val_dataset = dataset.create_dataset(augmentation=False, standarization=False, set_name='val', repeat=False)
-    test_dataset = dataset.create_dataset(augmentation=False, standarization=False, set_name='test', repeat=False)
+    train_dataset = dataset.create_dataset(augmentation=False, standarization=False, set_name='train', repeat=True)
+    val_dataset = dataset.create_dataset(augmentation=False, standarization=False, set_name='val', repeat=True)
+    test_dataset = dataset.create_dataset(augmentation=False, standarization=False, set_name='test', repeat=True)
 
     # Hadles to switch datasets
     handle = tf.placeholder(tf.string, shape=[])
@@ -42,7 +42,7 @@ def run(opt):
 
     train_iterator = train_dataset.make_one_shot_iterator()
     val_iterator = val_dataset.make_one_shot_iterator()
-    test_iterator = test_dataset.make_initializable_iterator()
+    test_iterator = test_dataset.make_one_shot_iterator()
     ################################################################################################
 
 
@@ -55,8 +55,10 @@ def run(opt):
 
     # Call DNN
     dropout_rate = tf.placeholder(tf.float32)
-    y, _, _ = nets.MLP1(image, dropout_rate, opt, len(dataset.list_labels)*dataset.num_outputs)
-
+    y, _, _ = nets.MLP1(image, opt, dropout_rate, len(dataset.list_labels)*dataset.num_outputs)
+    flat_y = tf.reshape(tensor=y, shape=[-1, opt.dataset.image_size ** 2, len(dataset.list_labels)])
+    flag_y = tf.argmax(flat_y, 2)
+    flag_y = tf.reshape(tensor=flag_y, shape=[-1, opt.dataset.image_size, opt.dataset.image_size])
 
     with tf.Session() as sess:
 
@@ -68,23 +70,58 @@ def run(opt):
         test_handle = sess.run(test_iterator.string_handle())
         ################################################################################################
 
+        sess.run(tf.global_variables_initializer())
+
+        insideness= {}
+
+        # TRAINING SET
+        print("TRAIN SET")
+        insideness['train_img'] = []
+        insideness['train_gt'] = []
         # Steps for doing one epoch
-        batch_size = 100
-        for num_iter in range(int(dataset.num_images_train / batch_size)):
-            tmp_gt = sess.run([y], feed_dict={handle: training_handle,
+        for num_iter in range(int(dataset.num_images_training / opt.hyper.batch_size) + 1):
+            tmp_img, tmp_gt = sess.run([image, flag_y], feed_dict={handle: training_handle,
                                                        dropout_rate: 1.0})
 
-        for num_iter in range(int(dataset.num_images_val / batch_size)):
-            tmp_gt = sess.run([y], feed_dict={handle: validation_handle,
-                                                       dropout_rate: 1.0})
+            insideness['train_img'].append(tmp_img.astype(np.uint8))
+            insideness['train_gt'].append(tmp_gt.astype(np.uint8))
+        insideness['train_img'] = [tmp for tmp in np.concatenate(insideness['train_img'])[:int(dataset.num_images_training), :, :]]
+        insideness['train_gt'] = [tmp for tmp in np.concatenate(insideness['train_gt'])[:int(dataset.num_images_training), :, :]]
 
-        for num_iter in range(int(dataset.num_images_test / batch_size)):
-            tmp_gt = sess.run([y], feed_dict={handle: test_handle,
+        # VALIDATION SET
+        print("VALIDATION SET")
+        insideness['val_img'] = []
+        insideness['val_gt'] = []
+        for num_iter in range(int(dataset.num_images_val / opt.hyper.batch_size) + 1):
+            tmp_img, tmp_gt = sess.run([image, flag_y], feed_dict={handle: validation_handle,
                                                        dropout_rate: 1.0})
+            insideness['val_img'].append(tmp_img.astype(np.uint8))
+            insideness['val_gt'].append(tmp_gt.astype(np.uint8))
+        insideness['val_img'] = [tmp for tmp in np.concatenate(insideness['val_img'])[:int(dataset.num_images_val), :, :]]
+        insideness['val_gt'] = [tmp for tmp in np.concatenate(insideness['val_gt'])[:int(dataset.num_images_val), :, :]]
 
+        # TEST SET
+        print("TEST SET")
+        sys.stdout.flush()
+        insideness['test_img'] = []
+        insideness['test_gt'] = []
+        for num_iter in range(int(dataset.num_images_test / opt.hyper.batch_size) + 1):
+            tmp_img, tmp_gt = sess.run([image, flag_y], feed_dict={handle: test_handle,
+                                                       dropout_rate: 1.0})
+            insideness['test_img'].append(tmp_img.astype(np.uint8))
+            insideness['test_gt'].append(tmp_gt.astype(np.uint8))
+        insideness['test_img'] = [tmp for tmp in np.concatenate(insideness['test_img'])[:int(dataset.num_images_test), :, :]]
+        insideness['test_gt'] = [tmp for tmp in np.concatenate(insideness['test_gt'])[:int(dataset.num_images_test), :, :]]
+
+        # Write Ground truth
+        print("WRITTING GROUNDTRUTH")
+        sys.stdout.flush()
+
+        dataset.create_tfrecords_from_numpy(insideness)
 
         print("----------------")
         sys.stdout.flush()
+        print(":)")
         ################################################################################################
 
 

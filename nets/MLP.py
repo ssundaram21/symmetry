@@ -65,7 +65,7 @@ def MLP3(x, opt, labels_id, dropout_rate):
     return fc8, parameters
 
 
-def MLP1(x, opt, labels_id, dropout_rate):
+def MLP1(x, opt, dropout_rate, labels_id):
     parameters = []
     activations = []
 
@@ -91,8 +91,8 @@ def MLP1(x, opt, labels_id, dropout_rate):
     with tf.name_scope('fc_out') as scope:
         W = tf.Variable(tf.truncated_normal([int(512 * opt.dnn.neuron_multiplier[0]), labels_id],
                                             dtype=tf.float32,
-                                            stddev=1e-2), name='weights')
-        b = tf.Variable(tf.zeros([labels_id]), name='bias')
+                                            stddev=1e-2), name='weights2')
+        b = tf.Variable(0.1*tf.ones([labels_id]), name='bias2')
         parameters += [W, b]
         summ.variable_summaries(W, b, opt)
 

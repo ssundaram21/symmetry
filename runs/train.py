@@ -73,7 +73,7 @@ def run(opt):
     # Call DNN
     dropout_rate = tf.placeholder(tf.float32)
     to_call = getattr(nets, opt.dnn.name)
-    y, parameters, _ = to_call(image, dropout_rate, opt, len(dataset.list_labels)*dataset.num_outputs)
+    y, parameters, _ = to_call(image, opt, dropout_rate, len(dataset.list_labels)*dataset.num_outputs)
 
     # Loss function
     with tf.name_scope('loss'):

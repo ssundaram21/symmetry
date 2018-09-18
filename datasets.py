@@ -23,7 +23,8 @@ class Dataset(object):
 
         # Add ID to name:
         self.ID = id
-        self.name = 'ID' + str(self.ID) + "DATA_" + name
+        self.name = 'DATA' + name
+        self.log_name = 'ID' + str(id) + '_' + self.name
 
 
 def get_datasets(output_path):
@@ -34,7 +35,7 @@ def get_datasets(output_path):
     idx = 0
 
     # Create base for TF records:
-    opt_handle = Dataset(idx, "data", output_path)
+    opt_handle = Dataset(idx, "simple", output_path)
     opt_handle.num_images_training = 1e4
     opt_handle.num_images_testing = 1e3
     opt_handle.complexity = 0

@@ -27,7 +27,8 @@ def run_train(id):
 
 def generate_dataset(id):
     from runs import generate_dataset
-    run_opt = datasets.get_datasets(output_path)[id]
+    opt_data = datasets.get_datasets(output_path)[id]
+    run_opt = experiments.set_generate_experiment(opt_data)
     generate_dataset.run(run_opt)
 
 
