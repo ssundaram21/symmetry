@@ -3,16 +3,12 @@ import sys
 import os.path
 import shutil
 
-from abc import ABCMeta, abstractmethod
-
-
 class Dataset:
-
-    __metaclass__ = ABCMeta
 
     num_threads = 8
     output_buffer_size = 1024
 
+    num_outputs = 0
     list_labels = range(0)
     num_images_training = 0
     num_images_test = 0
@@ -20,18 +16,18 @@ class Dataset:
     def __init__(self, opt):
         self.opt = opt
 
-    @abstractmethod
+    #ABSTRACT METHOD
     def get_data_trainval(self):
         # Returns images training & labels
         pass
 
-    @abstractmethod
+    #ABSTRACT METHOD
     def get_data_test(self):
         # Returns images training & labels
         pass
 
-    @abstractmethod
-    def preprocess_image(self, image):
+    #ABSTRACT METHOD
+    def preprocess_image(self, augmentation, standarization, image, labels):
         # Returns images training & labels
         pass
 
@@ -42,7 +38,7 @@ class Dataset:
       return tf.train.Feature(bytes_list=tf.train.BytesList(value=[value]))
 
     # Write one TF records file
-    def write_tfrecords(self, tfrecords_path, set_name, addrs, labels):
+    def write_tfrecords(self, tfrecords_path, set_name, addrs, labels, img_size):
 
         # open the TFRecords file
         writer = tf.python_io.TFRecordWriter(tfrecords_path + set_name + '.tfrecords')
@@ -54,10 +50,10 @@ class Dataset:
                 sys.stdout.flush()
 
             # Create a feature
-            feature = {set_name + '/label': self._int64_feature(labels[i]),
+            feature = {set_name + '/label': self._bytes_feature(labels[i].tostring()),
                        set_name + '/image': self._bytes_feature(addrs[i].tostring()),
-                       set_name + '/width': self._int64_feature(32),
-                       set_name + '/height': self._int64_feature(32)
+                       set_name + '/width': self._int64_feature(img_size),
+                       set_name + '/height': self._int64_feature(img_size)
                        }
 
             # Create an example protocol buffer
@@ -90,38 +86,44 @@ class Dataset:
         print(self.opt.dataset.dataset_path)
 
         train_addrs, train_labels, val_addrs, val_labels = self.get_data_trainval()
-        app = self.opt.dataset.transfer_append_name
-        self.write_tfrecords(tfrecords_path, 'train' + app, train_addrs, train_labels)
-        self.write_tfrecords(tfrecords_path, 'val' + app, val_addrs, val_labels)
+        self.write_tfrecords(tfrecords_path, 'train', train_addrs, train_labels, self.opt.dataset.image_size)
+        self.write_tfrecords(tfrecords_path, 'val', val_addrs, val_labels, self.opt.dataset.image_size)
 
         test_addrs, test_labels = self.get_data_test()
-        self.write_tfrecords(tfrecords_path, 'test' + app, test_addrs, test_labels)
+        self.write_tfrecords(tfrecords_path, 'test', test_addrs, test_labels, self.opt.dataset.image_size)
 
     def delete_tfrecords(self):
         tfrecords_path = self.opt.log_dir_base + self.opt.name + '/data/'
         shutil.rmtree(tfrecords_path)
 
     def create_dataset(self, augmentation=False, standarization=False, set_name='train', repeat=False):
-        app = self.opt.dataset.transfer_append_name
-        set_name_app = set_name + app
+        set_name_app = set_name
 
         # Transforms a scalar string `example_proto` into a pair of a scalar string and
         # a scalar integer, representing an image and its label, respectively.
         def _parse_function(example_proto):
-            features = {set_name_app + '/label': tf.FixedLenFeature((), tf.int64, default_value=1),
+            features = {set_name_app + '/label': tf.FixedLenFeature((), tf.string, default_value=""),
                         set_name_app + '/image': tf.FixedLenFeature((), tf.string, default_value=""),
                         set_name_app + '/height': tf.FixedLenFeature([], tf.int64),
                         set_name_app + '/width': tf.FixedLenFeature([], tf.int64)}
+
             parsed_features = tf.parse_single_example(example_proto, features)
+
             image = tf.decode_raw(parsed_features[set_name_app + '/image'], tf.uint8)
-            image = tf.cast(image,tf.float32)
+            image = tf.cast(image, tf.float32)
             S = tf.stack([tf.cast(parsed_features[set_name_app + '/height'], tf.int32),
-                          tf.cast(parsed_features[set_name_app + '/width'], tf.int32), 3])
+                          tf.cast(parsed_features[set_name_app + '/width'], tf.int32)])
             image = tf.reshape(image, S)
 
-            float_image = self.preprocess_image(augmentation, standarization, image)
+            label = tf.decode_raw(parsed_features[set_name_app + '/label'], tf.uint8)
+            label = tf.cast(label, tf.float32)
+            S = tf.stack([tf.cast(parsed_features[set_name_app + '/height'], tf.int32),
+                          tf.cast(parsed_features[set_name_app + '/width'], tf.int32)])
+            label = tf.reshape(label, S)
+            label = tf.cast(label, tf.int64)
 
-            return float_image, parsed_features[set_name_app + '/label']
+            float_image, float_labels = self.preprocess_image(augmentation, standarization, image, label)
+            return float_image, label
 
         # Creates a dataset that reads all of the examples from two files, and extracts
         # the image and label features.
