@@ -68,13 +68,10 @@ class Dataset:
     # Create all TFrecords files
     def create_tfrecords(self):
 
-        if not self.opt.dataset.reuse_TFrecords:
-            tfrecords_path = self.opt.log_dir_base + self.opt.name + '/data/'
-        else:
-            tfrecords_path = self.opt.log_dir_base + self.opt.dataset.reuse_TFrecords_path + '/data/'
-            print("REUSING TFRECORDS")
+        tfrecords_path = self.opt.log_dir_base + self.opt.dataset.name + '/data/'
 
         if os.path.isfile(tfrecords_path + 'test.tfrecords'):
+            print("REUSING TFRECORDS")
             return 0
 
         if os.path.isdir(tfrecords_path):
@@ -125,12 +122,7 @@ class Dataset:
             float_image, float_labels = self.preprocess_image(augmentation, standarization, image, label)
             return float_image, label
 
-        # Creates a dataset that reads all of the examples from two files, and extracts
-        # the image and label features.
-        if not self.opt.dataset.reuse_TFrecords:
-            tfrecords_path = self.opt.log_dir_base + self.opt.name + '/data/'
-        else:
-            tfrecords_path = self.opt.log_dir_base + self.opt.dataset.reuse_TFrecords_path + '/data/'
+        tfrecords_path = self.opt.log_dir_base + self.opt.dataset.name + '/data/'
 
         filenames = [tfrecords_path + set_name_app + '.tfrecords']
         dataset = tf.contrib.data.TFRecordDataset(filenames)

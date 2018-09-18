@@ -4,7 +4,7 @@ import copy
 
 class Dataset(object):
 
-    def __init__(self, id, name, output_path, create=False):
+    def __init__(self, id, name, output_path):
 
         # # #
         # Dataset general
@@ -13,13 +13,6 @@ class Dataset(object):
         self.num_images_testing = 1
         self.proportion_training_set = 0.95
         self.shuffle_data = True
-
-        # # #
-        # For reusing tfrecords:
-        self.reuse_TFrecords = ~create
-
-        self.reuse_TFrecords_ID = 0
-        self.reuse_TFrecords_path = ""
 
         self.dataset_name = "insideness"
         self.complexity = 0
@@ -30,10 +23,10 @@ class Dataset(object):
 
         # Add ID to name:
         self.ID = id
-        self.name = 'ID' + str(self.ID) + "_" + name
+        self.name = 'ID' + str(self.ID) + "DATA_" + name
 
 
-def get_datasets(create, output_path):
+def get_datasets(output_path):
 
     # # #
     # Create set of experiments
@@ -41,7 +34,7 @@ def get_datasets(create, output_path):
     idx = 0
 
     # Create base for TF records:
-    opt_handle = Dataset(idx, "data", output_path, create=create)
+    opt_handle = Dataset(idx, "data", output_path)
     opt_handle.num_images_training = 1e4
     opt_handle.num_images_testing = 1e3
     opt_handle.complexity = 0

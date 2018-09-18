@@ -1,10 +1,10 @@
-from datasets import dataset
-from datasets import generate_dataset
+from data import data
+from data import generate_shapes
 import numpy as np
 import random as rnd
 
 
-class FunctionDataset(dataset.Dataset):
+class FunctionDataset(data.Dataset):
 
     def __init__(self, opt):
         super(FunctionDataset, self).__init__(opt)
@@ -44,7 +44,7 @@ class FunctionDataset(dataset.Dataset):
             minimum_radius = rnd.randint(minimum_radius_range[0], minimum_radius_range[1])
             maximum_radius = rnd.randint(maximum_radius_range[0], maximum_radius_range[1])
 
-            X.append(np.uint8(generate_dataset.generate_data(num_points, self.opt.dataset.image_size, self.opt.dataset.image_size,
+            X.append(np.uint8(generate_shapes.generate_data(num_points, self.opt.dataset.image_size, self.opt.dataset.image_size,
                                    maximum_radius, minimum_radius)))
 
             ''' 
@@ -81,7 +81,7 @@ class FunctionDataset(dataset.Dataset):
             minimum_radius = rnd.randint(minimum_radius_range[0], minimum_radius_range[1])
             maximum_radius = rnd.randint(maximum_radius_range[0], maximum_radius_range[1])
 
-            X.append(np.uint8(generate_dataset.generate_data(num_points, self.opt.dataset.image_size, self.opt.dataset.image_size,
+            X.append(np.uint8(generate_shapes.generate_data(num_points, self.opt.dataset.image_size, self.opt.dataset.image_size,
                                    maximum_radius, minimum_radius)))
             labels.append(X[-1])
 

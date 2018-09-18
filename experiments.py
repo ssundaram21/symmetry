@@ -67,7 +67,7 @@ class Experiments(object):
 
 def get_experiments(output_path):
 
-    opt_data = datasets.get_datasets(create=False, output_path=output_path)
+    opt_data = datasets.get_datasets(output_path)
 
     # # #
     # Create set of experiments
@@ -81,7 +81,7 @@ def get_experiments(output_path):
     max_epochs = [100]
 
     idx = 0
-    opt_handle = Experiments(idx, opt_data[0], "MLP1", output_path)
+    opt_handle = Experiments(idx, "MLP1", opt_data[0], output_path)
     opt_handle.hyper.max_num_epochs = 100
 
     opt += [copy.deepcopy(opt_handle)]

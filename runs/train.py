@@ -31,8 +31,8 @@ def run(opt):
     # Initialize dataset and creates TF records if they do not exist
 
     if opt.dataset.dataset_name == 'insideness':
-        from datasets import insideness_dataset
-        dataset = insideness_dataset.FunctionDataset(opt)
+        from data import insideness_data
+        dataset = insideness_data.FunctionDataset(opt)
     else:
         print("Error: no valid dataset specified")
 
