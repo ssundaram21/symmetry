@@ -3,6 +3,9 @@ import matplotlib
 from matplotlib import pyplot as plt
 import random as rnd
 import math
+import sys
+
+sys.setrecursionlimit(3000)
 np.set_printoptions(linewidth=400)
 margins = 2
 
@@ -144,8 +147,6 @@ def generate_curve(points):
             #if boundary crosses itself, remove a point and try again (still needs tweaking)
             if current in curve[:-1]:
                 if i in iteration:
-                    print('overlap',i)
-                    problem_points.append(i)
                     curve = []
                     if target != points[0]:
                         points.remove(target)
@@ -158,6 +159,49 @@ def generate_curve(points):
             curve.append(current)
     return curve
 
+
+
+
+def visit(image, position, visited, not_visited, directions, depth=0):
+    move_dict = {}
+    move_dict['north'] = move(position,DIRECTION['north'])
+    move_dict['south'] = move(position,DIRECTION['south'])
+    move_dict['east'] = move(position,DIRECTION['east'])
+    move_dict['west'] = move(position,DIRECTION['west'])
+    move_dict['northwest'] = move(position,DIRECTION['northwest'])
+    move_dict['northeast'] = move(position,DIRECTION['northeast'])
+    move_dict['southwest'] = move(position,DIRECTION['southwest'])
+    move_dict['southeast'] = move(position,DIRECTION['southeast'])
+    
+
+    if position in visited:
+        return
+
+    if depth > 2000:
+        not_visited[position] = True
+        return
+    
+    visited[position] = True
+    if position in not_visited:
+        del not_visited[position]
+
+    if image[position] == 1.:
+        visited[position] = False
+        return
+
+    else:
+        for d in directions:
+            visit(image, move_dict[d], visited, not_visited, directions, depth + 1)
+        return
+    
+
+def find_ground_truth(image, center_coords):
+    visited = {}
+    not_visited = {}
+    visit(image, center_coords, visited, not_visited, ['north','south','east','west'])
+    for point in visited:
+        image[point] = 1.
+    
 
 
 def generate_data(num_points, image_width, image_height, max_radius, min_radius):
@@ -184,7 +228,11 @@ def generate_data(num_points, image_width, image_height, max_radius, min_radius)
 
     return img
 
-
-    
+##img = generate_data(50, 100, 100, 100, 100)
+##find_ground_truth(img, (49,49))
+##find_ground_truth(img, (20,20))
+##
+##plt.imshow(img)
+##plt.show()
 
 
