@@ -57,8 +57,8 @@ def run(opt):
     dropout_rate = tf.placeholder(tf.float32)
     y, _, _ = nets.MLP1(image, opt, dropout_rate, len(dataset.list_labels)*dataset.num_outputs)
     flat_y = tf.reshape(tensor=y, shape=[-1, opt.dataset.image_size ** 2, len(dataset.list_labels)])
-    flag_y = tf.argmax(flat_y, 2)
-    flag_y = tf.reshape(tensor=flag_y, shape=[-1, opt.dataset.image_size, opt.dataset.image_size])
+    flat_y = tf.argmax(flat_y, 2)
+    flat_y = tf.reshape(tensor=flat_y, shape=[-1, opt.dataset.image_size, opt.dataset.image_size])
 
     with tf.Session() as sess:
 
@@ -80,7 +80,7 @@ def run(opt):
         insideness['train_gt'] = []
         # Steps for doing one epoch
         for num_iter in range(int(dataset.num_images_training / opt.hyper.batch_size) + 1):
-            tmp_img, tmp_gt = sess.run([image, flag_y], feed_dict={handle: training_handle,
+            tmp_img, tmp_gt = sess.run([image, flat_y], feed_dict={handle: training_handle,
                                                        dropout_rate: 1.0})
 
             insideness['train_img'].append(tmp_img.astype(np.uint8))
@@ -93,7 +93,7 @@ def run(opt):
         insideness['val_img'] = []
         insideness['val_gt'] = []
         for num_iter in range(int(dataset.num_images_val / opt.hyper.batch_size) + 1):
-            tmp_img, tmp_gt = sess.run([image, flag_y], feed_dict={handle: validation_handle,
+            tmp_img, tmp_gt = sess.run([image, flat_y], feed_dict={handle: validation_handle,
                                                        dropout_rate: 1.0})
             insideness['val_img'].append(tmp_img.astype(np.uint8))
             insideness['val_gt'].append(tmp_gt.astype(np.uint8))
@@ -106,7 +106,7 @@ def run(opt):
         insideness['test_img'] = []
         insideness['test_gt'] = []
         for num_iter in range(int(dataset.num_images_test / opt.hyper.batch_size) + 1):
-            tmp_img, tmp_gt = sess.run([image, flag_y], feed_dict={handle: test_handle,
+            tmp_img, tmp_gt = sess.run([image, flat_y], feed_dict={handle: test_handle,
                                                        dropout_rate: 1.0})
             insideness['test_img'].append(tmp_img.astype(np.uint8))
             insideness['test_gt'].append(tmp_gt.astype(np.uint8))

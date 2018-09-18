@@ -76,7 +76,7 @@ class InsidenessDataset(data.Dataset):
         # read the 5 batch files of cifar
         X = []
         labels = []
-        for i in range(int(self.opt.dataset.num_images_training)):
+        for i in range(int(self.opt.dataset.num_images_testing)):
             num_points = rnd.randint(num_points_range[0],num_points_range[1])
             minimum_radius = rnd.randint(minimum_radius_range[0], minimum_radius_range[1])
             maximum_radius = rnd.randint(maximum_radius_range[0], maximum_radius_range[1])
