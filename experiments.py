@@ -36,7 +36,7 @@ class Hyperparameters(object):
 
 class Experiments(object):
 
-    def __init__(self, id, name, dataset, output_path):
+    def __init__(self, id, name, dataset, output_path, family_id, family_name):
         self.name = "base"
         self.log_dir_base = output_path
 
@@ -59,13 +59,16 @@ class Experiments(object):
         self.ID = id
         self.name = 'ID' + str(self.ID) + "_" + name
 
+        self.family_ID = family_id
+        self.family_name = family_name
+
         # Add additional descriptors to Experiments
         self.dataset = dataset
         self.dnn = DNN()
         self.hyper = Hyperparameters()
 
 
-def set_generate_experiment(opt_data):
+def generate_experiments_dataset(opt_data):
     return Experiments(opt_data.ID, opt_data.name, opt_data, opt_data.log_dir_base)
 
 
@@ -85,7 +88,9 @@ def get_experiments(output_path):
     max_epochs = [100]
 
     idx = 0
-    opt_handle = Experiments(idx, "MLP1", opt_data[0], output_path)
+    opt_handle = Experiments(id=idx, name="MLP1", dataset=opt_data[0], output_path=output_path,
+                             family_id=0, family_name="MLP1")
+
     opt_handle.hyper.max_num_epochs = 100
 
     opt += [copy.deepcopy(opt_handle)]

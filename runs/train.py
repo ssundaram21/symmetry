@@ -54,6 +54,7 @@ def run(opt):
     val_iterator = val_dataset.make_one_shot_iterator()
 
     train_iterator_full = train_dataset_full.make_initializable_iterator()
+    val_iterator_full = train_dataset_full.make_initializable_iterator()
     test_iterator_full = test_dataset_full.make_initializable_iterator()
     ################################################################################################
 
@@ -239,19 +240,35 @@ def run(opt):
 
         if flag_testable:
 
+            import pickle
+            acc = {}
+
             test_handle_full = sess.run(test_iterator_full.string_handle())
+            val_handle_full = sess.run(val_iterator_full.string_handle())
             train_handle_full = sess.run(train_iterator_full.string_handle())
 
             # Run one pass over a batch of the validation dataset.
             sess.run(train_iterator_full.initializer)
             acc_tmp = 0.0
-            for num_iter in range(15):
+            for num_iter in range(int(dataset.num_images_epoch/opt.hyper.batch_size)):
                 acc_val = sess.run([accuracy], feed_dict={handle: train_handle_full,
                                                           dropout_rate: opt.hyper.drop_test})
                 acc_tmp += acc_val[0]
 
-            val_acc = acc_tmp / float(15)
-            print("Full train acc = " + str(val_acc))
+            acc['train_accuracy'] = acc_tmp / float(int(dataset.num_images_epoch/opt.hyper.batch_size))
+            print("Full train acc = " + str(acc['train_accuracy']))
+            sys.stdout.flush()
+
+            # Run one pass over a batch of the test dataset.
+            sess.run(val_iterator_full.initializer)
+            acc_tmp = 0.0
+            for num_iter in range(int(dataset.num_images_val / opt.hyper.batch_size)):
+                acc_val = sess.run([accuracy], feed_dict={handle: val_handle_full,
+                                                          dropout_rate: opt.hyper.drop_test})
+                acc_tmp += acc_val[0]
+
+            acc['validation_accuracy'] = acc_tmp / float(int(dataset.num_images_val / opt.hyper.batch_size))
+            print("Full test acc: " + str(acc['validation_accuracy']))
             sys.stdout.flush()
 
             # Run one pass over a batch of the test dataset.
@@ -262,9 +279,15 @@ def run(opt):
                                                           dropout_rate: opt.hyper.drop_test})
                 acc_tmp += acc_val[0]
 
-            val_acc = acc_tmp / float(int(dataset.num_images_test / opt.hyper.batch_size))
-            print("Full test acc: " + str(val_acc))
+            acc['test_accuracy'] = acc_tmp / float(int(dataset.num_images_test / opt.hyper.batch_size))
+            print("Full test acc: " + str(acc['test_accuracy']))
             sys.stdout.flush()
+
+            if not os.path.exists(opt.log_dir_base + opt.name + '/results'):
+                os.makedirs(opt.log_dir_base + opt.name + '/results')
+
+            with open(opt.log_dir_base + opt.name + '/results/intra_dataset_accuracy.pkl', 'wb') as f:
+                pickle.dump(acc, f)
 
             print(":)")
 

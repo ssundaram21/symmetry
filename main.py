@@ -19,22 +19,30 @@ output_path = {
     '/om': '/om/user/xboix/share/insideness/'}[FLAGS.host_filesystem]
 
 
+def run_generate_dataset(id):
+    from runs import generate_dataset
+    opt_data = datasets.get_datasets(output_path)[id]
+    run_opt = experiments.generate_experiments_dataset(opt_data)
+    generate_dataset.run(run_opt)
+
+
 def run_train(id):
     from runs import train
     run_opt = experiments.get_experiments(output_path)[id]
     train.run(run_opt)
 
 
-def generate_dataset(id):
-    from runs import generate_dataset
-    opt_data = datasets.get_datasets(output_path)[id]
-    run_opt = experiments.set_generate_experiment(opt_data)
-    generate_dataset.run(run_opt)
+def run_crossval_select(id):
+    #id is ignored
+    from runs import crossval_select
+    run_opt = experiments.get_experiments(output_path)
+    crossval_select.run(run_opt, output_path)
 
 
 switcher = {
+    'generate_dataset': run_generate_dataset,
     'train': run_train,
-    'generate_dataset': generate_dataset
+    'crossval_select': run_crossval_select
 }
 
 
