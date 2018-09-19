@@ -3,6 +3,7 @@ import sys
 import datasets
 import copy
 
+import pickle
 
 class DNN(object):
 
@@ -90,7 +91,7 @@ def get_experiments(output_path):
     idx_base = 0
     for idx in range(2):
         opt_handle = Experiments(id=idx + idx_base, name="MLP1", dataset=opt_data[0], output_path=output_path,
-                                 family_id=0, family_name="MLP1")
+                                 family_id=0, family_name="A")
         opt_handle.hyper.max_num_epochs = 1
 
         opt += [copy.deepcopy(opt_handle)]
@@ -98,10 +99,33 @@ def get_experiments(output_path):
     idx_base = 2
     for idx in range(2):
         opt_handle = Experiments(id=idx + idx_base, name="MLP1", dataset=opt_data[0], output_path=output_path,
-                                 family_id=1, family_name="MLP1")
+                                 family_id=1, family_name="B")
         opt_handle.hyper.max_num_epochs = 1
 
         opt += [copy.deepcopy(opt_handle)]
 
     return opt
 
+
+def get_experiments_selected(output_path):
+
+    NUM_TRIALS = 5
+
+    opt_pre_cossval = get_experiments(output_path)
+
+    with open(output_path + 'selected_models.pkl', 'rb') as f:
+        cross = pickle.load(f)
+
+    idx = 0
+    opt = []
+    for k in range(cross['num_families']):
+        for trial in range(NUM_TRIALS):
+            opt_handle = copy.deepcopy(opt_pre_cossval[cross[k]['ID']])
+
+            opt_handle.ID = idx
+            opt_handle.name = 'ID' + str(opt_handle.ID) + "_FINAL" + str(trial) + "_" + opt_handle.family_name
+
+            idx += 1
+            opt += [copy.deepcopy(opt_handle)]
+
+    return opt

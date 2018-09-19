@@ -39,10 +39,17 @@ def run_crossval_select(id):
     crossval_select.run(run_opt, output_path)
 
 
+def run_train_selected(id):
+    from runs import train
+    run_opt = experiments.get_experiments_selected(output_path)[id]
+    train.run(run_opt)
+
+
 switcher = {
     'generate_dataset': run_generate_dataset,
     'train': run_train,
-    'crossval_select': run_crossval_select
+    'crossval_select': run_crossval_select,
+    'train_selected': run_train_selected
 }
 
 
