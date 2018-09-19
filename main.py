@@ -12,11 +12,11 @@ FLAGS = parser.parse_args()
 
 code_path = {
     'xavier': '/Users/xboix/src/insideness/',
-    '/om': '/om/user/xboix/src/insideness/'}[FLAGS.host_filesystem]
+    'om': '/om/user/xboix/src/insideness/'}[FLAGS.host_filesystem]
 
 output_path = {
     'xavier': '/Users/xboix/src/insideness/log/',
-    '/om': '/om/user/xboix/share/insideness/'}[FLAGS.host_filesystem]
+    'om': '/om/user/xboix/share/insideness/'}[FLAGS.host_filesystem]
 
 
 def run_generate_dataset(id):

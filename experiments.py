@@ -69,7 +69,7 @@ class Experiments(object):
 
 
 def generate_experiments_dataset(opt_data):
-    return Experiments(opt_data.ID, opt_data.name, opt_data, opt_data.log_dir_base)
+    return Experiments(opt_data.ID, opt_data.name, opt_data, opt_data.log_dir_base, 0, 'data')
 
 
 def get_experiments(output_path):

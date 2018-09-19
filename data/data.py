@@ -6,7 +6,6 @@ import shutil
 class Dataset:
 
     num_threads = 8
-    output_buffer_size = 1024
 
     num_outputs = 0
     list_labels = range(0)
@@ -142,8 +141,8 @@ class Dataset:
         tfrecords_path = self.opt.log_dir_base + self.opt.dataset.log_name + '/data/'
 
         filenames = [tfrecords_path + set_name_app + '.tfrecords']
-        dataset = tf.contrib.data.TFRecordDataset(filenames)
-        dataset = dataset.map(_parse_function, num_threads=self.num_threads, output_buffer_size=self.output_buffer_size)
+        dataset = tf.data.TFRecordDataset(filenames)
+        dataset = dataset.map(_parse_function, num_parallel_calls=self.num_threads)
 
         if repeat:
             dataset = dataset.repeat()  # Repeat the input indefinitely.

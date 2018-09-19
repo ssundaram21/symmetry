@@ -19,15 +19,17 @@ def run(opt_all, output_path):
 
         print(opt.name)
 
-        if os.path.isfile(opt.log_dir_base + opt.name + '/results/intra_dataset_accuracy.pkl'):
+        if not os.path.isfile(opt.log_dir_base + opt.name + '/results/intra_dataset_accuracy.pkl'):
             print("ERROR: TRAINING NOT FINISHED")
             quit()
 
         with open(opt.log_dir_base + opt.name + '/results/intra_dataset_accuracy.pkl', 'rb') as f:
-            acc = pickle.load(acc, f)
+            acc = pickle.load(f)
 
-        if selected_models[opt.family_id]['val_acc'] < acc['val_acc']:
-            selected_models[opt.family_id] = acc
+        if opt.family_ID not in selected_models:
+            selected_models[opt.family_ID] = acc
+        elif selected_models[opt.family_ID]['validation_accuracy'] < acc['validation_accuracy']:
+            selected_models[opt.family_ID] = acc
 
     with open(output_path + 'selected_models.pkl', 'wb') as f:
         pickle.dump(selected_models, f)

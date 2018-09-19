@@ -47,7 +47,7 @@ def run(opt):
 
     # Hadles to switch datasets
     handle = tf.placeholder(tf.string, shape=[])
-    iterator = tf.contrib.data.Iterator.from_string_handle(
+    iterator = tf.data.Iterator.from_string_handle(
         handle, train_dataset.output_types, train_dataset.output_shapes)
 
     train_iterator = train_dataset.make_one_shot_iterator()
