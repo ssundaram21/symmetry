@@ -32,7 +32,7 @@ def run(opt):
 
     if opt.dataset.dataset_name == 'insideness':
         from data import insideness_data
-        dataset = insideness_data.FunctionDataset(opt)
+        dataset = insideness_data.InsidenessDataset(opt)
     else:
         print("Error: no valid dataset specified")
 

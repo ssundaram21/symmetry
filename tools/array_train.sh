@@ -8,11 +8,12 @@
 #SBATCH --qos=cbmm
 #SBATCH --workdir=./log/
 
-cd /om/user/xboix/src/minimal-cifar/
+cd /om/user/xboix/src/insideness/
 
 /om2/user/jakubk/miniconda3/envs/torch/bin/python -c 'import torch; print(torch.rand(2,3).cuda())'
 
-singularity exec -B /om:/om --nv /cbcl/cbcl01/xboix/singularity/localtensorflow.img \
-python /om/user/xboix/src/minimal-cifar/main.py ${SLURM_ARRAY_TASK_ID}
-
-
+singularity exec -B /om:/om --nv /om/user/xboix/singularity/localtensorflow.img \
+python /om/user/xboix/src/insideness/main.py \
+--experiment_index = ${SLURM_ARRAY_TASK_ID} \
+--host_filesystem = om \
+--run = generate_dataset

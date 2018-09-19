@@ -7,8 +7,12 @@
 #SBATCH --workdir=./log/
 #SBATCH --qos=cbmm
 
-cd /om/user/xboix/src/minimal-cifar/
+cd /om/user/xboix/src/insideness/
+
 singularity exec -B /om:/om --nv /om/user/xboix/singularity/localtensorflow.img \
-python /om/user/xboix/src/minimal-cifar/main.py ${SLURM_ARRAY_TASK_ID}
+python /om/user/xboix/src/insideness/main.py \
+--experiment_index = ${SLURM_ARRAY_TASK_ID} \
+--host_filesystem = om \
+--run = generate_dataset
 
 

@@ -87,14 +87,21 @@ def get_experiments(output_path):
     num_layers = [5]
     max_epochs = [100]
 
-    idx = 0
-    opt_handle = Experiments(id=idx, name="MLP1", dataset=opt_data[0], output_path=output_path,
-                             family_id=0, family_name="MLP1")
+    idx_base = 0
+    for idx in range(2):
+        opt_handle = Experiments(id=idx + idx_base, name="MLP1", dataset=opt_data[0], output_path=output_path,
+                                 family_id=0, family_name="MLP1")
+        opt_handle.hyper.max_num_epochs = 1
 
-    opt_handle.hyper.max_num_epochs = 100
+        opt += [copy.deepcopy(opt_handle)]
 
-    opt += [copy.deepcopy(opt_handle)]
-    idx += 1
+    idx_base = 2
+    for idx in range(2):
+        opt_handle = Experiments(id=idx + idx_base, name="MLP1", dataset=opt_data[0], output_path=output_path,
+                                 family_id=1, family_name="MLP1")
+        opt_handle.hyper.max_num_epochs = 1
+
+        opt += [copy.deepcopy(opt_handle)]
 
     return opt
 
