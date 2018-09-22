@@ -38,7 +38,7 @@ class Dataset:
       return tf.train.Feature(bytes_list=tf.train.BytesList(value=[value]))
 
     # Write one TF records file
-    def write_tfrecords(self, tfrecords_path, set_name, addrs, labels, img_size):
+    def write_tfrecords(self, tfrecords_path, set_name, addrs, labels, img_size, addrs_raw):
 
         # open the TFRecords file
         writer = tf.python_io.TFRecordWriter(tfrecords_path + set_name + '.tfrecords')
@@ -52,6 +52,7 @@ class Dataset:
             # Create a feature
             feature = {set_name + '/label': self._bytes_feature(labels[i].tostring()),
                        set_name + '/image': self._bytes_feature(addrs[i].tostring()),
+                       set_name + '/image_raw': self._bytes_feature(addrs_raw[i].tostring()),
                        set_name + '/width': self._int64_feature(img_size),
                        set_name + '/height': self._int64_feature(img_size)
                        }
@@ -84,12 +85,12 @@ class Dataset:
         sys.stdout.flush()
         print(self.opt.dataset.dataset_path)
 
-        train_addrs, train_labels, val_addrs, val_labels = self.get_data_trainval()
-        self.write_tfrecords(tfrecords_path, 'train', train_addrs, train_labels, self.opt.dataset.image_size)
-        self.write_tfrecords(tfrecords_path, 'val', val_addrs, val_labels, self.opt.dataset.image_size)
+        train_addrs, train_labels, train_addrs_raw, val_addrs, val_labels, val_addrs_raw = self.get_data_trainval()
+        self.write_tfrecords(tfrecords_path, 'train', train_addrs, train_labels, self.opt.dataset.image_size, train_addrs_raw)
+        self.write_tfrecords(tfrecords_path, 'val', val_addrs, val_labels, self.opt.dataset.image_size,val_addrs_raw)
 
-        test_addrs, test_labels = self.get_data_test()
-        self.write_tfrecords(tfrecords_path, 'test', test_addrs, test_labels, self.opt.dataset.image_size)
+        test_addrs, test_labels, test_addrs_raw = self.get_data_test()
+        self.write_tfrecords(tfrecords_path, 'test', test_addrs, test_labels, self.opt.dataset.image_size, test_addrs_raw)
 
 
     # Create all TFrecords files
@@ -121,6 +122,7 @@ class Dataset:
         def _parse_function(example_proto):
             features = {set_name_app + '/label': tf.FixedLenFeature((), tf.string, default_value=""),
                         set_name_app + '/image': tf.FixedLenFeature((), tf.string, default_value=""),
+                        set_name_app + '/image_raw': tf.FixedLenFeature((), tf.string, default_value=""),
                         set_name_app + '/height': tf.FixedLenFeature([], tf.int64),
                         set_name_app + '/width': tf.FixedLenFeature([], tf.int64)}
 
@@ -132,6 +134,12 @@ class Dataset:
                           tf.cast(parsed_features[set_name_app + '/width'], tf.int32)])
             image = tf.reshape(image, S)
 
+            image_raw = tf.decode_raw(parsed_features[set_name_app + '/image_raw'], tf.uint8)
+            image_raw = tf.cast(image_raw, tf.float32)
+            S = tf.stack([tf.cast(parsed_features[set_name_app + '/height'], tf.int32),
+                          tf.cast(parsed_features[set_name_app + '/width'], tf.int32)])
+            image_raw = tf.reshape(image_raw, S)
+
             label = tf.decode_raw(parsed_features[set_name_app + '/label'], tf.uint8)
             label = tf.cast(label, tf.float32)
             S = tf.stack([tf.cast(parsed_features[set_name_app + '/height'], tf.int32),
@@ -139,8 +147,8 @@ class Dataset:
             label = tf.reshape(label, S)
             label = tf.cast(label, tf.int64)
 
-            float_image, float_labels = self.preprocess_image(augmentation, standarization, image, label)
-            return float_image, label
+            float_image, float_labels, float_raw = self.preprocess_image(augmentation, standarization, image, label, image_raw)
+            return float_image, label, float_raw
 
         tfrecords_path = self.opt.log_dir_base + self.opt.dataset.log_name + '/data/'
 

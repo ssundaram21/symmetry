@@ -246,16 +246,23 @@ def generate_data(num_points, image_width, image_height, max_radius, min_radius)
         img[x][y] = 1.
 
     img = img.astype(np.uint8)
+    img_raw = img
+
     for x in range(1, img.shape[0]-1):
         for y in range(1, img.shape[1]-1):
-            if img[x + 1][y] + img[x - 1][y] + img[x][y + 1] + img[x][y - 1] == 1:
-                img[x][y] = 0
-            #if img[x + 1][y] + img[x - 1][y] + img[x][y + 1] + img[x][y - 1] == 4:
-            #    img[x][y] = 1
+            if img[x + 1][y] + img[x - 1][y] + img[x][y + 1] + img[x][y - 1] \
+                    + img[x + 1][y + 1] + img[x + 1][y - 1] + img[x - 1][y + 1] + img[x - 1][y + 1] == 8:
+                img[x][y] = 1
+            if img[x + 1][y] + img[x - 1][y] + img[x][y + 1] + img[x][y - 1] == 4:
+                img[x][y] = 1
 
     img_filled_original = floodfill.from_edges(img, four_way=True)
-    img_filled = (img_filled_original - img_filled_original * img).astype(np.uint8)
-    img = apply_mask(img_filled, img)
+    img_filled = (img_filled_original * (1 - img)).astype(np.uint8)
+    img_after_mask = apply_mask(img_filled, img)
+
+    img_filled_original = img_filled_original * (1 - (img - img_after_mask))
+    img = img_after_mask
+
 
     ''' 
     from PIL import Image;
@@ -269,7 +276,7 @@ def generate_data(num_points, image_width, image_height, max_radius, min_radius)
     #img_filled = (img_filled_original - img_filled_original * img).astype(np.uint8)
     img = apply_mask(img_filled, img)
 
-    img_filled_original = floodfill.from_edges(img, four_way=True)
+    #img_filled_original = floodfill.from_edges(img, four_way=True)
     img_filled_original = (img_filled_original - img_filled_original * img).astype(np.uint8)
 
     '''
@@ -280,7 +287,7 @@ def generate_data(num_points, image_width, image_height, max_radius, min_radius)
     imga.save('testrgb.png')
     '''
 
-    return img, img_filled_original
+    return img, img_filled_original, img_raw
 
 ##img = generate_data(50, 100, 100, 100, 100)
 ##find_ground_truth(img, (49,49))
