@@ -1,9 +1,11 @@
 import numpy as np
-#import matplotlib
-#from matplotlib import pyplot as plt
+import matplotlib
+from matplotlib import pyplot as plt
 import random as rnd
 import math
 import sys
+
+import floodfill
 
 sys.setrecursionlimit(3000)
 np.set_printoptions(linewidth=400)
@@ -13,8 +15,8 @@ INFINITY = float('inf')
 PI = math.pi
 cos = math.cos
 sin = math.sin
-DIRECTION = {'north':(-1,0), 'south':(1,0), 'east':(0,1), 'west':(0,-1),
-              'northeast':(-1,1), 'northwest':(-1,-1), 'southeast':(1,1), 'southwest':(1,-1)}
+DIRECTION = {'north': (-1, 0), 'south': (1, 0), 'east': (0, 1), 'west': (0, -1),
+             'northeast': (-1, 1), 'northwest': (-1, -1), 'southeast': (1, 1), 'southwest': (1, -1)}
 
 #test
 
@@ -65,7 +67,7 @@ def generate_points(num_points, image_width, image_height, max_radius, min_radiu
     std_dev = (max_radius - min_radius)/2.
 
     #make sure point axis of rotation is inside the image
-    center_coords = (clip(center_coords[0],image_height-margins,0), clip(center_coords[1],image_width-margins,0))
+    center_coords = (clip(center_coords[0], image_height-margins, 0), clip(center_coords[1], image_width-margins, 0))
 
     #iterate thru 360 degrees (2PI radians) and get corresponding cartesian coordinates
     for i in range(num_points):
@@ -74,8 +76,8 @@ def generate_points(num_points, image_width, image_height, max_radius, min_radiu
         x = int(round(center_coords[0] + radius*cos(theta)))
         y = int(round(center_coords[1] + radius*sin(theta)))
 
-        x,y = clip(x, image_height-margins, margins), clip(y, image_width-margins,margins)
-        coords.append((x,y))
+        x, y = clip(x, image_height-margins, margins), clip(y, image_width-margins,margins)
+        coords.append((x, y))
 
     #add first point to the end to complete cycle       
     coords.append(coords[0])
@@ -89,7 +91,7 @@ def generate_curve(points):
         return curve
 
     #iterate thru pairs of points to be connected
-    for i in range(1,len(points)):
+    for i in range(1, len(points)):
         current = points[i-1]
         target = points[i]
         order_dict = {}
@@ -98,11 +100,10 @@ def generate_curve(points):
         dx = float(abs(current[0]-target[0]))
         dy = float(abs(current[1]-target[1]))
 
-
         if (dx == 0 and dy == 0):
             inc = 0
         else:
-            inc = min(dx,dy)/max(dx,dy)
+            inc = min(dx, dy)/max(dx, dy)
             
         first_value = 0 
         second_value = 0
@@ -130,19 +131,18 @@ def generate_curve(points):
                 current = new_position(current, second_index, sign_xy[second_index])
                 curve.append(current)
 
-
         #connect pair of points (tweak)
         while current != target:
-            if abs(current[0]-target[0]) < abs(current[1]-target[1]) and current[1]-target[1] !=0:
+            if abs(current[0]-target[0]) < abs(current[1]-target[1]) and current[1]-target[1] != 0:
                 if current[1] > target[1]:
-                    current = move(current,DIRECTION['west'])
+                    current = move(current, DIRECTION['west'])
                 else:
-                    current = move(current,DIRECTION['east'])
+                    current = move(current, DIRECTION['east'])
             else:
                 if current[0] > target[0]:
-                    current = move(current,DIRECTION['north'])
+                    current = move(current, DIRECTION['north'])
                 else:
-                    current = move(current,DIRECTION['south'])
+                    current = move(current, DIRECTION['south'])
 
             #if boundary crosses itself, remove a point and try again (still needs tweaking)
             if current in curve[:-1]:
@@ -160,19 +160,16 @@ def generate_curve(points):
     return curve
 
 
-
-
 def visit(image, position, visited, not_visited, directions, depth=0):
     move_dict = {}
-    move_dict['north'] = move(position,DIRECTION['north'])
-    move_dict['south'] = move(position,DIRECTION['south'])
-    move_dict['east'] = move(position,DIRECTION['east'])
-    move_dict['west'] = move(position,DIRECTION['west'])
-    move_dict['northwest'] = move(position,DIRECTION['northwest'])
-    move_dict['northeast'] = move(position,DIRECTION['northeast'])
-    move_dict['southwest'] = move(position,DIRECTION['southwest'])
-    move_dict['southeast'] = move(position,DIRECTION['southeast'])
-    
+    move_dict['north'] = move(position, DIRECTION['north'])
+    move_dict['south'] = move(position, DIRECTION['south'])
+    move_dict['east'] = move(position, DIRECTION['east'])
+    move_dict['west'] = move(position, DIRECTION['west'])
+    move_dict['northwest'] = move(position, DIRECTION['northwest'])
+    move_dict['northeast'] = move(position, DIRECTION['northeast'])
+    move_dict['southwest'] = move(position, DIRECTION['southwest'])
+    move_dict['southeast'] = move(position, DIRECTION['southeast'])
 
     if position in visited:
         return
@@ -198,16 +195,15 @@ def visit(image, position, visited, not_visited, directions, depth=0):
 def find_ground_truth(image, center_coords):
     visited = {}
     not_visited = {}
-    visit(image, center_coords, visited, not_visited, ['north','south','east','west'])
+    visit(image, center_coords, visited, not_visited, ['north', 'south', 'east', 'west'])
     for point in visited:
         image[point] = 1.
     
 
-
 def generate_data(num_points, image_width, image_height, max_radius, min_radius):
-    center_coords = (int(image_width/2),int(image_height/2))
+    center_coords = (int(image_width/2), int(image_height/2))
     
-    img = np.zeros((image_width,image_height))
+    img = np.zeros((image_width, image_height))
     
     points = generate_points(num_points, image_width, image_height, max_radius, min_radius, center_coords)
     curve = generate_curve(points)
@@ -225,6 +221,41 @@ def generate_data(num_points, image_width, image_height, max_radius, min_radius)
         y = p[1]
 
         img[x][y] = 1.
+
+    img_filled = floodfill.from_edges(img, four_way=True)
+    img_filled = (img_filled - img_filled * img).astype(np.uint8)
+
+    img_mask = img.astype(np.uint8)
+
+    plt.imshow(img_filled)
+    plt.show()
+    plt.imshow(img_mask)
+    plt.show()
+
+    img = np.zeros((image_width, image_height), dtype=np.uint8)
+    for x in range(img_filled.shape[0]):
+        for y in range(img_filled.shape[1]):
+            if img_filled[x][y]:
+                if img_mask[x + 1][y]:
+                    img[x + 1][y] = 1
+                if img_mask[x - 1][y]:
+                    img[x - 1][y] = 1
+                if img_mask[x][y + 1]:
+                    img[x][y + 1] = 1
+                if img_mask[x][y - 1]:
+                    img[x][y - 1] = 1
+                if img_mask[x + 1][y + 1]:
+                    img[x + 1][y + 1] = 1
+                if img_mask[x + 1][y - 1]:
+                    img[x + 1][y - 1] = 1
+                if img_mask[x - 1][y + 1]:
+                    img[x - 1][y + 1] = 1
+                if img_mask[x - 1][y - 1]:
+                    img[x - 1][y - 1] = 1
+
+    plt.imshow(img)
+    plt.show()
+
 
     return img
 
