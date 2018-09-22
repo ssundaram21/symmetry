@@ -33,6 +33,7 @@ def run(opt):
     val_dataset = dataset.create_dataset(augmentation=False, standarization=False, set_name='val', repeat=True)
     test_dataset = dataset.create_dataset(augmentation=False, standarization=False, set_name='test', repeat=True)
 
+    '''
     # Hadles to switch datasets
     handle = tf.placeholder(tf.string, shape=[])
     iterator = tf.data.Iterator.from_string_handle(
@@ -119,8 +120,11 @@ def run(opt):
 
         print("----------------")
         sys.stdout.flush()
+
         print(":)")
+        '''
         ################################################################################################
 
+    print(":)")
 
 

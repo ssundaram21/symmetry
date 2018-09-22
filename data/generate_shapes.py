@@ -200,6 +200,29 @@ def find_ground_truth(image, center_coords):
         image[point] = 1.
     
 
+def apply_mask(img_filled, img_mask):
+    img = np.zeros((img_filled.shape[0], img_filled.shape[1]), dtype=np.uint8)
+    for x in range(1, img_filled.shape[0]-1):
+        for y in range(1, img_filled.shape[1]-1):
+            if img_filled[x][y]:
+                if img_mask[x + 1][y]:
+                    img[x + 1][y] = 1
+                if img_mask[x - 1][y]:
+                    img[x - 1][y] = 1
+                if img_mask[x][y + 1]:
+                    img[x][y + 1] = 1
+                if img_mask[x][y - 1]:
+                    img[x][y - 1] = 1
+                if img_mask[x + 1][y + 1]:
+                    img[x + 1][y + 1] = 1
+                if img_mask[x + 1][y - 1]:
+                    img[x + 1][y - 1] = 1
+                if img_mask[x - 1][y + 1]:
+                    img[x - 1][y + 1] = 1
+                if img_mask[x - 1][y - 1]:
+                    img[x - 1][y - 1] = 1
+    return img
+
 def generate_data(num_points, image_width, image_height, max_radius, min_radius):
     center_coords = (int(image_width/2), int(image_height/2))
     
@@ -222,42 +245,42 @@ def generate_data(num_points, image_width, image_height, max_radius, min_radius)
 
         img[x][y] = 1.
 
-    img_filled = floodfill.from_edges(img, four_way=True)
-    img_filled = (img_filled - img_filled * img).astype(np.uint8)
+    img = img.astype(np.uint8)
+    for x in range(1, img.shape[0]-1):
+        for y in range(1, img.shape[1]-1):
+            if img[x + 1][y] + img[x - 1][y] + img[x][y + 1] + img[x][y - 1] == 1:
+                img[x][y] = 0
+            #if img[x + 1][y] + img[x - 1][y] + img[x][y + 1] + img[x][y - 1] == 4:
+            #    img[x][y] = 1
 
-    img_mask = img.astype(np.uint8)
+    img_filled_original = floodfill.from_edges(img, four_way=True)
+    img_filled = (img_filled_original - img_filled_original * img).astype(np.uint8)
+    img = apply_mask(img_filled, img)
 
-    plt.imshow(img_filled)
-    plt.show()
-    plt.imshow(img_mask)
-    plt.show()
+    ''' 
+    from PIL import Image;
+    imga = Image.fromarray(128 * img);
+    imga.save('testrgbA.png')
+    imga = Image.fromarray(128 * img_filled);
+    imga.save('testrgbB.png')
+    '''
 
-    img = np.zeros((image_width, image_height), dtype=np.uint8)
-    for x in range(img_filled.shape[0]):
-        for y in range(img_filled.shape[1]):
-            if img_filled[x][y]:
-                if img_mask[x + 1][y]:
-                    img[x + 1][y] = 1
-                if img_mask[x - 1][y]:
-                    img[x - 1][y] = 1
-                if img_mask[x][y + 1]:
-                    img[x][y + 1] = 1
-                if img_mask[x][y - 1]:
-                    img[x][y - 1] = 1
-                if img_mask[x + 1][y + 1]:
-                    img[x + 1][y + 1] = 1
-                if img_mask[x + 1][y - 1]:
-                    img[x + 1][y - 1] = 1
-                if img_mask[x - 1][y + 1]:
-                    img[x - 1][y + 1] = 1
-                if img_mask[x - 1][y - 1]:
-                    img[x - 1][y - 1] = 1
+    img_filled = (1 - img_filled_original)
+    #img_filled = (img_filled_original - img_filled_original * img).astype(np.uint8)
+    img = apply_mask(img_filled, img)
 
-    plt.imshow(img)
-    plt.show()
+    img_filled_original = floodfill.from_edges(img, four_way=True)
+    img_filled_original = (img_filled_original - img_filled_original * img).astype(np.uint8)
 
+    '''
+    from PIL import Image;
+    imga = Image.fromarray(128 * img);
+    imga.save('testrgb1.png')
+    imga = Image.fromarray(128 * img_filled_original);
+    imga.save('testrgb.png')
+    '''
 
-    return img
+    return img, img_filled_original
 
 ##img = generate_data(50, 100, 100, 100, 100)
 ##find_ground_truth(img, (49,49))

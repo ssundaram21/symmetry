@@ -22,10 +22,31 @@ class InsidenessDataset(data.Dataset):
         self.create_tfrecords()
 
     def get_parameters_complexity(self, complexity):
+
         if complexity == 0:
             num_points = [3, 5]
             minimum_radius =[23, 25]
             maximum_radius = [25, 28]
+
+        if complexity == 1:
+            num_points = [3, 10]
+            minimum_radius =[19, 25]
+            maximum_radius = [25, 32]
+
+        if complexity == 2:
+            num_points = [3, 15]
+            minimum_radius =[15, 25]
+            maximum_radius = [25, 36]
+
+        if complexity == 3:
+            num_points = [3, 20]
+            minimum_radius =[10, 25]
+            maximum_radius = [25, 40]
+
+        if complexity == 4:
+            num_points = [20, 25]
+            minimum_radius =[6, 25]
+            maximum_radius = [25, 44]
 
         return num_points, maximum_radius, minimum_radius
 
@@ -44,15 +65,18 @@ class InsidenessDataset(data.Dataset):
             minimum_radius = rnd.randint(minimum_radius_range[0], minimum_radius_range[1])
             maximum_radius = rnd.randint(maximum_radius_range[0], maximum_radius_range[1])
 
-            X.append(np.uint8(generate_shapes.generate_data(num_points, self.opt.dataset.image_size, self.opt.dataset.image_size,
-                                   maximum_radius, minimum_radius)))
+            img, gt = generate_shapes.generate_data(num_points, self.opt.dataset.image_size, self.opt.dataset.image_size,
+                                          maximum_radius, minimum_radius)
+
+            X.append(np.uint8(img))
 
             ''' 
             from PIL import Image;
             img = Image.fromarray(128 * X[-1]);
             img.save('testrgb.png')
             '''
-            labels.append(X[-1])
+
+            labels.append(np.uint8(gt))
 
         train_addrs = []
         train_labels = []
@@ -81,9 +105,11 @@ class InsidenessDataset(data.Dataset):
             minimum_radius = rnd.randint(minimum_radius_range[0], minimum_radius_range[1])
             maximum_radius = rnd.randint(maximum_radius_range[0], maximum_radius_range[1])
 
-            X.append(np.uint8(generate_shapes.generate_data(num_points, self.opt.dataset.image_size, self.opt.dataset.image_size,
-                                   maximum_radius, minimum_radius)))
-            labels.append(X[-1])
+            img, gt = generate_shapes.generate_data(num_points, self.opt.dataset.image_size, self.opt.dataset.image_size,
+                                          maximum_radius, minimum_radius)
+
+            X.append(np.uint8(img))
+            labels.append(np.uint8(gt))
 
         return X, labels
 

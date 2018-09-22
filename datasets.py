@@ -43,5 +43,37 @@ def get_datasets(output_path):
     opt += [copy.deepcopy(opt_handle)]
     idx += 1
 
+    opt_handle = Dataset(idx, "med-simple", output_path)
+    opt_handle.num_images_training = 1e4
+    opt_handle.num_images_testing = 1e3
+    opt_handle.complexity = 1
+
+    opt += [copy.deepcopy(opt_handle)]
+    idx += 1
+
+    opt_handle = Dataset(idx, "medium", output_path)
+    opt_handle.num_images_training = 1e4
+    opt_handle.num_images_testing = 1e3
+    opt_handle.complexity = 2
+
+    opt += [copy.deepcopy(opt_handle)]
+    idx += 1
+
+    opt_handle = Dataset(idx, "med-complex", output_path)
+    opt_handle.num_images_training = 1e4
+    opt_handle.num_images_testing = 1e3
+    opt_handle.complexity = 3
+
+    opt += [copy.deepcopy(opt_handle)]
+    idx += 1
+
+    opt_handle = Dataset(idx, "complex", output_path)
+    opt_handle.num_images_training = 1e4
+    opt_handle.num_images_testing = 1e3
+    opt_handle.complexity = 4
+
+    opt += [copy.deepcopy(opt_handle)]
+    idx += 1
+
     return opt
 
