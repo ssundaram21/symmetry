@@ -45,7 +45,7 @@ class Dataset:
 
         for i in range(len(addrs)):
             # print how many images are saved every 1000 images
-            if not i % 1000:
+            if not i % 10:
                 print('Data: {}/{}'.format(i, len(addrs)))
                 sys.stdout.flush()
 
@@ -72,6 +72,7 @@ class Dataset:
 
         if os.path.isfile(tfrecords_path + 'test.tfrecords'):
             print("REUSING TFRECORDS")
+            sys.stdout.flush()
             return 0
 
         if os.path.isdir(tfrecords_path):
@@ -80,6 +81,7 @@ class Dataset:
         os.makedirs(tfrecords_path)
 
         print("CREATING TFRECORDS")
+        sys.stdout.flush()
         print(self.opt.dataset.dataset_path)
 
         train_addrs, train_labels, val_addrs, val_labels = self.get_data_trainval()
@@ -97,8 +99,10 @@ class Dataset:
 
         if os.path.isfile(tfrecords_path + 'test.tfrecords'):
             print("OVERWRITTING TFRECORDS")
+            sys.stdout.flush()
 
         print("CREATING TFRECORDS")
+        sys.stdout.flush()
         print(self.opt.dataset.dataset_path)
 
         train_addrs = data['train_img']; train_labels = data['train_gt']

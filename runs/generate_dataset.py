@@ -27,6 +27,7 @@ def run(opt):
         dataset = insideness_data.InsidenessDataset(opt)
     else:
         print("Error: no valid dataset specified")
+        sys.stdout.flush()
 
     # Repeatable datasets for training
     train_dataset = dataset.create_dataset(augmentation=False, standarization=False, set_name='train', repeat=True)
@@ -122,9 +123,11 @@ def run(opt):
         sys.stdout.flush()
 
         print(":)")
+        sys.stdout.flush()
         '''
         ################################################################################################
 
     print(":)")
+    sys.stdout.flush()
 
 

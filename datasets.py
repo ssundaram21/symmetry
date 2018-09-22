@@ -34,42 +34,52 @@ def get_datasets(output_path):
     opt = []
     idx = 0
 
-    # Create base for TF records:
-    opt_handle = Dataset(idx, "simple", output_path)
-    opt_handle.num_images_training = 1e4
-    opt_handle.num_images_testing = 1e3
-    opt_handle.complexity = 0
+    for k, num_data in enumerate([1e1, 1e2, 1e3, 1e4, 1e5, 1e6]):
+        # Create base for TF records:
+        opt_handle = Dataset(idx, "simple_" + str(k), output_path)
+        opt_handle.num_images_training = num_data
+        opt_handle.num_images_testing = 5e4
+        opt_handle.complexity = 0
 
-    opt += [copy.deepcopy(opt_handle)]
-    idx += 1
+        opt += [copy.deepcopy(opt_handle)]
+        idx += 1
 
-    opt_handle = Dataset(idx, "med-simple", output_path)
-    opt_handle.num_images_training = 1e4
-    opt_handle.num_images_testing = 1e3
-    opt_handle.complexity = 1
+        opt_handle = Dataset(idx, "med-simple_" + str(k), output_path)
+        opt_handle.num_images_training = num_data
+        opt_handle.num_images_testing = 5e4
+        opt_handle.complexity = 1
 
-    opt += [copy.deepcopy(opt_handle)]
-    idx += 1
+        opt += [copy.deepcopy(opt_handle)]
+        idx += 1
 
-    opt_handle = Dataset(idx, "medium", output_path)
-    opt_handle.num_images_training = 1e4
-    opt_handle.num_images_testing = 1e3
-    opt_handle.complexity = 2
+        opt_handle = Dataset(idx, "medium_" + str(k), output_path)
+        opt_handle.num_images_training = num_data
+        opt_handle.num_images_testing = 5e4
+        opt_handle.complexity = 2
 
-    opt += [copy.deepcopy(opt_handle)]
-    idx += 1
+        opt += [copy.deepcopy(opt_handle)]
+        idx += 1
 
-    opt_handle = Dataset(idx, "med-complex", output_path)
-    opt_handle.num_images_training = 1e4
-    opt_handle.num_images_testing = 1e3
-    opt_handle.complexity = 3
+        opt_handle = Dataset(idx, "med-complex_" + str(k), output_path)
+        opt_handle.num_images_training = num_data
+        opt_handle.num_images_testing = 5e4
+        opt_handle.complexity = 3
 
-    opt += [copy.deepcopy(opt_handle)]
-    idx += 1
+        opt += [copy.deepcopy(opt_handle)]
+        idx += 1
 
-    opt_handle = Dataset(idx, "complex", output_path)
-    opt_handle.num_images_training = 1e4
-    opt_handle.num_images_testing = 1e3
+        opt_handle = Dataset(idx, "complex_" + str(k), output_path)
+        opt_handle.num_images_training = num_data
+        opt_handle.num_images_testing = 5e4
+        opt_handle.complexity = 4
+
+        opt += [copy.deepcopy(opt_handle)]
+        idx += 1
+
+
+    opt_handle = Dataset(idx, "vanila", output_path)
+    opt_handle.num_images_training = 100
+    opt_handle.num_images_testing = 100
     opt_handle.complexity = 4
 
     opt += [copy.deepcopy(opt_handle)]

@@ -2,7 +2,7 @@ from data import data
 from data import generate_shapes
 import numpy as np
 import random as rnd
-
+import sys
 
 class InsidenessDataset(data.Dataset):
 
@@ -44,7 +44,7 @@ class InsidenessDataset(data.Dataset):
             maximum_radius = [25, 40]
 
         if complexity == 4:
-            num_points = [20, 25]
+            num_points = [3, 25]
             minimum_radius =[6, 25]
             maximum_radius = [25, 44]
 
@@ -61,7 +61,11 @@ class InsidenessDataset(data.Dataset):
         X = []
         labels = []
         for i in range(int(self.opt.dataset.num_images_training)):
-            num_points = rnd.randint(num_points_range[0],num_points_range[1])
+            if not i % 10:
+                print('Data: {}/{}'.format(i, int(self.opt.dataset.num_images_training)))
+                sys.stdout.flush()
+
+            num_points = rnd.randint(num_points_range[0], num_points_range[1])
             minimum_radius = rnd.randint(minimum_radius_range[0], minimum_radius_range[1])
             maximum_radius = rnd.randint(maximum_radius_range[0], maximum_radius_range[1])
 
@@ -101,6 +105,9 @@ class InsidenessDataset(data.Dataset):
         X = []
         labels = []
         for i in range(int(self.opt.dataset.num_images_testing)):
+            if not i % 10:
+                print('Data: {}/{}'.format(i, int(self.opt.dataset.num_images_testing)))
+                sys.stdout.flush()
             num_points = rnd.randint(num_points_range[0],num_points_range[1])
             minimum_radius = rnd.randint(minimum_radius_range[0], minimum_radius_range[1])
             maximum_radius = rnd.randint(maximum_radius_range[0], maximum_radius_range[1])
