@@ -256,13 +256,14 @@ def run(opt):
         for num_iter in range(int(dataset.num_images_epoch/opt.hyper.batch_size)+1):
             acc_val, a, b, err, imm = sess.run([accuracy, flat_output, y_, error_images, image], feed_dict={handle: train_handle_full,
                                                       dropout_rate: opt.hyper.drop_test})
-
-            aa = np.reshape(a[33, :], [100, 100])
+            ''' 
+            aa = np.reshape(a[5, :].astype(np.unint8), [100, 100])
             from PIL import Image;
             imga = Image.fromarray(128 * aa);
             imga.save('testrgb1.png')
+            '''
 
-            acc_tmp += acc_val
+            acc_tmp += acc_val*len(a)
             total += len(a)
 
         acc['train_accuracy'] = acc_tmp / float(total)
@@ -272,24 +273,28 @@ def run(opt):
         # Run one pass over a batch of the test dataset.
         sess.run(val_iterator_full.initializer)
         acc_tmp = 0.0
+        total = 0
         for num_iter in range(int(dataset.num_images_val / opt.hyper.batch_size)+1):
-            acc_val = sess.run([accuracy], feed_dict={handle: val_handle_full,
+            acc_val, a = sess.run([accuracy, flat_output], feed_dict={handle: val_handle_full,
                                                       dropout_rate: opt.hyper.drop_test})
-            acc_tmp += acc_val[0]
+            acc_tmp += acc_val*len(a)
+            total += len(a)
 
-        acc['validation_accuracy'] = acc_tmp / float(int(dataset.num_images_val / opt.hyper.batch_size))
+        acc['validation_accuracy'] = acc_tmp / float(total)
         print("Full test acc: " + str(acc['validation_accuracy']))
         sys.stdout.flush()
 
         # Run one pass over a batch of the test dataset.
         sess.run(test_iterator_full.initializer)
         acc_tmp = 0.0
+        total = 0
         for num_iter in range(int(dataset.num_images_test / opt.hyper.batch_size)+1):
-            acc_val = sess.run([accuracy], feed_dict={handle: test_handle_full,
+            acc_val, a = sess.run([accuracy, flat_output], feed_dict={handle: test_handle_full,
                                                       dropout_rate: opt.hyper.drop_test})
-            acc_tmp += acc_val[0]
+            acc_tmp += acc_val*len(a)
+            total += len(a)
 
-        acc['test_accuracy'] = acc_tmp / float(int(dataset.num_images_test / opt.hyper.batch_size))
+        acc['test_accuracy'] = acc_tmp / float(total)
         print("Full test acc: " + str(acc['test_accuracy']))
         sys.stdout.flush()
 
