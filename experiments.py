@@ -45,7 +45,7 @@ class Experiments(object):
         self.max_to_keep_checkpoints = 2
 
         # Test after training:
-        self.test = False
+        self.skip_train = False
 
         # Start from scratch even if it existed
         self.restart = False
@@ -93,9 +93,16 @@ def get_experiments(output_path):
     max_epochs = [100]
 
     idx_base = 0
+    opt_handle = Experiments(id=idx_base, name="Crossing", dataset=opt_data[30], output_path=output_path,
+                             family_id=0, family_name="Crossing_Optimal")
+    opt_handle.skip_train = True
+    opt_handle.dnn.name = "Crossing"
+    opt += [copy.deepcopy(opt_handle)]
+    idx_base += 1
+
     for idx in range(2):
         opt_handle = Experiments(id=idx + idx_base, name="MLP1", dataset=opt_data[0], output_path=output_path,
-                                 family_id=0, family_name="A")
+                                 family_id=1, family_name="A")
         opt_handle.hyper.max_num_epochs = 1
 
         opt += [copy.deepcopy(opt_handle)]
@@ -103,7 +110,7 @@ def get_experiments(output_path):
     idx_base = 2
     for idx in range(2):
         opt_handle = Experiments(id=idx + idx_base, name="MLP1", dataset=opt_data[0], output_path=output_path,
-                                 family_id=1, family_name="B")
+                                 family_id=2, family_name="B")
         opt_handle.hyper.max_num_epochs = 1
 
         opt += [copy.deepcopy(opt_handle)]

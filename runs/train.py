@@ -116,7 +116,8 @@ def run(opt):
 
     # Accuracy
     with tf.name_scope('accuracy'):
-        correct_prediction = tf.equal(tf.argmax(flat_y, 2), flat_y_)
+        flat_output = tf.argmax(flat_y, 2)
+        correct_prediction = tf.equal(flat_output, flat_y_)
         correct_prediction = tf.cast(correct_prediction, tf.float32)
         accuracy = tf.reduce_mean(correct_prediction)
         tf.summary.scalar('accuracy', accuracy)
@@ -125,58 +126,57 @@ def run(opt):
 
     with tf.Session() as sess:
 
-
-        ################################################################################################
-        # Set up Gradient Descent
-        ################################################################################################
-        all_var = tf.trainable_variables()
-
-        train_step = tf.train.MomentumOptimizer(learning_rate=lr, momentum=opt.hyper.momentum).minimize(total_loss, var_list=all_var)
-        inc_global_step = tf.assign_add(global_step, 1, name='increment')
-
-        raw_grads = tf.gradients(total_loss, all_var)
-        grads = list(zip(raw_grads, tf.trainable_variables()))
-
-        for g, v in grads:
-            summary.gradient_summaries(g, v, opt)
-        ################################################################################################
-
-
-        ################################################################################################
-        # Set up checkpoints and data
-        ################################################################################################
-
-        saver = tf.train.Saver(max_to_keep=opt.max_to_keep_checkpoints)
-
-        # Automatic restore model, or force train from scratch
         flag_testable = False
+        if not opt.skip_train:
+            ################################################################################################
+            # Set up Gradient Descent
+            ################################################################################################
+            all_var = tf.trainable_variables()
 
-        # Set up directories and checkpoints
-        if not os.path.isfile(opt.log_dir_base + opt.name + '/models/checkpoint'):
-            sess.run(tf.global_variables_initializer())
-        elif opt.restart:
-            print("RESTART")
-            shutil.rmtree(opt.log_dir_base + opt.name + '/models/')
-            shutil.rmtree(opt.log_dir_base + opt.name + '/train/')
-            shutil.rmtree(opt.log_dir_base + opt.name + '/val/')
-            sess.run(tf.global_variables_initializer())
-        else:
-            print("RESTORE")
-            saver.restore(sess, tf.train.latest_checkpoint(opt.log_dir_base + opt.name + '/models/'))
-            flag_testable = True
+            train_step = tf.train.MomentumOptimizer(learning_rate=lr, momentum=opt.hyper.momentum).minimize(total_loss, var_list=all_var)
+            inc_global_step = tf.assign_add(global_step, 1, name='increment')
 
-        # datasets
-        # The `Iterator.string_handle()` method returns a tensor that can be evaluated
-        # and used to feed the `handle` placeholder.
-        training_handle = sess.run(train_iterator.string_handle())
-        validation_handle = sess.run(val_iterator.string_handle())
-        ################################################################################################
+            raw_grads = tf.gradients(total_loss, all_var)
+            grads = list(zip(raw_grads, tf.trainable_variables()))
 
-        ################################################################################################
-        # RUN TRAIN
-        ################################################################################################
-        if not opt.test:
+            for g, v in grads:
+                summary.gradient_summaries(g, v, opt)
+            ################################################################################################
 
+
+            ################################################################################################
+            # Set up checkpoints and data
+            ################################################################################################
+
+            saver = tf.train.Saver(max_to_keep=opt.max_to_keep_checkpoints)
+
+            # Automatic restore model, or force train from scratch
+
+
+            # Set up directories and checkpoints
+            if not os.path.isfile(opt.log_dir_base + opt.name + '/models/checkpoint'):
+                sess.run(tf.global_variables_initializer())
+            elif opt.restart:
+                print("RESTART")
+                shutil.rmtree(opt.log_dir_base + opt.name + '/models/')
+                shutil.rmtree(opt.log_dir_base + opt.name + '/train/')
+                shutil.rmtree(opt.log_dir_base + opt.name + '/val/')
+                sess.run(tf.global_variables_initializer())
+            else:
+                print("RESTORE")
+                saver.restore(sess, tf.train.latest_checkpoint(opt.log_dir_base + opt.name + '/models/'))
+                flag_testable = True
+
+            # datasets
+            # The `Iterator.string_handle()` method returns a tensor that can be evaluated
+            # and used to feed the `handle` placeholder.
+            training_handle = sess.run(train_iterator.string_handle())
+            validation_handle = sess.run(val_iterator.string_handle())
+            ################################################################################################
+
+            ################################################################################################
+            # RUN TRAIN
+            ################################################################################################
             # Prepare summaries
             merged = tf.summary.merge_all()
             train_writer = tf.summary.FileWriter(opt.log_dir_base + opt.name + '/train', sess.graph)
@@ -229,8 +229,6 @@ def run(opt):
                 sys.stdout.flush()
                 ################################################################################################
 
-            flag_testable = True
-
             train_writer.close()
             val_writer.close()
 
@@ -239,58 +237,66 @@ def run(opt):
         ################################################################################################
 
         if flag_testable:
-
-            import pickle
-            acc = {}
-
-            test_handle_full = sess.run(test_iterator_full.string_handle())
-            val_handle_full = sess.run(val_iterator_full.string_handle())
-            train_handle_full = sess.run(train_iterator_full.string_handle())
-
-            # Run one pass over a batch of the validation dataset.
-            sess.run(train_iterator_full.initializer)
-            acc_tmp = 0.0
-            for num_iter in range(int(dataset.num_images_epoch/opt.hyper.batch_size)):
-                acc_val = sess.run([accuracy], feed_dict={handle: train_handle_full,
-                                                          dropout_rate: opt.hyper.drop_test})
-                acc_tmp += acc_val[0]
-
-            acc['train_accuracy'] = acc_tmp / float(int(dataset.num_images_epoch/opt.hyper.batch_size))
-            print("Full train acc = " + str(acc['train_accuracy']))
-            sys.stdout.flush()
-
-            # Run one pass over a batch of the test dataset.
-            sess.run(val_iterator_full.initializer)
-            acc_tmp = 0.0
-            for num_iter in range(int(dataset.num_images_val / opt.hyper.batch_size)):
-                acc_val = sess.run([accuracy], feed_dict={handle: val_handle_full,
-                                                          dropout_rate: opt.hyper.drop_test})
-                acc_tmp += acc_val[0]
-
-            acc['validation_accuracy'] = acc_tmp / float(int(dataset.num_images_val / opt.hyper.batch_size))
-            print("Full test acc: " + str(acc['validation_accuracy']))
-            sys.stdout.flush()
-
-            # Run one pass over a batch of the test dataset.
-            sess.run(test_iterator_full.initializer)
-            acc_tmp = 0.0
-            for num_iter in range(int(dataset.num_images_test / opt.hyper.batch_size)):
-                acc_val = sess.run([accuracy], feed_dict={handle: test_handle_full,
-                                                          dropout_rate: opt.hyper.drop_test})
-                acc_tmp += acc_val[0]
-
-            acc['test_accuracy'] = acc_tmp / float(int(dataset.num_images_test / opt.hyper.batch_size))
-            print("Full test acc: " + str(acc['test_accuracy']))
-            sys.stdout.flush()
-
-            if not os.path.exists(opt.log_dir_base + opt.name + '/results'):
-                os.makedirs(opt.log_dir_base + opt.name + '/results')
-
-            with open(opt.log_dir_base + opt.name + '/results/intra_dataset_accuracy.pkl', 'wb') as f:
-                pickle.dump(acc, f)
-
-            print(":)")
-
-        else:
             print("MODEL WAS NOT TRAINED")
+
+        import pickle
+        acc = {}
+
+        test_handle_full = sess.run(test_iterator_full.string_handle())
+        val_handle_full = sess.run(val_iterator_full.string_handle())
+        train_handle_full = sess.run(train_iterator_full.string_handle())
+
+        # Run one pass over a batch of the validation dataset.
+        sess.run(train_iterator_full.initializer)
+        acc_tmp = 0.0
+        total = 0
+        for num_iter in range(int(dataset.num_images_epoch/opt.hyper.batch_size)+1):
+            acc_val, a, b = sess.run([accuracy, flat_y, y_], feed_dict={handle: train_handle_full,
+                                                      dropout_rate: opt.hyper.drop_test})
+
+            aa = np.reshape(a[0, :], [100, 100, 2])
+            from PIL import Image;
+            imga = Image.fromarray(128 * aa.astype(np.int8));
+            imga.save('testrgb1.png')
+
+            acc_tmp += acc_val
+            total += len(a)
+
+        acc['train_accuracy'] = acc_tmp / float(total)
+        print("Full train acc = " + str(acc['train_accuracy']))
+        sys.stdout.flush()
+
+        # Run one pass over a batch of the test dataset.
+        sess.run(val_iterator_full.initializer)
+        acc_tmp = 0.0
+        for num_iter in range(int(dataset.num_images_val / opt.hyper.batch_size)+1):
+            acc_val = sess.run([accuracy], feed_dict={handle: val_handle_full,
+                                                      dropout_rate: opt.hyper.drop_test})
+            acc_tmp += acc_val[0]
+
+        acc['validation_accuracy'] = acc_tmp / float(int(dataset.num_images_val / opt.hyper.batch_size))
+        print("Full test acc: " + str(acc['validation_accuracy']))
+        sys.stdout.flush()
+
+        # Run one pass over a batch of the test dataset.
+        sess.run(test_iterator_full.initializer)
+        acc_tmp = 0.0
+        for num_iter in range(int(dataset.num_images_test / opt.hyper.batch_size)+1):
+            acc_val = sess.run([accuracy], feed_dict={handle: test_handle_full,
+                                                      dropout_rate: opt.hyper.drop_test})
+            acc_tmp += acc_val[0]
+
+        acc['test_accuracy'] = acc_tmp / float(int(dataset.num_images_test / opt.hyper.batch_size))
+        print("Full test acc: " + str(acc['test_accuracy']))
+        sys.stdout.flush()
+
+        if not os.path.exists(opt.log_dir_base + opt.name + '/results'):
+            os.makedirs(opt.log_dir_base + opt.name + '/results')
+
+        with open(opt.log_dir_base + opt.name + '/results/intra_dataset_accuracy.pkl', 'wb') as f:
+            pickle.dump(acc, f)
+
+        print(":)")
+
+
 
