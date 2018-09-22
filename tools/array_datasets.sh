@@ -1,9 +1,9 @@
 #!/bin/bash
 #SBATCH -n 2
-#SBATCH --array=0-29
+#SBATCH --array=0-39
 #SBATCH --job-name=insideness
 #SBATCH --mem=8GB
-#SBATCH -t 10:00:00
+#SBATCH -t 50:00:00
 #SBATCH --workdir=./log/
 #SBATCH --qos=cbmm
 

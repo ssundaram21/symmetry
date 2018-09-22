@@ -21,32 +21,60 @@ class InsidenessDataset(data.Dataset):
 
         self.create_tfrecords()
 
-    def get_parameters_complexity(self, complexity):
+    def get_parameters_complexity(self, complexity, strict):
 
-        if complexity == 0:
-            num_points = [3, 5]
-            minimum_radius =[23, 25]
-            maximum_radius = [25, 28]
+        if strict == False:
 
-        if complexity == 1:
-            num_points = [3, 10]
-            minimum_radius =[19, 25]
-            maximum_radius = [25, 32]
+            if complexity == 0:
+                num_points = [3, 5]
+                minimum_radius =[23, 25]
+                maximum_radius = [25, 28]
 
-        if complexity == 2:
-            num_points = [3, 15]
-            minimum_radius =[15, 25]
-            maximum_radius = [25, 36]
+            if complexity == 1:
+                num_points = [3, 10]
+                minimum_radius =[19, 25]
+                maximum_radius = [25, 32]
 
-        if complexity == 3:
-            num_points = [3, 20]
-            minimum_radius =[10, 25]
-            maximum_radius = [25, 40]
+            if complexity == 2:
+                num_points = [3, 15]
+                minimum_radius =[15, 25]
+                maximum_radius = [25, 36]
 
-        if complexity == 4:
-            num_points = [3, 25]
-            minimum_radius =[6, 25]
-            maximum_radius = [25, 44]
+            if complexity == 3:
+                num_points = [3, 20]
+                minimum_radius =[10, 25]
+                maximum_radius = [25, 40]
+
+            if complexity == 4:
+                num_points = [3, 25]
+                minimum_radius =[6, 25]
+                maximum_radius = [25, 44]
+
+        else:
+            if complexity == 0:
+                num_points = [3, 5]
+                minimum_radius = [23, 25]
+                maximum_radius = [26, 28]
+
+            if complexity == 1:
+                num_points = [6, 10]
+                minimum_radius = [19, 22]
+                maximum_radius = [29, 32]
+
+            if complexity == 2:
+                num_points = [11, 15]
+                minimum_radius = [15, 18]
+                maximum_radius = [33, 36]
+
+            if complexity == 3:
+                num_points = [16, 20]
+                minimum_radius = [10, 14]
+                maximum_radius = [37, 40]
+
+            if complexity == 4:
+                num_points = [21, 25]
+                minimum_radius = [6, 9]
+                maximum_radius = [41, 44]
 
         return num_points, maximum_radius, minimum_radius
 
@@ -55,7 +83,7 @@ class InsidenessDataset(data.Dataset):
     def get_data_trainval(self):
 
         num_points_range, maximum_radius_range, minimum_radius_range = \
-            self.get_parameters_complexity(self.opt.dataset.complexity)
+            self.get_parameters_complexity(self.opt.dataset.complexity, self.opt.dataset.complexity_strict)
 
         # read the 5 batch files of cifar
         X = []
@@ -105,7 +133,7 @@ class InsidenessDataset(data.Dataset):
 
     def get_data_test(self):
         num_points_range, maximum_radius_range, minimum_radius_range = \
-            self.get_parameters_complexity(self.opt.dataset.complexity)
+            self.get_parameters_complexity(self.opt.dataset.complexity, self.opt.dataset.complexity_strict)
 
         # read the 5 batch files of cifar
         X = []
