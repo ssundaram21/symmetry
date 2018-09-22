@@ -21,7 +21,7 @@ N = image_width
 def activation_function(x):
     return tf.nn.relu(x)
 
-def new_conv_layer(x,stride,weight,bias,padd):
+def new_conv_layer(x, stride, weight, bias, padd):
     layer = tf.nn.conv2d(input=x,filter=weight, strides=stride, padding=padd)
     layer += bias
     layer=activation_function(layer)
@@ -44,7 +44,7 @@ def Crossing(data, opt, dropout_rate, labels_id):
     data = tf.reshape(data,[-1,image_width+1,image_height,1])
     depth = int(3*C/2)
     print(depth)
-    w1 = tf.constant(1.0,shape=[2, 1, 1, 1])
+    w1 = tf.constant(1.0, shape=[2, 1, 1, 1])
     b1 = tf.constant(-1.0)
 
     layer1 = new_conv_layer(data, [1, 1, 1, 1], w1, b1, 'SAME')
@@ -71,29 +71,30 @@ def Crossing(data, opt, dropout_rate, labels_id):
     layer2 = new_conv_layer(layer1,[1,1,1,1],w2,b2,'SAME')
 
     parameters += [w2, b2]
-    activations += [layer1]
+    activations += [layer2]
 
     w3 = []
     for i in range(int(depth/3)):
-        for z in range(1,depth+1):
+        for z in range(1, depth+1):
             if z == 3*i + 1:
                 w3.append(2.0)
             elif z == 3*i + 2:
                 w3.append(-4.0)
             elif z == 3*i + 3:
                 w3.append(2.0)
-    w3 = tf.constant(w3)
-    w3 = tf.reshape([w3, -w3],[1,1,depth,2])
+    w3_negative = [-x  for x in w3]
+    w3 = tf.constant([w3, w3_negative])
+    w3 = tf.reshape([tf.transpose(w3)], [1, 1, depth, 2])
     b3 = tf.constant([0.0, 1.0])
 
-    layer3 = new_conv_layer(layer2,[1,1,1,1],w3,b3,'VALID')
+    layer3 = new_conv_layer(layer2, [1, 1, 1, 1], w3, b3, 'VALID')
     print(layer3)
-    layer3 = tf.reshape(layer3,[-1, image_width+1,image_height*2,2])
+    layer3 = tf.reshape(layer3, [-1, image_width+1, image_height*2, 2])
     layer3 = tf.image.resize_image_with_crop_or_pad(layer3, image_width, image_height)
-    layer3 = tf.reshape(layer3,[-1, image_width,image_height,2])
+    layer3 = tf.reshape(layer3, [-1, image_width, image_height, 2])
 
     parameters += [w3, b3]
-    activations += [layer1]
+    activations += [layer3]
 
     return layer3, parameters, activations
 

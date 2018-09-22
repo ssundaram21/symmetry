@@ -74,7 +74,7 @@ def run(opt):
     # Call DNN
     dropout_rate = tf.placeholder(tf.float32)
     to_call = getattr(nets, opt.dnn.name)
-    y, parameters, _ = to_call(image, opt, dropout_rate, len(dataset.list_labels)*dataset.num_outputs)
+    y, parameters, activations = to_call(image, opt, dropout_rate, len(dataset.list_labels)*dataset.num_outputs)
 
     # Loss function
     with tf.name_scope('loss'):
@@ -87,6 +87,8 @@ def run(opt):
 
         flat_y = tf.reshape(tensor=y, shape=[-1, opt.dataset.image_size**2, len(dataset.list_labels)])
         flat_y_ = tf.reshape(tensor=y_, shape=[-1, opt.dataset.image_size**2])
+        flat_image = tf.reshape(tensor=tf.cast(image, tf.int64), shape=[-1, opt.dataset.image_size**2])
+
         cross_entropy_sum = tf.reduce_mean(
             tf.nn.sparse_softmax_cross_entropy_with_logits(labels=flat_y_, logits=flat_y))
 
@@ -117,9 +119,10 @@ def run(opt):
     # Accuracy
     with tf.name_scope('accuracy'):
         flat_output = tf.argmax(flat_y, 2)
-        correct_prediction = tf.equal(flat_output, flat_y_)
+        correct_prediction = tf.equal(flat_output * (1 - flat_image), flat_y_)
         correct_prediction = tf.cast(correct_prediction, tf.float32)
-        accuracy = tf.reduce_mean(correct_prediction)
+        error_images = tf.reduce_min(correct_prediction, 1)
+        accuracy = tf.reduce_mean(error_images)
         tf.summary.scalar('accuracy', accuracy)
     ################################################################################################
 
@@ -251,12 +254,12 @@ def run(opt):
         acc_tmp = 0.0
         total = 0
         for num_iter in range(int(dataset.num_images_epoch/opt.hyper.batch_size)+1):
-            acc_val, a, b = sess.run([accuracy, flat_y, y_], feed_dict={handle: train_handle_full,
+            acc_val, a, b, err, imm = sess.run([accuracy, flat_output, y_, error_images, image], feed_dict={handle: train_handle_full,
                                                       dropout_rate: opt.hyper.drop_test})
 
-            aa = np.reshape(a[0, :], [100, 100, 2])
+            aa = np.reshape(a[33, :], [100, 100])
             from PIL import Image;
-            imga = Image.fromarray(128 * aa.astype(np.int8));
+            imga = Image.fromarray(128 * aa);
             imga.save('testrgb1.png')
 
             acc_tmp += acc_val
