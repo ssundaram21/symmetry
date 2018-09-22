@@ -73,6 +73,10 @@ def generate_experiments_dataset(opt_data):
     return Experiments(opt_data.ID, opt_data.name, opt_data, opt_data.log_dir_base, 0, 'data')
 
 
+def change_dataset(opt, opt_data):
+    opt.dataset = opt_data
+
+
 def get_experiments(output_path):
 
     opt_data = datasets.get_datasets(output_path)

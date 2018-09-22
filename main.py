@@ -45,11 +45,27 @@ def run_train_selected(id):
     train.run(run_opt)
 
 
+def run_evaluate_generalization(id):
+    from runs import test_generalization
+    opt_data = datasets.get_datasets(output_path)
+    run_opt = experiments.get_experiments_selected(output_path)[id]
+    test_generalization.run(run_opt, opt_data)
+
+
+def run_plot():
+    from runs import plot
+    opt_data = datasets.get_datasets(output_path)
+    opt = experiments.get_experiments_selected(output_path)
+    plot.run(opt, opt_data, output_path)
+
+
 switcher = {
     'generate_dataset': run_generate_dataset,
     'train': run_train,
     'crossval_select': run_crossval_select,
-    'train_selected': run_train_selected
+    'train_selected': run_train_selected,
+    'evaluate_generalization': run_evaluate_generalization,
+    'plot': run_plot
 }
 
 

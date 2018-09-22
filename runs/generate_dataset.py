@@ -6,8 +6,6 @@ import numpy as np
 import tensorflow as tf
 
 from nets import nets
-from util import summary
-
 
 def run(opt):
 
