@@ -70,9 +70,6 @@ class InsidenessDataset(data.Dataset):
             minimum_radius = rnd.randint(minimum_radius_range[0], minimum_radius_range[1])
             maximum_radius = rnd.randint(maximum_radius_range[0], maximum_radius_range[1])
 
-            if i == 93:
-                print("3")
-
             img, gt, img_raw = generate_shapes.generate_data(num_points, self.opt.dataset.image_size, self.opt.dataset.image_size,
                                           maximum_radius, minimum_radius)
 
