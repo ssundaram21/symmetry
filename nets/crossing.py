@@ -10,7 +10,7 @@ import sys
 #import matplotlib.pyplot as plt
 
 from pprint import pprint
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+#os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 image_width = 100
 image_height = 100

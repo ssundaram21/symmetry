@@ -23,7 +23,7 @@ class DNN(object):
 class Hyperparameters(object):
 
     def __init__(self):
-        self.batch_size = 128
+        self.batch_size = 256
         self.learning_rate = 1e-2
         self.num_epochs_per_decay = 1.0
         self.learning_rate_factor_per_decay = 1#0.95
@@ -101,9 +101,9 @@ def get_experiments(output_path):
     idx_base += 1
 
     idx_family = 1
-    for idx_dataset in [39]: #range(32, 40):
+    for idx_dataset in range(32, 40):
         for c in [100]:
-            for init in [1e-1, 1, 1e1]:
+            for init in [1, 1e-1, 1e1]:
                 for lr in [1e-1, 1e-2, 1e-3, 1e-4]:
                     opt_handle = Experiments(id=idx_base, name="CrossingLearning_D" + str(idx_dataset), dataset=opt_data[idx_dataset], output_path=output_path,
                                              family_id=idx_family, family_name="Crossing_Learning_D" + str(idx_dataset))

@@ -10,7 +10,7 @@ import sys
 #import matplotlib.pyplot as plt
 
 from pprint import pprint
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '0'
 
 image_width = 100
 image_height = 100
@@ -47,7 +47,7 @@ def Crossing(data, opt, dropout_rate, labels_id):
 
     print("num neurons crossing: " + str(depth))
     w1 = tf.Variable(tf.truncated_normal([2, 1, 1, 1],
-                                            dtype=tf.float32, stddev=opt.hyper.init_factor*1e-3), name='w1')
+                                            dtype=tf.float32, stddev=opt.hyper.init_factor*1), name='w1')
         #tf.constant(1.0, shape=[2, 1, 1, 1])
     b1 = tf.Variable(0.1*tf.ones([1]), name='b1')
         #tf.constant(-1.0)
@@ -61,7 +61,7 @@ def Crossing(data, opt, dropout_rate, labels_id):
     layer1 = tf.pad(layer1, layer2_padding, "CONSTANT")
 
     w2 = tf.Variable(tf.truncated_normal([1, N, 1, 1],
-                                            dtype=tf.float32, stddev=opt.hyper.init_factor*1e-3), name='w2')
+                                            dtype=tf.float32, stddev=opt.hyper.init_factor*1), name='w2')
         #tf.constant(1.0, shape=[1, N, 1, depth])
     ''' 
     b2 = []
@@ -97,7 +97,7 @@ def Crossing(data, opt, dropout_rate, labels_id):
     b3 = tf.constant([0.0, 1.0])
     '''
     w3 = tf.Variable(tf.truncated_normal([1, 1, depth, 2],
-                                    dtype=tf.float32, stddev=opt.hyper.init_factor*1e-3), name='w3')
+                                    dtype=tf.float32, stddev=opt.hyper.init_factor*1), name='w3')
     b3 = tf.Variable(0.1 * tf.ones([2]), name='b3')
 
     layer3 = new_conv_layer(layer2, [1, 1, 1, 1], w3, b3, 'VALID')

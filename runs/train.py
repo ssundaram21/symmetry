@@ -7,7 +7,7 @@ import tensorflow as tf
 
 from nets import nets
 from util import summary
-
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '0'
 
 def run(opt):
 
@@ -23,6 +23,7 @@ def run(opt):
     print(opt.name)
     ################################################################################################
 
+    tf.logging.set_verbosity(tf.logging.INFO)
 
     ################################################################################################
     # Define training and validation datasets through Dataset API
@@ -127,7 +128,7 @@ def run(opt):
     ################################################################################################
 
 
-    with tf.Session() as sess:
+    with tf.Session(config=tf.ConfigProto(log_device_placement=True)) as sess:
 
         flag_testable = False
         if not opt.skip_train:
