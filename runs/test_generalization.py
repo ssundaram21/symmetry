@@ -63,14 +63,18 @@ def run(opt, opt_datasets):
     to_call = getattr(nets, opt.dnn.name)
     y, parameters, _ = to_call(image, opt, dropout_rate, len(datasets[0].list_labels)*datasets[0].num_outputs)
 
-    flat_y = tf.reshape(tensor=y, shape=[-1, opt.dataset.image_size**2, len(datasets[0].list_labels)])
-    flat_y_ = tf.reshape(tensor=y_, shape=[-1, opt.dataset.image_size**2])
+    flat_y = tf.reshape(tensor=y, shape=[-1, opt.dataset.image_size ** 2, len(datasets[0].list_labels)])
+    flat_y_ = tf.reshape(tensor=y_, shape=[-1, opt.dataset.image_size ** 2])
+    flat_image = tf.reshape(tensor=tf.cast(image, tf.int64), shape=[-1, opt.dataset.image_size ** 2])
 
-    # Accuracy
     with tf.name_scope('accuracy'):
-        correct_prediction = tf.equal(tf.argmax(flat_y, 2), flat_y_)
+        flat_output = tf.argmax(flat_y, 2)
+        correct_prediction = tf.equal(flat_output * (1 - flat_image), flat_y_)
         correct_prediction = tf.cast(correct_prediction, tf.float32)
-        accuracy = tf.reduce_mean(correct_prediction)
+        error_images = tf.reduce_min(correct_prediction, 1)
+        accuracy = tf.reduce_mean(error_images)
+        tf.summary.scalar('accuracy', accuracy)
+
     ################################################################################################
 
 
@@ -79,17 +83,20 @@ def run(opt, opt_datasets):
         # Set up checkpoints and data
         ################################################################################################
 
-        saver = tf.train.Saver(max_to_keep=opt.max_to_keep_checkpoints)
-
         # Automatic restore model, or force train from scratch
         flag_testable = False
+        if not opt.skip_train:
 
-        # Set up directories and checkpoints
-        if not os.path.isfile(opt.log_dir_base + opt.name + '/models/checkpoint'):
-            sess.run(tf.global_variables_initializer())
+            saver = tf.train.Saver(max_to_keep=opt.max_to_keep_checkpoints)
+
+            # Set up directories and checkpoints
+            if not os.path.isfile(opt.log_dir_base + opt.name + '/models/checkpoint'):
+                sess.run(tf.global_variables_initializer())
+            else:
+                print("RESTORE")
+                saver.restore(sess, tf.train.latest_checkpoint(opt.log_dir_base + opt.name + '/models/'))
+                flag_testable = True
         else:
-            print("RESTORE")
-            saver.restore(sess, tf.train.latest_checkpoint(opt.log_dir_base + opt.name + '/models/'))
             flag_testable = True
 
         # datasets
@@ -115,13 +122,15 @@ def run(opt, opt_datasets):
                 # Run one pass over a batch of the test dataset.
                 sess.run(test_iterator.initializer)
                 acc_tmp = 0.0
-                for num_iter in range(int(dataset.num_images_test / opt.hyper.batch_size)):
-                    acc_val = sess.run([accuracy], feed_dict={handle: test_handle,
+                total = 0
+                for num_iter in range(int(dataset.num_images_test / opt.hyper.batch_size)+1):
+                    acc_val, a = sess.run([accuracy, flat_output], feed_dict={handle: test_handle,
                                                               dropout_rate: opt.hyper.drop_test})
-                    acc_tmp += acc_val[0]
+                    acc_tmp += acc_val * len(a)
+                    total += len(a)
 
-                acc[opt.dataset_name] = acc_tmp / float(int(dataset.num_images_test / opt.hyper.batch_size))
-                print("Full test acc: " + str(acc[opt.dataset_name]))
+                acc[opt_dataset.ID] = acc_tmp / float(total)
+                print("Full test acc: " + str(acc[opt.ID]))
                 sys.stdout.flush()
 
             if not os.path.exists(opt.log_dir_base + opt.name + '/results'):
@@ -133,5 +142,5 @@ def run(opt, opt_datasets):
             print(":)")
 
         else:
-            print("MODEL WAS NOT TRAINED")
+            print("ERROR: MODEL WAS NOT TRAINED")
 

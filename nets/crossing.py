@@ -24,8 +24,9 @@ def activation_function(x):
 def new_conv_layer(x, stride, weight, bias, padd):
     layer = tf.nn.conv2d(input=x,filter=weight, strides=stride, padding=padd)
     layer += bias
-    layer=activation_function(layer)
+    layer = activation_function(layer)
     return layer
+
 
 '''
 1st convolution add 0s at bottom
@@ -34,14 +35,13 @@ def new_conv_layer(x, stride, weight, bias, padd):
 '''
 def Crossing(data, opt, dropout_rate, labels_id):
 
-
     parameters = []
     activations = []
 
     layer1_padding = tf.constant([[0, 0], [0, 1], [0, 0]])
     data = tf.pad(data, layer1_padding, "CONSTANT")
 
-    data = tf.reshape(data,[-1,image_width+1,image_height,1])
+    data = tf.reshape(data, [-1, image_width+1, image_height, 1])
     depth = int(3*C/2)
     print(depth)
     w1 = tf.constant(1.0, shape=[2, 1, 1, 1])
@@ -55,7 +55,7 @@ def Crossing(data, opt, dropout_rate, labels_id):
     layer2_padding = tf.constant([[0, 0], [0, 0], [0, N], [0, 0]])
     layer1 = tf.pad(layer1, layer2_padding, "CONSTANT")
 
-    w2 = tf.constant(1.0,shape=[1, N, 1, depth])
+    w2 = tf.constant(1.0, shape=[1, N, 1, depth])
     b2 = []
     for i in range(int(depth/3)):
         for z in range(1, depth+1):
@@ -82,7 +82,7 @@ def Crossing(data, opt, dropout_rate, labels_id):
                 w3.append(-4.0)
             elif z == 3*i + 3:
                 w3.append(2.0)
-    w3_negative = [-x  for x in w3]
+    w3_negative = [-x for x in w3]
     w3 = tf.constant([w3, w3_negative])
     w3 = tf.reshape([tf.transpose(w3)], [1, 1, depth, 2])
     b3 = tf.constant([0.0, 1.0])

@@ -47,7 +47,8 @@ def get_datasets(output_path):
 
                 opt += [copy.deepcopy(opt_handle)]
                 idx += 1
-
+                
+    '''
     for k, num_data in enumerate([1e1, 1e2, 1e3, 1e4, 1e5]):
         for complexity in [4]:
             for complexity_strict in [False, True]:
@@ -69,6 +70,7 @@ def get_datasets(output_path):
 
     opt += [copy.deepcopy(opt_handle)]
     idx += 1
+    '''
 
     return opt
 
