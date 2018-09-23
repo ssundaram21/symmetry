@@ -108,11 +108,11 @@ class Dataset:
 
         train_addrs = data['train_img']; train_labels = data['train_gt']
         val_addrs = data['val_img']; val_labels = data['val_gt']
-        self.write_tfrecords(tfrecords_path, 'train', train_addrs, train_labels, self.opt.dataset.image_size)
-        self.write_tfrecords(tfrecords_path, 'val', val_addrs, val_labels, self.opt.dataset.image_size)
+        self.write_tfrecords(tfrecords_path, 'train', train_addrs, train_labels, self.opt.dataset.image_size, train_addrs)
+        self.write_tfrecords(tfrecords_path, 'val', val_addrs, val_labels, self.opt.dataset.image_size, val_addrs)
 
         test_addrs = data['test_img']; test_labels = data['test_gt']
-        self.write_tfrecords(tfrecords_path, 'test', test_addrs, test_labels, self.opt.dataset.image_size)
+        self.write_tfrecords(tfrecords_path, 'test', test_addrs, test_labels, self.opt.dataset.image_size, test_addrs)
 
     def create_dataset(self, augmentation=False, standarization=False, set_name='train', repeat=False):
         set_name_app = set_name

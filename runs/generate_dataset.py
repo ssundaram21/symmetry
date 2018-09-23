@@ -34,7 +34,7 @@ def run(opt):
     val_dataset = dataset.create_dataset(augmentation=False, standarization=False, set_name='val', repeat=True)
     test_dataset = dataset.create_dataset(augmentation=False, standarization=False, set_name='test', repeat=True)
 
-    '''
+
     # Hadles to switch datasets
     handle = tf.placeholder(tf.string, shape=[])
     iterator = tf.data.Iterator.from_string_handle(
@@ -55,10 +55,15 @@ def run(opt):
 
     # Call DNN
     dropout_rate = tf.placeholder(tf.float32)
-    y, _, _ = nets.MLP1(image, opt, dropout_rate, len(dataset.list_labels)*dataset.num_outputs)
+    y, _, _ = nets.Crossing(image, opt, dropout_rate, len(dataset.list_labels)*dataset.num_outputs)
     flat_y = tf.reshape(tensor=y, shape=[-1, opt.dataset.image_size ** 2, len(dataset.list_labels)])
-    flat_y = tf.argmax(flat_y, 2)
-    flat_y = tf.reshape(tensor=flat_y, shape=[-1, opt.dataset.image_size, opt.dataset.image_size])
+    flat_y_ = tf.reshape(tensor=y_, shape=[-1, opt.dataset.image_size ** 2])
+    flat_image = tf.reshape(tensor=tf.cast(image, tf.int64), shape=[-1, opt.dataset.image_size ** 2])
+
+    flat_output = tf.argmax(flat_y, 2)
+    correct_prediction = tf.equal(flat_output * (1 - flat_image), flat_y_)
+    correct_prediction = tf.cast(correct_prediction, tf.float32)
+    error_images = tf.reduce_min(correct_prediction, 1)
 
     with tf.Session() as sess:
 
@@ -72,7 +77,7 @@ def run(opt):
 
         sess.run(tf.global_variables_initializer())
 
-        insideness= {}
+        insideness = {}
 
         # TRAINING SET
         print("TRAIN SET")
@@ -80,8 +85,18 @@ def run(opt):
         insideness['train_gt'] = []
         # Steps for doing one epoch
         for num_iter in range(int(dataset.num_images_training / opt.hyper.batch_size) + 1):
-            tmp_img, tmp_gt = sess.run([image, flat_y], feed_dict={handle: training_handle,
+            tmp_img, tmp_gt, err_img = sess.run([image, y_, error_images], feed_dict={handle: training_handle,
                                                        dropout_rate: 1.0})
+
+            idx = np.asarray(list(range(len(err_img))))
+            idx_acc = idx[err_img == 1]
+            missing = np.uint(np.sum(1 - err_img))
+            if missing > 0:
+                idx_not_acc = idx_acc[np.random.randint(idx_acc.shape[0], size=missing)]
+                idx[err_img == 0] = idx_not_acc
+
+            tmp_img = tmp_img[idx, :, :]
+            tmp_gt = tmp_gt[idx, :, :]
 
             insideness['train_img'].append(tmp_img.astype(np.uint8))
             insideness['train_gt'].append(tmp_gt.astype(np.uint8))
@@ -93,8 +108,16 @@ def run(opt):
         insideness['val_img'] = []
         insideness['val_gt'] = []
         for num_iter in range(int(dataset.num_images_val / opt.hyper.batch_size) + 1):
-            tmp_img, tmp_gt = sess.run([image, flat_y], feed_dict={handle: validation_handle,
+            tmp_img, tmp_gt, err_img = sess.run([image, y_, error_images], feed_dict={handle: validation_handle,
                                                        dropout_rate: 1.0})
+            idx = np.asarray(list(range(len(err_img))))
+            idx_acc = idx[err_img == 1]
+            missing = np.uint(np.sum(1 - err_img))
+            if missing > 0:
+                idx_not_acc = idx_acc[np.random.randint(idx_acc.shape[0], size=missing)]
+                idx[err_img == 0] = idx_not_acc
+            tmp_img = tmp_img[idx, :, :]
+            tmp_gt = tmp_gt[idx, :, :]
             insideness['val_img'].append(tmp_img.astype(np.uint8))
             insideness['val_gt'].append(tmp_gt.astype(np.uint8))
         insideness['val_img'] = [tmp for tmp in np.concatenate(insideness['val_img'])[:int(dataset.num_images_val), :, :]]
@@ -106,8 +129,16 @@ def run(opt):
         insideness['test_img'] = []
         insideness['test_gt'] = []
         for num_iter in range(int(dataset.num_images_test / opt.hyper.batch_size) + 1):
-            tmp_img, tmp_gt = sess.run([image, flat_y], feed_dict={handle: test_handle,
+            tmp_img, tmp_gt, err_img = sess.run([image, y_, error_images], feed_dict={handle: test_handle,
                                                        dropout_rate: 1.0})
+            idx = np.asarray(list(range(len(err_img))))
+            idx_acc = idx[err_img == 1]
+            missing = np.uint(np.sum(1 - err_img))
+            if missing > 0:
+                idx_not_acc = idx_acc[np.random.randint(idx_acc.shape[0], size=missing)]
+                idx[err_img == 0] = idx_not_acc
+            tmp_img = tmp_img[idx, :, :]
+            tmp_gt = tmp_gt[idx, :, :]
             insideness['test_img'].append(tmp_img.astype(np.uint8))
             insideness['test_gt'].append(tmp_gt.astype(np.uint8))
         insideness['test_img'] = [tmp for tmp in np.concatenate(insideness['test_img'])[:int(dataset.num_images_test), :, :]]
@@ -124,7 +155,7 @@ def run(opt):
 
         print(":)")
         sys.stdout.flush()
-        '''
+
         ################################################################################################
 
     print(":)")
