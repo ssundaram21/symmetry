@@ -90,7 +90,7 @@ def run(opt):
         flat_image = tf.reshape(tensor=tf.cast(image, tf.int64), shape=[-1, opt.dataset.image_size**2])
 
         cross_entropy_sum = tf.reduce_mean(
-            tf.nn.sparse_softmax_cross_entropy_with_logits(labels=flat_y_, logits=flat_y))
+            tf.cast((1-flat_image), tf.float32)*tf.nn.sparse_softmax_cross_entropy_with_logits(labels=flat_y_, logits=flat_y))
 
         tf.summary.scalar('cross_entropy', cross_entropy_sum)
 
@@ -200,7 +200,7 @@ def run(opt):
                 saver.save(sess, opt.log_dir_base + opt.name + '/models/model', global_step=iEpoch)
 
                 # Steps for doing one epoch
-                for iStep in range(int(dataset.num_images_epoch/opt.hyper.batch_size)):
+                for iStep in range(int(dataset.num_images_epoch/opt.hyper.batch_size)+1):
 
                     # Epoch counter
                     k = iStep*opt.hyper.batch_size + dataset.num_images_epoch*iEpoch
@@ -209,17 +209,19 @@ def run(opt):
                     if iStep == 0:
                         # !train_step
                         print("* epoch: " + str(float(k) / float(dataset.num_images_epoch)))
-                        summ, acc_train = sess.run([merged, accuracy],
+                        summ, acc_train, tl = sess.run([merged, accuracy, total_loss],
                                                         feed_dict={handle: training_handle,
                                                                    dropout_rate: opt.hyper.drop_train})
                         train_writer.add_summary(summ, k)
                         print("train acc: " + str(acc_train))
+                        print("train loss: " + str(tl))
                         sys.stdout.flush()
 
-                        summ, acc_val = sess.run([merged, accuracy], feed_dict={handle: validation_handle,
+                        summ, acc_val, tl = sess.run([merged, accuracy, total_loss], feed_dict={handle: validation_handle,
                                                                                 dropout_rate: opt.hyper.drop_test})
                         val_writer.add_summary(summ, k)
                         print("val acc: " + str(acc_val))
+                        print("val loss: " + str(tl))
                         sys.stdout.flush()
 
                     else:

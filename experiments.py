@@ -26,7 +26,7 @@ class Hyperparameters(object):
         self.batch_size = 128
         self.learning_rate = 1e-2
         self.num_epochs_per_decay = 1.0
-        self.learning_rate_factor_per_decay = 0.95
+        self.learning_rate_factor_per_decay = 1#0.95
         self.weight_decay = 0
         self.max_num_epochs = 60
         self.drop_train = 1
@@ -99,6 +99,26 @@ def get_experiments(output_path):
     opt_handle.dnn.name = "Crossing"
     opt += [copy.deepcopy(opt_handle)]
     idx_base += 1
+
+    idx_family = 1
+    for idx_dataset in [39]: #range(32, 40):
+        for c in [100]:
+            for init in [1e-1, 1, 1e1]:
+                for lr in [1e-1, 1e-2, 1e-3, 1e-4]:
+                    opt_handle = Experiments(id=idx_base, name="CrossingLearning_D" + str(idx_dataset), dataset=opt_data[idx_dataset], output_path=output_path,
+                                             family_id=idx_family, family_name="Crossing_Learning_D" + str(idx_dataset))
+                    opt_handle.dnn.name = "Crossing_Learning"
+                    opt_handle.hyper.complex_crossing = c
+                    opt_handle.hyper.init_factor = init
+                    opt_handle.hyper.max_num_epochs = 200
+                    opt_handle.hyper.learning_rate = lr
+                    opt += [copy.deepcopy(opt_handle)]
+                    idx_base += 1
+
+        idx_family += 1
+
+
+
     ''' 
     for idx in range(2):
         opt_handle = Experiments(id=idx + idx_base, name="MLP1", dataset=opt_data[0], output_path=output_path,
