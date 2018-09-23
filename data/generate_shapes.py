@@ -287,10 +287,7 @@ def generate_data(num_points, image_width, image_height, max_radius, min_radius)
     '''
 
     img_filled = (1 - img_filled_original)
-    #img_filled = (img_filled_original - img_filled_original * img).astype(np.uint8)
     img = apply_mask(img_filled, img)
-
-    #img_filled_original = floodfill.from_edges(img, four_way=True)
     img_filled_original = (img_filled_original - img_filled_original * img).astype(np.uint8)
 
     '''

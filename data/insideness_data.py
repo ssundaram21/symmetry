@@ -22,7 +22,7 @@ class InsidenessDataset(data.Dataset):
         self.create_tfrecords()
 
     def get_parameters_complexity(self, complexity, strict):
-
+        '''
         if strict == False:
 
             if complexity == 0:
@@ -75,6 +75,61 @@ class InsidenessDataset(data.Dataset):
                 num_points = [21, 25]
                 minimum_radius = [6, 9]
                 maximum_radius = [41, 44]
+
+         '''
+
+        if strict == False:
+
+            if complexity == 0:
+                num_points = [3, 5]
+                minimum_radius = [7, 8]
+                maximum_radius = [8, 9]
+
+            if complexity == 1:
+                num_points = [3, 10]
+                minimum_radius = [6, 8]
+                maximum_radius = [8, 10]
+
+            if complexity == 2:
+                num_points = [3, 15]
+                minimum_radius = [5, 8]
+                maximum_radius = [8, 11]
+
+            if complexity == 3:
+                num_points = [3, 20]
+                minimum_radius = [4, 8]
+                maximum_radius = [8, 12]
+
+            if complexity == 4:
+                num_points = [3, 25]
+                minimum_radius = [3, 8]
+                maximum_radius = [8, 14]
+
+        else:
+            if complexity == 0:
+                num_points = [3, 5]
+                minimum_radius = [7, 8]
+                maximum_radius = [9, 10]
+
+            if complexity == 1:
+                num_points = [6, 10]
+                minimum_radius = [6, 7]
+                maximum_radius = [10, 11]
+
+            if complexity == 2:
+                num_points = [11, 15]
+                minimum_radius = [5, 6]
+                maximum_radius = [11, 12]
+
+            if complexity == 3:
+                num_points = [16, 20]
+                minimum_radius = [4, 5]
+                maximum_radius = [12, 13]
+
+            if complexity == 4:
+                num_points = [21, 25]
+                minimum_radius = [3, 4]
+                maximum_radius = [13, 14]
 
         return num_points, maximum_radius, minimum_radius
 
