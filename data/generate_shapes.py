@@ -1,6 +1,8 @@
 import numpy as np
+
 #import matplotlib
 #from matplotlib import pyplot as plt
+
 import random as rnd
 import math
 import sys
@@ -65,18 +67,22 @@ def generate_points(num_points, image_width, image_height, max_radius, min_radiu
     coords = []
     mean = (max_radius + min_radius)/2.
     std_dev = (max_radius - min_radius)/2.
+    theta_offset = rnd.uniform(0,2*PI) #offset the start of the first point
+    loc_margins = PI/(3*num_points)
+    area = PI/num_points - loc_margins
+    
 
     #make sure point axis of rotation is inside the image
-    center_coords = (clip(center_coords[0], image_height-margins, 0), clip(center_coords[1], image_width-margins, 0))
+    center_coords = (clip(center_coords[0], image_height-1-margins, 0), clip(center_coords[1], image_width-1-margins, 0))
 
     #iterate thru 360 degrees (2PI radians) and get corresponding cartesian coordinates
     for i in range(num_points):
         radius = clip(rnd.gauss(mean, std_dev), max_radius, min_radius)
-        theta = (2*PI*i)/num_points
+        theta = (2*PI*i)/num_points + theta_offset + rnd.uniform(-area, area)
         x = int(round(center_coords[0] + radius*cos(theta)))
         y = int(round(center_coords[1] + radius*sin(theta)))
 
-        x, y = clip(x, image_height-margins, margins), clip(y, image_width-margins,margins)
+        x, y = clip(x, image_height-1-margins, margins), clip(y, image_width-1-margins,margins)
         coords.append((x, y))
 
     #add first point to the end to complete cycle       
@@ -224,7 +230,15 @@ def apply_mask(img_filled, img_mask):
     return img
 
 def generate_data(num_points, image_width, image_height, max_radius, min_radius):
-    center_coords = (int(image_width/2), int(image_height/2))
+##    mean_center = (int(image_width/2), int(image_height/2))
+    mean_width = image_width/2.
+    mean_height = image_height/2. 
+    width_offset = rnd.uniform(.1,image_width/3.)
+    height_offset = rnd.uniform(.1,image_height/3.)
+    center_width = int(rnd.gauss(mean_width,width_offset))
+    center_height = int(rnd.gauss(mean_height,height_offset))
+    center_coords = (center_width,center_height)
+    
     
     img = np.zeros((image_width, image_height))
     
@@ -251,7 +265,7 @@ def generate_data(num_points, image_width, image_height, max_radius, min_radius)
     for x in range(1, img.shape[0]-1):
         for y in range(1, img.shape[1]-1):
             if img[x + 1][y] + img[x - 1][y] + img[x][y + 1] + img[x][y - 1] \
-                    + img[x + 1][y + 1] + img[x + 1][y - 1] + img[x - 1][y + 1] + img[x - 1][y + 1] == 8:
+                    + img[x + 1][y + 1] + img[x + 1][y - 1] + img[x - 1][y + 1] + img[x - 1][y - 1] == 8:
                 img[x][y] = 1
             if img[x + 1][y] + img[x - 1][y] + img[x][y + 1] + img[x][y - 1] == 4:
                 img[x][y] = 1
@@ -296,4 +310,15 @@ def generate_data(num_points, image_width, image_height, max_radius, min_radius)
 ##plt.imshow(img)
 ##plt.show()
 
+##img, img_filled_original, img_raw = generate_data(num_points=7,
+##                                                  image_width=100,
+##                                                  image_height=100,
+##                                                  max_radius=41,
+##                                                  min_radius=17)
+
+
+##plt.imshow(img)
+##plt.show()
+##plt.imshow(img_filled_original)
+##plt.show()
 
