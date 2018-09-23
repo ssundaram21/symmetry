@@ -3,6 +3,12 @@ import shutil
 import sys
 import numpy as np
 
+'''
+import matplotlib as mpl
+mpl.use('Agg')
+import matplotlib.pyplot as plt
+'''
+
 import tensorflow as tf
 
 from nets import nets
@@ -61,7 +67,7 @@ def run(opt):
     flat_image = tf.reshape(tensor=tf.cast(image, tf.int64), shape=[-1, opt.dataset.image_size ** 2])
 
     flat_output = tf.argmax(flat_y, 2)
-    correct_prediction = tf.equal(flat_output * (1 - flat_image), flat_y_)
+    correct_prediction = tf.equal(tf.cast(flat_output * (1 - flat_image), tf.uint8), tf.cast(flat_y_,tf.uint8))
     correct_prediction = tf.cast(correct_prediction, tf.float32)
     error_images = tf.reduce_min(correct_prediction, 1)
 
@@ -83,9 +89,12 @@ def run(opt):
         print("TRAIN SET")
         insideness['train_img'] = []
         insideness['train_gt'] = []
+
+        #err_idx = 0
+
         # Steps for doing one epoch
         for num_iter in range(int(dataset.num_images_training / opt.hyper.batch_size) + 1):
-            tmp_img, tmp_gt, err_img = sess.run([image, y_, error_images], feed_dict={handle: training_handle,
+            tmp_img, tmp_gt, net_out, err_img = sess.run([image, y_, flat_output, error_images], feed_dict={handle: training_handle,
                                                        dropout_rate: 1.0})
 
             idx = np.asarray(list(range(len(err_img))))
@@ -94,6 +103,31 @@ def run(opt):
             if missing > 0:
                 idx_not_acc = idx_acc[np.random.randint(idx_acc.shape[0], size=missing)]
                 idx[err_img == 0] = idx_not_acc
+
+                ''' VISUALIZE ERRORS 
+                mm = (err_img == 0)
+                plt.imshow(np.reshape(tmp_img[mm, :, :],[100,100]))
+                plt.show()
+                plt.savefig(str(err_idx),
+                            format="pdf", dpi=1000)
+                plt.close()
+
+                plt.imshow(np.reshape(tmp_gt[mm, :, :],[100,100]))
+                plt.show()
+                plt.savefig("gt"+str(err_idx),
+                            format="pdf", dpi=1000)
+                plt.close()
+
+                oo = np.reshape(net_out[mm, :], [100,100])
+                oo = (oo-np.reshape(tmp_gt[mm, :, :], [100,100]))*(1-np.reshape(tmp_img[mm, :, :],[100,100]))
+                plt.imshow(oo)
+                plt.show()
+                plt.savefig("net"+str(err_idx),
+                            format="pdf", dpi=1000)
+                plt.close()
+
+                err_idx = err_idx + 1
+                '''
 
             tmp_img = tmp_img[idx, :, :]
             tmp_gt = tmp_gt[idx, :, :]

@@ -93,7 +93,7 @@ def get_experiments(output_path):
     max_epochs = [100]
 
     idx_base = 0
-    opt_handle = Experiments(id=idx_base, name="Crossing", dataset=opt_data[40], output_path=output_path,
+    opt_handle = Experiments(id=idx_base, name="Crossing", dataset=opt_data[39], output_path=output_path,
                              family_id=0, family_name="Crossing_Optimal")
     opt_handle.skip_train = True
     opt_handle.dnn.name = "Crossing"

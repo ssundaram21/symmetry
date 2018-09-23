@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH -n 2
-#SBATCH --array=0-3
+#SBATCH --array=0
 #SBATCH --job-name=insideness
 #SBATCH --mem=16GB
 #SBATCH --gres=gpu:titan-x:1

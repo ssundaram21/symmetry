@@ -1,9 +1,10 @@
 #!/bin/bash
 #SBATCH -n 2
-#SBATCH --array=0-39
+#SBATCH --array=39
 #SBATCH --job-name=insideness
 #SBATCH --mem=8GB
 #SBATCH -t 50:00:00
+#SBATCH --gres=gpu:titan-x:1
 #SBATCH --workdir=./log/
 #SBATCH --qos=cbmm
 
