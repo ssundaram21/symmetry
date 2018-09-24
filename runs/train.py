@@ -42,9 +42,9 @@ def run(opt):
     val_dataset = dataset.create_dataset(augmentation=False, standarization=False, set_name='val', repeat=True)
 
     # No repeatable dataset for testing
-    train_dataset_full = dataset.create_dataset(augmentation=False, standarization=False, set_name='train', repeat=False)
-    val_dataset_full = dataset.create_dataset(augmentation=False, standarization=False, set_name='val', repeat=False)
-    test_dataset_full = dataset.create_dataset(augmentation=False, standarization=False, set_name='test', repeat=False)
+    train_dataset_full = dataset.create_dataset(augmentation=False, standarization=False, set_name='train', repeat=True)
+    val_dataset_full = dataset.create_dataset(augmentation=False, standarization=False, set_name='val', repeat=True)
+    test_dataset_full = dataset.create_dataset(augmentation=False, standarization=False, set_name='test', repeat=True)
 
     # Hadles to switch datasets
     handle = tf.placeholder(tf.string, shape=[])
@@ -55,7 +55,7 @@ def run(opt):
     val_iterator = val_dataset.make_one_shot_iterator()
 
     train_iterator_full = train_dataset_full.make_initializable_iterator()
-    val_iterator_full = train_dataset_full.make_initializable_iterator()
+    val_iterator_full = val_dataset_full.make_initializable_iterator()
     test_iterator_full = test_dataset_full.make_initializable_iterator()
     ################################################################################################
 
@@ -66,11 +66,6 @@ def run(opt):
 
     # Get data from dataset dataset
     image, y_ = iterator.get_next()
-
-
-    #if opt.extense_summary:
-        #tf.summary.image('input',  tf.expand_dims(image, 3))
-        #tf.summary.image('output', tf.expand_dims(tf.reshape(tf.cast(y_, tf.float32), [opt.dataset.image_size, opt.dataset.image_size]),1))
 
     # Call DNN
     dropout_rate = tf.placeholder(tf.float32)
@@ -90,8 +85,12 @@ def run(opt):
         flat_y_ = tf.reshape(tensor=y_, shape=[-1, opt.dataset.image_size**2])
         flat_image = tf.reshape(tensor=tf.cast(image, tf.int64), shape=[-1, opt.dataset.image_size**2])
 
-        cross_entropy_sum = tf.reduce_mean(
-            tf.cast((1-flat_image), tf.float32)*tf.nn.sparse_softmax_cross_entropy_with_logits(labels=flat_y_, logits=flat_y))
+        cross = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=flat_y_, logits=flat_y)
+
+        im = tf.cast((flat_image), tf.float32)
+        cl = tf.cast(flat_y_, tf.float32)
+        cross_entropy_sum = (1-opt.hyper.alpha)*tf.reduce_mean(tf.reduce_sum(((1-im)*cl)*cross, 1)/tf.reduce_sum((1-im)*cl, 1) + \
+                    (opt.hyper.alpha)*tf.reduce_sum(((1-im)*(1-cl)) * cross, 1) / tf.reduce_sum((1-im)*(1-cl), 1))
 
         tf.summary.scalar('cross_entropy', cross_entropy_sum)
 
@@ -120,11 +119,34 @@ def run(opt):
     # Accuracy
     with tf.name_scope('accuracy'):
         flat_output = tf.argmax(flat_y, 2)
-        correct_prediction = tf.equal(flat_output * (1 - flat_image), flat_y_)
+        correct_prediction = tf.equal(flat_output * (1 - flat_image), flat_y_ * (1 - flat_image))
         correct_prediction = tf.cast(correct_prediction, tf.float32)
+
         error_images = tf.reduce_min(correct_prediction, 1)
         accuracy = tf.reduce_mean(error_images)
+
+        accuracy_loose = tf.reduce_mean(
+            0.5*tf.reduce_sum(((1 - im) * cl) * correct_prediction, 1) / tf.reduce_sum((1 - im) * cl, 1) + \
+            0.5*tf.reduce_sum(((1 - im) * (1 - cl)) * correct_prediction, 1) / tf.reduce_sum((1 - im) * (1 - cl), 1))
+
         tf.summary.scalar('accuracy', accuracy)
+        tf.summary.scalar('accuracy_loose', accuracy_loose)
+
+    if opt.extense_summary:
+        tf.summary.image('input', tf.expand_dims(
+            tf.reshape(tf.cast(flat_image, tf.float32), [-1, opt.dataset.image_size, opt.dataset.image_size]), 3))
+            #image, 3))
+        tf.summary.image('output', tf.expand_dims(
+            tf.reshape(tf.cast(flat_output, tf.float32), [-1, opt.dataset.image_size, opt.dataset.image_size]), 3))
+        tf.summary.image('output1', tf.expand_dims(
+            tf.reshape(tf.cast(flat_y[:,:,0], tf.float32), [-1, opt.dataset.image_size, opt.dataset.image_size]), 3))
+        tf.summary.image('output2', tf.expand_dims(
+            tf.reshape(tf.cast(flat_y[:,:,1], tf.float32), [-1, opt.dataset.image_size, opt.dataset.image_size]), 3))
+        tf.summary.image('gt', tf.expand_dims(
+            tf.reshape(tf.cast(flat_y_, tf.float32), [-1, opt.dataset.image_size, opt.dataset.image_size]), 3))
+        tf.summary.image('correctness', tf.expand_dims(
+            tf.reshape(tf.cast(correct_prediction, tf.float32), [-1, opt.dataset.image_size, opt.dataset.image_size]), 3))
+
     ################################################################################################
 
 
@@ -210,18 +232,20 @@ def run(opt):
                     if iStep == 0:
                         # !train_step
                         print("* epoch: " + str(float(k) / float(dataset.num_images_epoch)))
-                        summ, acc_train, tl = sess.run([merged, accuracy, total_loss],
+                        summ, acc_train, acc_loo, tl = sess.run([merged, accuracy, accuracy_loose, total_loss],
                                                         feed_dict={handle: training_handle,
                                                                    dropout_rate: opt.hyper.drop_train})
                         train_writer.add_summary(summ, k)
                         print("train acc: " + str(acc_train))
+                        print("train acc loose: " + str(acc_loo))
                         print("train loss: " + str(tl))
                         sys.stdout.flush()
 
-                        summ, acc_val, tl = sess.run([merged, accuracy, total_loss], feed_dict={handle: validation_handle,
+                        summ, acc_val, acc_loo, tl = sess.run([merged, accuracy, accuracy_loose,  total_loss], feed_dict={handle: validation_handle,
                                                                                 dropout_rate: opt.hyper.drop_test})
                         val_writer.add_summary(summ, k)
                         print("val acc: " + str(acc_val))
+                        print("val acc loose: " + str(acc_loo))
                         print("val loss: " + str(tl))
                         sys.stdout.flush()
 
@@ -252,54 +276,38 @@ def run(opt):
         val_handle_full = sess.run(val_iterator_full.string_handle())
         train_handle_full = sess.run(train_iterator_full.string_handle())
 
-        # Run one pass over a batch of the validation dataset.
-        sess.run(train_iterator_full.initializer)
-        acc_tmp = 0.0
-        total = 0
-        for num_iter in range(int(dataset.num_images_epoch/opt.hyper.batch_size)+1):
-            acc_val, a, b, err, imm = sess.run([accuracy, flat_output, y_, error_images, image], feed_dict={handle: train_handle_full,
-                                                      dropout_rate: opt.hyper.drop_test})
-            ''' 
-            aa = np.reshape(a[5, :].astype(np.unint8), [100, 100])
-            from PIL import Image;
-            imga = Image.fromarray(128 * aa);
-            imga.save('testrgb1.png')
-            '''
+        def test_model(data_handle, data_iterator, name, acc):
+            # Run one pass over a batch of the validation dataset.
+            sess.run(data_iterator.initializer)
+            acc_tmp = 0.0
+            acc_tmp_loo = 0.0
+            total = 0
+            for num_iter in range(int(dataset.num_images_epoch/opt.hyper.batch_size)+1):
+                acc_val, acc_loo, a, b, err, imm = sess.run(
+                    [accuracy, accuracy_loose, flat_output, y_, error_images, image],
+                    feed_dict={handle: data_handle, dropout_rate: opt.hyper.drop_test})
 
-            acc_tmp += acc_val*len(a)
-            total += len(a)
+                ''' 
+                aa = np.reshape(a[5, :].astype(np.unint8), [100, 100])
+                from PIL import Image;
+                imga = Image.fromarray(128 * aa);
+                imga.save('testrgb1.png')
+                '''
 
-        acc['train_accuracy'] = acc_tmp / float(total)
-        print("Full train acc = " + str(acc['train_accuracy']))
-        sys.stdout.flush()
+                acc_tmp_loo += acc_loo * len(a)
+                acc_tmp += acc_val*len(a)
+                total += len(a)
 
-        # Run one pass over a batch of the test dataset.
-        sess.run(val_iterator_full.initializer)
-        acc_tmp = 0.0
-        total = 0
-        for num_iter in range(int(dataset.num_images_val / opt.hyper.batch_size)+1):
-            acc_val, a = sess.run([accuracy, flat_output], feed_dict={handle: val_handle_full,
-                                                      dropout_rate: opt.hyper.drop_test})
-            acc_tmp += acc_val*len(a)
-            total += len(a)
+            acc[name] = acc_tmp / float(total)
+            acc[name + 'loose'] = acc_tmp_loo / float(total)
+            print("Full " + name + " = " + str(acc[name]))
+            print("Full " + name + " loose = " + str(acc[name + 'loose']))
+            sys.stdout.flush()
+            return acc
 
-        acc['validation_accuracy'] = acc_tmp / float(total)
-        print("Full test acc: " + str(acc['validation_accuracy']))
-        sys.stdout.flush()
-
-        # Run one pass over a batch of the test dataset.
-        sess.run(test_iterator_full.initializer)
-        acc_tmp = 0.0
-        total = 0
-        for num_iter in range(int(dataset.num_images_test / opt.hyper.batch_size)+1):
-            acc_val, a = sess.run([accuracy, flat_output], feed_dict={handle: test_handle_full,
-                                                      dropout_rate: opt.hyper.drop_test})
-            acc_tmp += acc_val*len(a)
-            total += len(a)
-
-        acc['test_accuracy'] = acc_tmp / float(total)
-        print("Full test acc: " + str(acc['test_accuracy']))
-        sys.stdout.flush()
+        acc = test_model(train_handle_full, train_iterator_full, 'train', acc)
+        acc = test_model(val_handle_full, val_iterator_full, 'train', acc)
+        acc = test_model(test_handle_full, test_iterator_full, 'train', acc)
 
         if not os.path.exists(opt.log_dir_base + opt.name + '/results'):
             os.makedirs(opt.log_dir_base + opt.name + '/results')
