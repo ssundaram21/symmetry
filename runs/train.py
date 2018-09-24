@@ -306,8 +306,8 @@ def run(opt):
             return acc
 
         acc = test_model(train_handle_full, train_iterator_full, 'train', acc)
-        acc = test_model(val_handle_full, val_iterator_full, 'train', acc)
-        acc = test_model(test_handle_full, test_iterator_full, 'train', acc)
+        acc = test_model(val_handle_full, val_iterator_full, 'val', acc)
+        acc = test_model(test_handle_full, test_iterator_full, 'test', acc)
 
         if not os.path.exists(opt.log_dir_base + opt.name + '/results'):
             os.makedirs(opt.log_dir_base + opt.name + '/results')
