@@ -98,7 +98,7 @@ def get_experiments(output_path):
                              family_id=0, family_name="Coloring_Optimal")
     opt_handle.skip_train = True
     opt_handle.dnn.name = "Coloring"
-    opt += [copy.deepcopy(opt_handle)]
+    opt += [copy.deepcopy(opt_handle)] 
     idx_base += 1
 
     idx_family = 1
