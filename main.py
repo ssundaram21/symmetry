@@ -12,10 +12,12 @@ FLAGS = parser.parse_args()
 
 code_path = {
     'xavier': '/Users/xboix/src/insideness/',
-    'om': '/om/user/xboix/src/insideness/'}[FLAGS.host_filesystem]
+    'om': '/om/user/xboix/src/insideness/',
+    'om_vilim': '/om/user/vilim/src/insideness/'}[FLAGS.host_filesystem]
 
 output_path = {
     'xavier': '/Users/xboix/src/insideness/log/',
+    'om_vilim': '/om/user/xboix/share/insideness_vilim/',
     'om': '/om/user/xboix/share/insideness/'}[FLAGS.host_filesystem]
 
 
