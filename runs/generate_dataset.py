@@ -97,6 +97,9 @@ def run(opt):
             tmp_img, tmp_gt, net_out, err_img = sess.run([image, y_, flat_output, error_images], feed_dict={handle: training_handle,
                                                        dropout_rate: 1.0})
 
+            if np.sum(np.int8(np.sum(np.sum(np.int8(tmp_img == 1), 1), 1) == 0)) > 0:
+                print("EMPTY")
+                err_img[(np.sum(np.sum(np.int8(tmp_img == 1), 1), 1) == 0)] = 0
             idx = np.asarray(list(range(len(err_img))))
             idx_acc = idx[err_img == 1]
             missing = np.uint(np.sum(1 - err_img))
@@ -144,6 +147,10 @@ def run(opt):
         for num_iter in range(int(dataset.num_images_val / opt.hyper.batch_size) + 1):
             tmp_img, tmp_gt, err_img = sess.run([image, y_, error_images], feed_dict={handle: validation_handle,
                                                        dropout_rate: 1.0})
+            if np.sum(np.int8(np.sum(np.sum(np.int8(tmp_img == 1),1),1)==0))>0:
+                print("EMPTY")
+                err_img[(np.sum(np.sum(np.int8(tmp_img == 1), 1), 1) == 0)] = 0
+
             idx = np.asarray(list(range(len(err_img))))
             idx_acc = idx[err_img == 1]
             missing = np.uint(np.sum(1 - err_img))
@@ -154,8 +161,8 @@ def run(opt):
             tmp_gt = tmp_gt[idx, :, :]
             insideness['val_img'].append(tmp_img.astype(np.uint8))
             insideness['val_gt'].append(tmp_gt.astype(np.uint8))
-        insideness['val_img'] = [tmp for tmp in np.concatenate(insideness['val_img'])[:int(dataset.num_images_val), :, :]]
-        insideness['val_gt'] = [tmp for tmp in np.concatenate(insideness['val_gt'])[:int(dataset.num_images_val), :, :]]
+        insideness['val_img'] = [tmp for tmp in np.concatenate(insideness['val_img'])[:int(np.maximum(dataset.num_images_val, 1)), :, :]]
+        insideness['val_gt'] = [tmp for tmp in np.concatenate(insideness['val_gt'])[:int(np.maximum(dataset.num_images_val, 1)), :, :]]
 
         # TEST SET
         print("TEST SET")
@@ -165,6 +172,10 @@ def run(opt):
         for num_iter in range(int(dataset.num_images_test / opt.hyper.batch_size) + 1):
             tmp_img, tmp_gt, err_img = sess.run([image, y_, error_images], feed_dict={handle: test_handle,
                                                        dropout_rate: 1.0})
+            if np.sum(np.int8(np.sum(np.sum(np.int8(tmp_img == 1),1),1)==0))>0:
+                print("EMPTY")
+                err_img[(np.sum(np.sum(np.int8(tmp_img == 1), 1), 1) == 0)] = 0
+
             idx = np.asarray(list(range(len(err_img))))
             idx_acc = idx[err_img == 1]
             missing = np.uint(np.sum(1 - err_img))

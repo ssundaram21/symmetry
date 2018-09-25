@@ -17,7 +17,7 @@ class Dataset(object):
         self.dataset_name = "insideness"
         self.complexity = 0
         self.complexity_strict = False
-        self.image_size = 100
+        self.image_size = 32
 
         self.name = "base"
         self.log_dir_base = output_path
@@ -36,7 +36,7 @@ def get_datasets(output_path):
     idx = 0
 
     for k, num_data in enumerate([1e1, 1e2, 1e3, 1e4, 1e5]):
-        for complexity in range(4):
+        for complexity in range(5):
             for complexity_strict in [False, True]:
                 # Create base for TF records:
                 opt_handle = Dataset(idx, "C" + str(complexity) + '_' + "D" + str(k), output_path)
@@ -47,21 +47,8 @@ def get_datasets(output_path):
 
                 opt += [copy.deepcopy(opt_handle)]
                 idx += 1
-                
+
     '''
-    for k, num_data in enumerate([1e1, 1e2, 1e3, 1e4, 1e5]):
-        for complexity in [4]:
-            for complexity_strict in [False, True]:
-                # Create base for TF records:
-                opt_handle = Dataset(idx, "C" + str(complexity) + '_' + "D" + str(k), output_path)
-                opt_handle.num_images_training = num_data
-                opt_handle.num_images_testing = 1e4
-                opt_handle.complexity = complexity
-                opt_handle.complexity_strict = complexity_strict
-
-                opt += [copy.deepcopy(opt_handle)]
-                idx += 1
-
     opt_handle = Dataset(idx, "vanila", output_path)
     opt_handle.num_images_training = 1000
     opt_handle.num_images_testing = 100

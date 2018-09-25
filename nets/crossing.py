@@ -10,13 +10,9 @@ import sys
 #import matplotlib.pyplot as plt
 
 from pprint import pprint
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
-
-image_width = 100
-image_height = 100
+#os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 C = 100
-N = image_width
 
 def activation_function(x):
     return tf.nn.relu(x)
@@ -41,7 +37,7 @@ def Crossing(data, opt, dropout_rate, labels_id):
     layer1_padding = tf.constant([[0, 0], [0, 1], [0, 0]])
     data = tf.pad(data, layer1_padding, "CONSTANT")
 
-    data = tf.reshape(data, [-1, image_width+1, image_height, 1])
+    data = tf.reshape(data, [-1, opt.dataset.image_size+1, opt.dataset.image_size, 1])
     depth = int(3*C/2)
     print(depth)
     w1 = tf.constant(1.0, shape=[2, 1, 1, 1])
@@ -52,10 +48,10 @@ def Crossing(data, opt, dropout_rate, labels_id):
     activations += [layer1]
     parameters += [w1, b1]
 
-    layer2_padding = tf.constant([[0, 0], [0, 0], [0, N], [0, 0]])
+    layer2_padding = tf.constant([[0, 0], [0, 0], [0, opt.dataset.image_size], [0, 0]])
     layer1 = tf.pad(layer1, layer2_padding, "CONSTANT")
 
-    w2 = tf.constant(1.0, shape=[1, N, 1, depth])
+    w2 = tf.constant(1.0, shape=[1, opt.dataset.image_size, 1, depth])
     b2 = []
     for i in range(int(depth/3)):
         for z in range(1, depth+1):
@@ -88,9 +84,9 @@ def Crossing(data, opt, dropout_rate, labels_id):
     b3 = tf.constant([0.0, 1.0])
 
     layer3 = new_conv_layer(layer2, [1, 1, 1, 1], w3, b3, 'VALID')
-    layer3 = tf.reshape(layer3, [-1, image_width+1, image_height*2, 2])
-    layer3 = tf.image.resize_image_with_crop_or_pad(layer3, image_width, image_height)
-    layer3 = tf.reshape(layer3, [-1, image_width, image_height, 2])
+    layer3 = tf.reshape(layer3, [-1, opt.dataset.image_size+1, opt.dataset.image_size*2, 2])
+    layer3 = tf.image.resize_image_with_crop_or_pad(layer3, opt.dataset.image_size, opt.dataset.image_size)
+    layer3 = tf.reshape(layer3, [-1, opt.dataset.image_size, opt.dataset.image_size, 2])
 
     parameters += [w3, b3]
     activations += [layer3]

@@ -10,20 +10,17 @@ import sys
 #import matplotlib.pyplot as plt
 
 from pprint import pprint
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '0'
 
-image_width = 100
-image_height = 100
-
-N = image_width
 
 def activation_function(x):
     return tf.nn.relu(x)
 
-def new_conv_layer(x, stride, weight, bias, padd):
+def new_conv_layer(x, stride, weight, bias, padd, activation=True):
     layer = tf.nn.conv2d(input=x,filter=weight, strides=stride, padding=padd)
     layer += bias
-    layer = activation_function(layer)
+    if activation:
+        layer = activation_function(layer)
     return layer
 
 
@@ -42,12 +39,12 @@ def Crossing(data, opt, dropout_rate, labels_id):
     layer1_padding = tf.constant([[0, 0], [0, 1], [0, 0]])
     data = tf.pad(data, layer1_padding, "CONSTANT")
 
-    data = tf.reshape(data, [-1, image_width+1, image_height, 1])
+    data = tf.reshape(data, [-1, opt.dataset.image_size+1, opt.dataset.image_size, 1])
     depth = int(3*C/2)
 
     print("num neurons crossing: " + str(depth))
     w1 = tf.Variable(tf.truncated_normal([2, 1, 1, 1],
-                                            dtype=tf.float32, stddev=opt.hyper.init_factor*1e-3), name='w1')
+                                            dtype=tf.float32, stddev=opt.hyper.init_factor*1), name='w1')
         #tf.constant(1.0, shape=[2, 1, 1, 1])
     b1 = tf.Variable(0.1*tf.ones([1]), name='b1')
         #tf.constant(-1.0)
@@ -57,11 +54,11 @@ def Crossing(data, opt, dropout_rate, labels_id):
     activations += [layer1]
     parameters += [w1, b1]
 
-    layer2_padding = tf.constant([[0, 0], [0, 0], [0, N], [0, 0]])
+    layer2_padding = tf.constant([[0, 0], [0, 0], [0, opt.dataset.image_size], [0, 0]])
     layer1 = tf.pad(layer1, layer2_padding, "CONSTANT")
 
-    w2 = tf.Variable(tf.truncated_normal([1, N, 1, 1],
-                                            dtype=tf.float32, stddev=opt.hyper.init_factor*1e-3), name='w2')
+    w2 = tf.Variable(tf.truncated_normal([1, opt.dataset.image_size, 1, 1],
+                                            dtype=tf.float32, stddev=opt.hyper.init_factor*1), name='w2')
         #tf.constant(1.0, shape=[1, N, 1, depth])
     ''' 
     b2 = []
@@ -97,14 +94,14 @@ def Crossing(data, opt, dropout_rate, labels_id):
     b3 = tf.constant([0.0, 1.0])
     '''
     w3 = tf.Variable(tf.truncated_normal([1, 1, depth, 2],
-                                    dtype=tf.float32, stddev=opt.hyper.init_factor*1e-3), name='w3')
+                                    dtype=tf.float32, stddev=opt.hyper.init_factor*1), name='w3')
     b3 = tf.Variable(0.1 * tf.ones([2]), name='b3')
 
-    layer3 = new_conv_layer(layer2, [1, 1, 1, 1], w3, b3, 'VALID')
+    layer3 = new_conv_layer(layer2, [1, 1, 1, 1], w3, b3, 'VALID', activation=False)
 
-    layer3 = tf.reshape(layer3, [-1, image_width+1, image_height*2, 2])
-    layer3 = tf.image.resize_image_with_crop_or_pad(layer3, image_width, image_height)
-    layer3 = tf.reshape(layer3, [-1, image_width, image_height, 2])
+    layer3 = tf.reshape(layer3, [-1, opt.dataset.image_size+1, opt.dataset.image_size*2, 2])
+    layer3 = tf.image.resize_image_with_crop_or_pad(layer3, opt.dataset.image_size, opt.dataset.image_size)
+    layer3 = tf.reshape(layer3, [-1, opt.dataset.image_size, opt.dataset.image_size, 2])
 
     parameters += [w3, b3]
     activations += [layer3]
