@@ -13,6 +13,7 @@ class DNN(object):
         self.version = 1
         self.layers = 4
         self.stride = 2
+        self.n_t = 1
         self.neuron_multiplier = np.ones([self.layers])
 
     def set_num_layers(self, num_layers):
