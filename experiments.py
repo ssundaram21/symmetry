@@ -13,8 +13,8 @@ class DNN(object):
         self.version = 1
         self.layers = 4
         self.stride = 2
-        self.n_t = 1
         self.neuron_multiplier = np.ones([self.layers])
+        self.n_t = 1
 
     def set_num_layers(self, num_layers):
         self.layers = num_layers
@@ -109,6 +109,8 @@ def get_experiments(output_path):
     opt_handle.skip_train = False
     opt_handle.dnn.name = "Coloring"
     opt_handle.dnn.n_t = 28
+    opt_handle.dnn.layers = 1
+    opt_handle.dnn.neuron_multiplier = [0.01]
     opt += [copy.deepcopy(opt_handle)]
     idx_base += 1
 

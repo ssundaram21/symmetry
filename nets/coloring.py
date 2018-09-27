@@ -18,38 +18,46 @@ class FillingCell(RNNCell):
     implements flood-filling
 
     """
-    def __init__(self, input_shape, optimal=True, n_hidden=2, weight_std=1):
+
+    def __init__(self, input_shape, optimal=True, n_hidden=2, weight_std=(1.0,)):
         super().__init__()
         self._input_shape = input_shape
         self._state_size = tensor_shape.TensorShape(
             list(self._input_shape[1:-1]) + [2])
-        self._output_size = self.state_size[1:]
+        self._output_size = self._state_size[1:]
         self._optimal = optimal
-        self._weight_std = weight_std
+        self._weight_std = weight_std[0]
         self._n_hidden = n_hidden
 
-        if self._optimal:
-            full_kernel = np.zeros((3, 3, 1, 1))
-            a_kernel = np.array([[0, -1,  0],
-                                 [-1, 0, -1],
-                                 [0, -1,  0]])
-            full_kernel[:, :, 0, 0] = a_kernel
-            self._kernel = tf.constant(full_kernel, dtype=tf.float32)
-            self._bias_i = tf.constant(1., dtype=tf.float32)
-            self._w1 = tf.constant(-1., dtype=tf.float32)
-            self._w2 = tf.constant(-1., dtype=tf.float32)
-            self._bias_s = tf.constant(1., dtype=tf.float32)
-        else:
-            self._kernel = tf.Variable(tf.truncated_normal((3, 3, 1, 1),
-                                               dtype=tf.float32,
-                                               stddev=self._weight_std,
-                                               name="W"
-                                               ))
-            self._bias_i = tf.Variable(0.1, name="bias_a", dtype=tf.float32)
-            self._w1 = tf.Variable(0.1, name="w1", dtype=tf.float32)
-            self._w2 = tf.Variable(0.1, name="w2", dtype=tf.float32)
-            self._bias_s = tf.Variable(0.1, name="bias_s", dtype=tf.float32)
+        full_kernel = np.zeros((3, 3, 1, 1))
+        a_kernel = np.array([[0, -1, 0],
+                             [-1, 0, -1],
+                             [0, -1, 0]])
+        full_kernel[:, :, 0, 0] = a_kernel
 
+        self._kernel = tf.constant(full_kernel, dtype=tf.float32)
+        self._bias_i = tf.constant(1., dtype=tf.float32)
+        self._w1 = tf.constant(-1., dtype=tf.float32)
+        self._w2 = tf.constant(-1., dtype=tf.float32)
+        self._bias_s = tf.constant(1., dtype=tf.float32)
+
+        # we are learning a network perturbed from optimal
+        if not self._optimal:
+            self._kernel_var = tf.Variable(tf.truncated_normal((3, 3, 1, 1),
+                                                               dtype=tf.float32,
+                                                               stddev=self._weight_std,
+                                                               name="w_kern"
+                                                               ))
+            self._kernel += self._kernel_var
+            self._deviations = tf.Variable(
+                tf.truncated_normal([4], dtype=tf.float32,
+                                    stddev=self._weight_std,
+                                    name="w_kern"), name="devs",
+                dtype=tf.float32)
+            self._bias_i += self._deviations[0]
+            self._w1 += self._deviations[1]
+            self._w2 += self._deviations[2]
+            self._bias_s += self._deviations[2]
 
     @property
     def output_size(self):
@@ -59,11 +67,10 @@ class FillingCell(RNNCell):
     def state_size(self):
         return self._state_size
 
-
     def get_params(self):
         if self._optimal:
             return []
-        return [self._kernel, self._bias_i, self._w1, self._w2, self._bias_s]
+        return [self._kernel_var, self._deviations]
 
     def call(self, border, state):
         intermediate = tf.nn.relu(
@@ -74,8 +81,7 @@ class FillingCell(RNNCell):
 
         state = tf.nn.relu(
             self._bias_s + self._w1 * border + self._w2 * intermediate)
-        return 1-state, state
-
+        return 1 - state, state
 
 
 def Coloring(data, opt, dropout_rate, labels_id):
