@@ -125,4 +125,4 @@ def Coloring(data, opt, dropout_rate, labels_id):
             t_output, state = fc(data, state)
             activations.append(state)
 
-    return tf.concat([t_output, state], 3), parameters, activations
+    return tf.concat([state, t_output], 3), parameters, activations
