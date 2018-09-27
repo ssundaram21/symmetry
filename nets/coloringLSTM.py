@@ -7,7 +7,6 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.contrib.rnn import Conv2DLSTMCell
 from tensorflow.python.ops import variable_scope as vs
-from .filling_preprocessing import augment
 
 from pprint import pprint
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '0'
@@ -34,7 +33,7 @@ def ColoringLSTM(data, opt, dropout_rate, labels_id):
 
     data = tf.reshape(data,
                       [-1, opt.dataset.image_size, opt.dataset.image_size, 1])
-    data = augment(data)
+
     inp_time = tf.tile(data[:, None, :, :, :], [1, n_t, 1, 1, 1])
 
     (outputs, stat) = tf.nn.dynamic_rnn(cell, inp_time, time_major=False,
