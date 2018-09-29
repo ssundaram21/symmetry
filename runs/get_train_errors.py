@@ -23,7 +23,7 @@ def run(run_opt):
 
     list_id_errors = []
     for point_idx, data_point in enumerate(results_data):
-        if not ("val" in data_point["results"]):
+        if not ("val" in data_point):
             list_id_errors.append(point_idx)
 
     with open('error_ids', 'w') as f:
