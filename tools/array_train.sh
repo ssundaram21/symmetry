@@ -4,9 +4,9 @@
 #SBATCH --job-name=insideness
 #SBATCH --mem=8GB
 #SBATCH --gres=gpu:tesla-k80:1
-#SBATCH -t 10:00:00
+#SBATCH -t 2:00:00
 #SBATCH --qos=cbmm
-#SBATCH --workdir=./log/
+#SBATCH --workdir=./log_3/
 
 cd /om/user/xboix/src/insideness/
 

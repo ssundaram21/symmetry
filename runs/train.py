@@ -23,6 +23,10 @@ def run(opt):
     print(opt.name)
     ################################################################################################
 
+    if os.path.isfile(opt.log_dir_base + opt.name + '/results/intra_dataset_accuracy.pkl'):
+        print(":)")
+        quit()
+
     tf.logging.set_verbosity(tf.logging.INFO)
 
     ################################################################################################
