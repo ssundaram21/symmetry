@@ -31,7 +31,7 @@ def run(opt_all, output_path):
             selected_models[opt.family_ID] = acc
             acc['ID'] = opt.ID
             num_families += 1
-        elif selected_models[opt.family_ID]['validation_accuracy'] < acc['validation_accuracy']:
+        elif selected_models[opt.family_ID]['val'] < acc['val']:
             acc['ID'] = opt.ID
             selected_models[opt.family_ID] = acc
 

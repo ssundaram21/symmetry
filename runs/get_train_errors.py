@@ -29,3 +29,7 @@ def run(run_opt):
     with open('error_ids', 'w') as f:
         for item in list_id_errors:
             f.write("%s\n" % item)
+
+    print(len(list_id_errors))
+
+    print(":)")

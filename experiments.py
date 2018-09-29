@@ -100,9 +100,10 @@ def get_experiments(output_path):
     opt_handle.skip_train = True
     opt_handle.dnn.name = "Coloring"
     opt_handle.dnn.n_t = 28
+    opt_handle.skip = True
     opt += [copy.deepcopy(opt_handle)] 
     idx_base += 1
-
+    ''' 
     opt_handle = Experiments(id=idx_base, name="Coloring", dataset=opt_data[40],
                              output_path=output_path,
                              family_id=0, family_name="Coloring_Optimal")
@@ -113,7 +114,7 @@ def get_experiments(output_path):
     opt_handle.dnn.neuron_multiplier = [0.01]
     opt += [copy.deepcopy(opt_handle)]
     idx_base += 1
-
+    '''
     idx_family = 1
     for idx_dataset in range(40, 50):
         for c in [5, 10, 20, 40, 80]:
@@ -165,9 +166,13 @@ def get_experiments_selected(output_path):
 
     idx = 0
     opt = []
-    for k in range(cross['num_families']):
+    for k in range(cross['num_families']+1):
+        if not k in cross:
+            continue
+
         for trial in range(NUM_TRIALS):
-            opt_handle = copy.deepcopy(opt_pre_cossval[cross[k]['ID']])
+            #print(cross[k])
+            opt_handle = opt_pre_cossval[int(cross[k]['ID'])]
 
             opt_handle.ID = idx
             opt_handle.name = 'ID' + str(opt_handle.ID) + "_FINAL" + str(trial) + "_" + opt_handle.family_name

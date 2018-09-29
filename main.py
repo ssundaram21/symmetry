@@ -1,9 +1,7 @@
 import argparse
 import datasets
 import experiments
-import matplotlib
 
-matplotlib.use("Agg")
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--experiment_index', type=int, required=True)

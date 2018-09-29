@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH -n 2
 #SBATCH --job-name=insideness
-#SBATCH --mem=5GB
+#SBATCH --mem=12GB
 #SBATCH -t 10:00:00
 #SBATCH --qos=cbmm
 #SBATCH --workdir=./log

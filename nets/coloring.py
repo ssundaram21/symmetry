@@ -5,130 +5,156 @@ from __future__ import print_function
 import os
 import numpy as np
 import tensorflow as tf
-from tensorflow.contrib.rnn import RNNCell
-from tensorflow.python.framework import tensor_shape
-from tensorflow.python.ops import nn_ops
+import sys
+#import matplotlib
+#import matplotlib.pyplot as plt
 
 from pprint import pprint
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '0'
 
 
-class FillingCell(RNNCell):
-    """ A tensorflow recurrent neural network cell which
-    implements flood-filling
+def activation_function(x):
+    return tf.nn.relu(x)
 
-    """
-
-    def __init__(self, input_shape, optimal=True, n_hidden=2, weight_std=(1.0,)):
-        super().__init__()
-        self._input_shape = input_shape
-        self._state_size = tensor_shape.TensorShape(
-            list(self._input_shape[1:-1]) + [2])
-        self._output_size = self._state_size[1:]
-        self._optimal = optimal
-        self._weight_std = weight_std[0]
-        self._n_hidden = n_hidden
-
-        full_kernel = np.zeros((3, 3, 1, 1))
-        a_kernel = np.array([[0, -1, 0],
-                             [-1, 0, -1],
-                             [0, -1, 0]])
-        full_kernel[:, :, 0, 0] = a_kernel
-
-        self._kernel = tf.constant(full_kernel, dtype=tf.float32)
-        self._bias_i = tf.constant(1., dtype=tf.float32)
-        self._w1 = tf.constant(-1., dtype=tf.float32)
-        self._w2 = tf.constant(-1., dtype=tf.float32)
-        self._bias_s = tf.constant(1., dtype=tf.float32)
-
-        # we are learning a network perturbed from optimal
-        if not self._optimal:
-            self._kernel_var = tf.Variable(tf.truncated_normal((3, 3, 1, 1),
-                                                               dtype=tf.float32,
-                                                               stddev=self._weight_std,
-                                                               name="w_kern"
-                                                               ))
-            self._kernel += self._kernel_var
-            self._deviations = tf.Variable(
-                tf.truncated_normal([4], dtype=tf.float32,
-                                    stddev=self._weight_std,
-                                    name="w_kern"), name="devs",
-                dtype=tf.float32)
-            self._bias_i += self._deviations[0]
-            self._w1 += self._deviations[1]
-            self._w2 += self._deviations[2]
-            self._bias_s += self._deviations[2]
-
-    @property
-    def output_size(self):
-        return self._output_size
-
-    @property
-    def state_size(self):
-        return self._state_size
-
-    def get_params(self):
-        if self._optimal:
-            return []
-        return [self._kernel_var, self._deviations]
-
-    def call(self, border, state):
-        intermediate = tf.nn.relu(
-            nn_ops.conv2d(state, self._kernel, [1, 1, 1, 1], padding="SAME")
-            +
-            self._bias_i
-        )
-
-        state = tf.nn.relu(
-            self._bias_s + self._w1 * border + self._w2 * intermediate)
-        return 1 - state, state
+def new_conv_layer(x, stride, weight, bias, padd, activation=True):
+    layer = tf.nn.conv2d(input=x,filter=weight, strides=stride, padding=padd)
+    layer += bias
+    if activation:
+        layer = activation_function(layer)
+    return layer
 
 
+'''
+1st convolution add 0s at bottom
+2nd add 0s at the end(N)
+3rd make pading valid
+'''
 def Coloring(data, opt, dropout_rate, labels_id):
-    """ Run the coloring network on data, with hyperparameters
 
-    :param data: in the shape batch_size, image_height, image_width, 2
-        where the last two channels are the inside and outside contour
-    :param opt:
-        opt.optimal if true, run the designed model, which will not be trained
-        opt.hyper parameters are
-        n_t number of timepoints for the network to run
-        n_hidden number of hidden layers
-        weight_std for initialization the weight standard deviation
-    :param dropout_rate:
-    :param labels_id:
-    :return:
-    """
-
-    optimal = getattr(opt, "skip_train", True)
-    fc = FillingCell(input_shape=data.shape,
-                     optimal=optimal,
-                     n_hidden=getattr(opt.dnn, "layers", 2),
-                     weight_std=getattr(opt.dnn, "neuron_multiplier", 2),
-                     )
-    if not optimal:
-        parameters = fc.get_params()
-    else:
-        parameters = []
-
-    n_t = opt.dnn.n_t
-
-    data = tf.reshape(data, [-1, data.shape[1], data.shape[2], 1])
-
+    parameters = []
     activations = []
 
-    initial_state = np.zeros(data.shape[1:3])
-    initial_state[0, :] = 1
-    initial_state[data.shape[1] - 1, :] = 1
-    initial_state[:, 0] = 1
-    initial_state[:, data.shape[2] - 1] = 1
-    state = tf.constant(initial_state[None, :, :, None], dtype=np.float32)
+    C = opt.hyper.complex_crossing
 
-    with tf.variable_scope("FilledCell") as scope:
-        for i in range(n_t):
-            if i > 0:
-                scope.reuse_variables()
-            t_output, state = fc(data, state)
-            activations.append(state)
+    layer1_padding = tf.constant([[0, 0], [0, 1], [0, 0]])
+    data = tf.pad(data, layer1_padding, "CONSTANT")
 
-    return tf.concat([state, t_output], 3), parameters, activations
+    data = tf.reshape(data, [-1, opt.dataset.image_size+1, opt.dataset.image_size, 1])
+    depth = int(3*C/2)
+
+    print("num neurons crossing: " + str(depth))
+    w1 = tf.Variable(tf.truncated_normal([2, 1, 1, 1],
+                                            dtype=tf.float32, stddev=opt.hyper.init_factor*1), name='w1')
+        #tf.constant(1.0, shape=[2, 1, 1, 1])
+    b1 = tf.Variable(0.1*tf.ones([1]), name='b1')
+        #tf.constant(-1.0)
+
+    layer1 = new_conv_layer(data, [1, 1, 1, 1], w1, b1, 'SAME')
+
+    activations += [layer1]
+    parameters += [w1, b1]
+
+    layer2_padding = tf.constant([[0, 0], [0, 0], [0, opt.dataset.image_size], [0, 0]])
+    layer1 = tf.pad(layer1, layer2_padding, "CONSTANT")
+
+    w2 = tf.Variable(tf.truncated_normal([1, opt.dataset.image_size, 1, 1],
+                                            dtype=tf.float32, stddev=opt.hyper.init_factor*1), name='w2')
+        #tf.constant(1.0, shape=[1, N, 1, depth])
+    ''' 
+    b2 = []
+    for i in range(int(depth/3)):
+        for z in range(1, depth+1):
+            if z == 3*i + 1:
+                b2.append(-(2*i - .5))
+            elif z == 3*i + 2:
+                b2.append(-2*i)
+            elif z == 3*i + 3:
+                b2.append(-(2*i+.5))
+    '''
+    b2 = tf.Variable(0.1 * tf.ones([depth]), name='b2')
+
+    layer2 = new_conv_layer(layer1, [1,1,1,1], w2, b2, 'SAME')
+
+    parameters += [w2, b2]
+    activations += [layer2]
+
+    '''
+    w3 = []
+    for i in range(int(depth/3)):
+        for z in range(1, depth+1):
+            if z == 3*i + 1:
+                w3.append(2.0)
+            elif z == 3*i + 2:
+                w3.append(-4.0)
+            elif z == 3*i + 3:
+                w3.append(2.0)
+    w3_negative = [-x for x in w3]
+    w3 = tf.constant([w3, w3_negative])
+    w3 = tf.reshape([tf.transpose(w3)], [1, 1, depth, 2])
+    b3 = tf.constant([0.0, 1.0])
+    '''
+    w3 = tf.Variable(tf.truncated_normal([1, 1, depth, 2],
+                                    dtype=tf.float32, stddev=opt.hyper.init_factor*1), name='w3')
+    b3 = tf.Variable(0.1 * tf.ones([2]), name='b3')
+
+    layer3 = new_conv_layer(layer2, [1, 1, 1, 1], w3, b3, 'VALID', activation=False)
+
+    layer3 = tf.reshape(layer3, [-1, opt.dataset.image_size+1, opt.dataset.image_size*2, 2])
+    layer3 = tf.image.resize_image_with_crop_or_pad(layer3, opt.dataset.image_size, opt.dataset.image_size)
+    layer3 = tf.reshape(layer3, [-1, opt.dataset.image_size, opt.dataset.image_size, 2])
+
+    parameters += [w3, b3]
+    activations += [layer3]
+
+    return layer3, parameters, activations
+
+    
+##
+##X=np.array(
+##  [[ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+##  [  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+##  [  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  1,  1,  0],
+##  [  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  0,  0,  0,  1,  0],
+##  [  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  0,  0,  0,  0,  1,  0],
+##  [  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  1,  0,  0,  0,  0,  0,  1,  0],
+##  [  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  0,  0,  0,  0,  0,  0,  0,  1,  1,  0],
+##  [  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  0,  0,  0,  0,  0,  0,  0,  1,  1,  0,  0],
+##  [  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  0,  0,  0],
+##  [  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  0,  0,  0],
+##  [  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  0,  0,  0],
+##  [  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  0,  0,  0,  0,  0,  0,  1,  1,  0,  0,  0,  0],
+##  [  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  0,  0,  0,  0,  0,  1,  0,  0,  0,  0,  0],
+##  [  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  0,  0,  0,  1,  0,  0,  0,  0,  0],
+##  [  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  0,  1,  1,  0,  0,  0,  0,  0],
+##  [  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  0,  1,  0,  0,  0,  0,  0,  0],
+##  [  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  0,  1,  1,  1,  1,  1,  1,  0],
+##  [  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  0,  0,  0,  0,  0,  0,  1,  0],
+##  [  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  0,  0,  0,  1,  1,  1,  1,  0],
+##  [  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  0,  0,  0,  1,  0,  0,  0,  0],
+##  [  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  1,  1,  0,  0,  0,  0],
+##  [  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+##  [  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+##  [  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+##  [  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+##  [  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+##  [  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+##  [  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+##  [  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+##  [  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0]])
+##
+##sess = tf.InteractiveSession()
+##X = tf.cast(X,tf.float32)
+##np.set_printoptions(linewidth=400)            
+##    
+##img = generate_data(20,100,100,20,15)
+##plt.imshow(img)
+##plt.show()
+##img = tf.cast(img,tf.float32)
+##
+##b = typeA_test(img)
+##b = b.eval()
+##plt.imshow(b)
+##plt.show()
+
+
+

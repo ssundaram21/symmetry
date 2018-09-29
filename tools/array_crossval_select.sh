@@ -2,7 +2,7 @@
 #SBATCH -n 2
 #SBATCH --job-name=insideness
 #SBATCH --mem=1GB
-#SBATCH -t 10:00:00
+#SBATCH -t 1:00:00
 #SBATCH --qos=cbmm
 #SBATCH --workdir=./log/
 
