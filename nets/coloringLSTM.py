@@ -9,6 +9,7 @@ from tensorflow.contrib.rnn import Conv2DLSTMCell
 from tensorflow.python.ops import variable_scope as vs
 
 from pprint import pprint
+
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '0'
 
 
@@ -28,7 +29,7 @@ def ColoringLSTM(data, opt, dropout_rate, labels_id):
 
     n_t = getattr(opt.dnn, "n_t", 10)
     cell = Conv2DLSTMCell(input_shape=data.shape[-3:],
-                          kernel_shape=[3,3],
+                          kernel_shape=[3, 3],
                           output_channels=getattr(opt.dnn, "layers", 2))
 
     data = tf.reshape(data,
@@ -39,9 +40,8 @@ def ColoringLSTM(data, opt, dropout_rate, labels_id):
     (outputs, stat) = tf.nn.dynamic_rnn(cell, inp_time, time_major=False,
                                         dtype=tf.float32)
 
-    return outputs[:, n_t-1, :, :, :2], [vs.get_variable("kernel")], stat
+    return outputs[:, n_t - 1, :, :, :2], [vs.get_variable("kernel")], stat
 
-    
 ##
 ##X=np.array(
 ##  [[ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
@@ -77,8 +77,8 @@ def ColoringLSTM(data, opt, dropout_rate, labels_id):
 ##
 ##sess = tf.InteractiveSession()
 ##X = tf.cast(X,tf.float32)
-##np.set_printoptions(linewidth=400)            
-##    
+##np.set_printoptions(linewidth=400)
+##
 ##img = generate_data(20,100,100,20,15)
 ##plt.imshow(img)
 ##plt.show()
@@ -88,6 +88,5 @@ def ColoringLSTM(data, opt, dropout_rate, labels_id):
 ##b = b.eval()
 ##plt.imshow(b)
 ##plt.show()
-
 
 
