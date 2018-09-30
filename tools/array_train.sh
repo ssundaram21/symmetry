@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH -n 2
-#SBATCH --array=1-3
+#SBATCH --array=1
 #SBATCH --job-name=insideness
 #SBATCH --mem=8GB
 #SBATCH --gres=gpu:tesla-k80:1

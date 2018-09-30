@@ -73,7 +73,7 @@ def Crossing(data, opt, dropout_rate, labels_id):
     '''
     b2 = tf.Variable(0.1 * tf.ones([depth]), name='b2')
 
-    layer2 = new_conv_layer(layer1, [1,1,1,1], w2, b2, 'SAME')
+    layer2 = new_conv_layer(layer1, [1, 1, 1, 1], w2, b2, 'SAME')
 
     parameters += [w2, b2]
     activations += [layer2]

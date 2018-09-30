@@ -3,6 +3,7 @@ import shutil
 import sys
 import numpy as np
 
+import copy
 import pickle
 
 
@@ -28,12 +29,12 @@ def run(opt_all, output_path):
             acc = pickle.load(f)
 
         if opt.family_ID not in selected_models:
-            selected_models[opt.family_ID] = acc
+            selected_models[opt.family_ID] = copy.deepcopy(acc)
             acc['ID'] = opt.ID
             num_families += 1
         elif selected_models[opt.family_ID]['val'] < acc['val']:
             acc['ID'] = opt.ID
-            selected_models[opt.family_ID] = acc
+            selected_models[opt.family_ID] = copy.deepcopy(acc)
 
     selected_models['num_families'] = num_families
     with open(output_path + 'selected_models.pkl', 'wb') as f:

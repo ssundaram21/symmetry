@@ -122,8 +122,9 @@ def get_experiments(output_path):
                 for init in [1, 1e-1, 1e1]:
                     for batch in [32, 256, 2048]:
                         for lr in [1e0, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5]:
-                            opt_handle = Experiments(id=idx_base, name="CrossingLearning_D" + str(idx_dataset), dataset=opt_data[idx_dataset], output_path=output_path,
-                                                     family_id=idx_family, family_name="Crossing_Learning_D" + str(idx_dataset))
+                            opt_handle = Experiments(id=idx_base, name="CrossingLearning_D" + str(idx_dataset),
+                                            dataset=opt_data[idx_dataset], output_path=output_path,
+                                            family_id=idx_family, family_name="Crossing_Learning_D" + str(idx_dataset))
                             opt_handle.dnn.name = "Crossing_Learning"
                             opt_handle.hyper.complex_crossing = c
                             opt_handle.hyper.init_factor = init
@@ -135,23 +136,6 @@ def get_experiments(output_path):
                             idx_base += 1
 
         idx_family += 1
-
-    ''' 
-    for idx in range(2):
-        opt_handle = Experiments(id=idx + idx_base, name="MLP1", dataset=opt_data[0], output_path=output_path,
-                                 family_id=1, family_name="A")
-        opt_handle.hyper.max_num_epochs = 1
-
-        opt += [copy.deepcopy(opt_handle)]
-
-    idx_base = 2
-    for idx in range(2):
-        opt_handle = Experiments(id=idx + idx_base, name="MLP1", dataset=opt_data[0], output_path=output_path,
-                                 family_id=2, family_name="B")
-        opt_handle.hyper.max_num_epochs = 1
-
-        opt += [copy.deepcopy(opt_handle)]
-    '''
     return opt
 
 
@@ -166,12 +150,13 @@ def get_experiments_selected(output_path):
 
     idx = 0
     opt = []
+
     for k in range(cross['num_families']+1):
         if not k in cross:
             continue
 
         for trial in range(NUM_TRIALS):
-            #print(cross[k])
+            print(cross[k]['ID'])
             opt_handle = opt_pre_cossval[int(cross[k]['ID'])]
 
             opt_handle.ID = idx
