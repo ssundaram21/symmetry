@@ -19,7 +19,7 @@ code_path = {
 output_path = {
     'xavier': '/Users/xboix/src/insideness/log/',
     'om_vilim': '/om/user/xboix/share/insideness_vilim/',
-    'om': '/om/user/xboix/share/insideness/'}[FLAGS.host_filesystem]
+    'om': '/om/user/xboix/share/insideness3/'}[FLAGS.host_filesystem]
 
 
 def run_generate_dataset(id):
@@ -58,7 +58,7 @@ def run_train_selected(id):
 def run_evaluate_generalization(id):
     from runs import test_generalization
     opt_data = datasets.get_datasets(output_path)
-    run_opt = experiments.get_experiments_selected(output_path)[id]
+    run_opt = experiments.get_best_of_the_family(output_path)[id]
     test_generalization.run(run_opt, opt_data)
 
 

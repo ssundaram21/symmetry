@@ -23,7 +23,7 @@ def run(opt_all, output_path):
 
         if not os.path.isfile(opt.log_dir_base + opt.name + '/results/intra_dataset_accuracy.pkl'):
             print("ERROR: TRAINING NOT FINISHED")
-            quit()
+            continue
 
         with open(opt.log_dir_base + opt.name + '/results/intra_dataset_accuracy.pkl', 'rb') as f:
             acc = pickle.load(f)

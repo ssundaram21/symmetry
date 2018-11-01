@@ -10,7 +10,7 @@ from tensorflow.python.framework import tensor_shape
 from tensorflow.python.ops import nn_ops
 
 from pprint import pprint
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '0'
+#os.environ['TF_CPP_MIN_LOG_LEVEL'] = '0'
 
 
 class FillingCell(RNNCell):
@@ -19,45 +19,46 @@ class FillingCell(RNNCell):
 
     """
 
-    def __init__(self, input_shape, optimal=True, n_hidden=2, weight_std=(1.0,)):
+    def __init__(self, input_shape, optimal=True, n_hidden=2, weight_std=1.0, range_coloring = 3 ):
         super().__init__()
         self._input_shape = input_shape
         self._state_size = tensor_shape.TensorShape(
             list(self._input_shape[1:-1]) + [2])
         self._output_size = self._state_size[1:]
         self._optimal = optimal
-        self._weight_std = weight_std[0]
+        self._weight_std = weight_std
         self._n_hidden = n_hidden
 
         full_kernel = np.zeros((3, 3, 1, 1))
-        a_kernel = np.array([[0, -1, 0],
+        a_kernel = np.array([[-1, -1, -1],
                              [-1, 0, -1],
-                             [0, -1, 0]])
+                             [-1, -1, -1]])
         full_kernel[:, :, 0, 0] = a_kernel
 
-        self._kernel = tf.constant(full_kernel, dtype=tf.float32)
-        self._bias_i = tf.constant(1., dtype=tf.float32)
-        self._w1 = tf.constant(-1., dtype=tf.float32)
-        self._w2 = tf.constant(-1., dtype=tf.float32)
-        self._bias_s = tf.constant(1., dtype=tf.float32)
+        if self._optimal:
+            self._kernel = tf.constant(full_kernel, dtype=tf.float32)
+            self._bias_i = tf.constant(1., dtype=tf.float32)
+            self._w1 = tf.constant(-1., dtype=tf.float32)
+            self._w2 = tf.constant(-1., dtype=tf.float32)
+            self._bias_s = tf.constant(1., dtype=tf.float32)
 
-        # we are learning a network perturbed from optimal
-        if not self._optimal:
-            self._kernel_var = tf.Variable(tf.truncated_normal((3, 3, 1, 1),
+        else:
+            # we are learning a network perturbed from optimal
+            self._kernel_var = tf.Variable(tf.truncated_normal((range_coloring, range_coloring, 1, 1),
                                                                dtype=tf.float32,
                                                                stddev=self._weight_std,
                                                                name="w_kern"
                                                                ))
-            self._kernel += self._kernel_var
+            self._kernel = self._kernel_var
             self._deviations = tf.Variable(
                 tf.truncated_normal([4], dtype=tf.float32,
                                     stddev=self._weight_std,
                                     name="w_kern"), name="devs",
                 dtype=tf.float32)
-            self._bias_i += self._deviations[0]
-            self._w1 += self._deviations[1]
-            self._w2 += self._deviations[2]
-            self._bias_s += self._deviations[2]
+            self._bias_i = self._deviations[0]
+            self._w1 = self._deviations[1]
+            self._w2 = self._deviations[2]
+            self._bias_s = self._deviations[2]
 
     @property
     def output_size(self):
@@ -104,7 +105,8 @@ def Coloring(data, opt, dropout_rate, labels_id):
     fc = FillingCell(input_shape=data.shape,
                      optimal=optimal,
                      n_hidden=getattr(opt.dnn, "layers", 2),
-                     weight_std=getattr(opt.dnn, "neuron_multiplier", 2),
+                     weight_std=getattr(opt.hyper, "init_factor", 1),
+                     range_coloring=getattr(opt.hyper, "complex_crossing", 3)
                      )
     if not optimal:
         parameters = fc.get_params()
