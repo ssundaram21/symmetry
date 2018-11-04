@@ -8,6 +8,7 @@ import tensorflow as tf
 from tensorflow.contrib.rnn import Conv2DLSTMCell
 from tensorflow.python.ops import variable_scope as vs
 
+
 from pprint import pprint
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '0'
 
@@ -27,19 +28,24 @@ def ColoringLSTM(data, opt, dropout_rate, labels_id):
     """
 
     n_t = getattr(opt.dnn, "n_t", 10)
-    cell = Conv2DLSTMCell(input_shape=data.shape[-3:],
-                          kernel_shape=[3,3],
-                          output_channels=getattr(opt.dnn, "layers", 2))
-
+    
     data = tf.reshape(data,
                       [-1, opt.dataset.image_size, opt.dataset.image_size, 1])
+    
+    cell = Conv2DLSTMCell(input_shape=data.shape.dims[-3:],
+                          kernel_shape=[3,3],
+                          output_channels=getattr(opt.dnn, "layers", 2))    
 
-    inp_time = tf.tile(data[:, None, :, :, :], [1, n_t, 1, 1, 1])
+    state = cell.zero_state(opt.hyper.batch_size, dtype=tf.float32)
+    
+    with tf.variable_scope("scp") as scope:
+        for i in range(n_t):
+            if i>0:
+                scope.reuse_variables()
+            t_output, state = cell(data, state)
 
-    (outputs, stat) = tf.nn.dynamic_rnn(cell, inp_time, time_major=False,
-                                        dtype=tf.float32)
 
-    return outputs[:, n_t-1, :, :, :2], [vs.get_variable("kernel")], stat
+    return t_output[:, :, :, :2], cell.weights, state
 
     
 ##

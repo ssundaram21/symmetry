@@ -50,7 +50,7 @@ class Experiments(object):
         self.skip_train = False
 
         # Start from scratch even if it existed
-        self.restart = False
+        self.restart = True
 
         # Skip running experiments
         self.skip = False
@@ -95,24 +95,33 @@ def get_experiments(output_path):
     max_epochs = [100]
 
     idx_base = 0
-    opt_handle = Experiments(id=idx_base, name="Coloring", dataset=opt_data[40], output_path=output_path,
+    
+    opt_handle = Experiments(id=idx_base, name="ColoringLSTM", dataset=opt_data[40], output_path=output_path,
                              family_id=0, family_name="Coloring_Optimal")
-    opt_handle.skip_train = True
-    opt_handle.dnn.name = "Coloring"
+    opt_handle.skip_train = False
+    opt_handle.dnn.name = "ColoringLSTM"
     opt_handle.dnn.n_t = 28
     opt += [copy.deepcopy(opt_handle)] 
     idx_base += 1
+    
+#     opt_handle = Experiments(id=idx_base, name="Coloring", dataset=opt_data[40], output_path=output_path,
+#                              family_id=0, family_name="Coloring_Optimal")
+#     opt_handle.skip_train = True
+#     opt_handle.dnn.name = "Coloring"
+#     opt_handle.dnn.n_t = 28
+#     opt += [copy.deepcopy(opt_handle)] 
+#     idx_base += 1
 
-    opt_handle = Experiments(id=idx_base, name="Coloring", dataset=opt_data[40],
-                             output_path=output_path,
-                             family_id=0, family_name="Coloring_Optimal")
-    opt_handle.skip_train = False
-    opt_handle.dnn.name = "Coloring"
-    opt_handle.dnn.n_t = 28
-    opt_handle.dnn.layers = 1
-    opt_handle.dnn.neuron_multiplier = [0.01]
-    opt += [copy.deepcopy(opt_handle)]
-    idx_base += 1
+#     opt_handle = Experiments(id=idx_base, name="Coloring", dataset=opt_data[40],
+#                              output_path=output_path,
+#                              family_id=0, family_name="Coloring_Optimal")
+#     opt_handle.skip_train = False
+#     opt_handle.dnn.name = "Coloring"
+#     opt_handle.dnn.n_t = 28
+#     opt_handle.dnn.layers = 1
+#     opt_handle.dnn.neuron_multiplier = [0.01]
+#     opt += [copy.deepcopy(opt_handle)]
+#     idx_base += 1
 
     idx_family = 1
     for idx_dataset in range(40, 50):

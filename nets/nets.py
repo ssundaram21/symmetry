@@ -7,6 +7,7 @@ from util import summary as summ
 from nets.crossing import Crossing as net_Crossing
 from nets.crossing_learning import Crossing as net_Crossing_Learning
 from nets.coloring import Coloring as net_Coloring
+from nets.coloringLSTM import ColoringLSTM as net_CLSTM
 
 def MLP1(x, opt, dropout_rate, labels_id):
     return net_MLP1(x, opt, dropout_rate, labels_id)
@@ -19,3 +20,6 @@ def Crossing_Learning(x, opt, dropout_rate, labels_id):
 
 def Coloring(x, opt, dropout_rate, labels_id):
     return net_Coloring(x, opt, dropout_rate, labels_id)
+
+def ColoringLSTM(x, opt, dropout_rate, labels_id):
+    return net_CLSTM(x, opt, dropout_rate, labels_id)
