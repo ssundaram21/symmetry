@@ -1,7 +1,7 @@
 import numpy as np
 
-import matplotlib
-from matplotlib import pyplot as plt
+#import matplotlib
+#from matplotlib import pyplot as plt
 
 import random as rnd
 import math
@@ -307,15 +307,13 @@ def generate_data(num_points, image_width, image_height, max_radius, min_radius)
 ##plt.imshow(img)
 ##plt.show()
 
-##img, img_filled_original, img_raw = generate_data(num_points=23,
-##                                                  image_width=32,
-##                                                  image_height=32,
-##                                                  max_radius=13,
-##                                                  min_radius=4)
-##
-##
-##plt.imshow(img_raw)
-##plt.show()
+##img, img_filled_original, img_raw = generate_data(num_points=7,
+##                                                  image_width=100,
+##                                                  image_height=100,
+##                                                  max_radius=41,
+##                                                  min_radius=17)
+
+
 ##plt.imshow(img)
 ##plt.show()
 ##plt.imshow(img_filled_original)

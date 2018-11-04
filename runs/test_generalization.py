@@ -75,6 +75,13 @@ def run(opt, opt_datasets):
         accuracy = tf.reduce_mean(error_images)
         tf.summary.scalar('accuracy', accuracy)
 
+        cl = tf.cast(flat_y_, tf.float32)
+        im = tf.cast((flat_image), tf.float32)
+        accuracy_loose = tf.reduce_mean(
+            0.5*tf.reduce_sum(((1 - im) * cl) * correct_prediction, 1) / tf.reduce_sum((1 - im) * cl, 1) + \
+            0.5*tf.reduce_sum(((1 - im) * (1 - cl)) * correct_prediction, 1) / tf.reduce_sum((1 - im) * (1 - cl), 1))
+
+
     ################################################################################################
 
 
@@ -115,22 +122,27 @@ def run(opt, opt_datasets):
 
             import pickle
             acc = {}
-
+            acc['test_accuracy'] = {}
+            acc['test_accuracy_loose'] = {}
             for opt_dataset, dataset, test_handle, test_iterator in \
                     zip(opt_datasets, datasets, test_handles, test_iterators):
 
                 # Run one pass over a batch of the test dataset.
                 sess.run(test_iterator.initializer)
                 acc_tmp = 0.0
+                acc_tmp_loo = 0.0
                 total = 0
                 for num_iter in range(int(dataset.num_images_test / opt.hyper.batch_size)+1):
-                    acc_val, a = sess.run([accuracy, flat_output], feed_dict={handle: test_handle,
+                    acc_val, acc_loo, a = sess.run([accuracy, accuracy_loose,  flat_output], feed_dict={handle: test_handle,
                                                               dropout_rate: opt.hyper.drop_test})
                     acc_tmp += acc_val * len(a)
+                    acc_tmp_loo += acc_loo * len(a)
                     total += len(a)
 
-                acc[opt_dataset.ID] = acc_tmp / float(total)
-                print("Full test acc: " + str(acc[opt.ID]))
+                acc['test_accuracy'][opt_dataset.ID] = acc_tmp / float(total)
+                acc['test_accuracy_loose'][opt_dataset.ID] = acc_tmp_loo / float(total)
+                print("Full test acc: " + str(acc['test_accuracy'][opt_dataset.ID]))
+                print("Full test acc loose: " + str(acc['test_accuracy_loose'][opt_dataset.ID]))
                 sys.stdout.flush()
 
             if not os.path.exists(opt.log_dir_base + opt.name + '/results'):

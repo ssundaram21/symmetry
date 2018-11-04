@@ -7,7 +7,7 @@ import tensorflow as tf
 
 from nets import nets
 from util import summary
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '0'
+#os.environ['TF_CPP_MIN_LOG_LEVEL'] = '0'
 
 def run(opt):
 
@@ -23,7 +23,18 @@ def run(opt):
     print(opt.name)
     ################################################################################################
 
-    tf.logging.set_verbosity(tf.logging.INFO)
+    if os.path.isfile(opt.log_dir_base + opt.name + '/results/intra_dataset_accuracy.pkl'):
+        print(":)")
+        quit()
+
+    #print(opt.hyper.complex_crossing)
+    print(opt.hyper.init_factor)
+    print(opt.hyper.max_num_epochs)
+    print(opt.hyper.learning_rate)
+    print(opt.hyper.alpha)
+    print(opt.hyper.batch_size)
+
+    #tf.logging.set_verbosity(tf.logging.INFO)
 
     ################################################################################################
     # Define training and validation datasets through Dataset API
@@ -89,7 +100,7 @@ def run(opt):
 
         im = tf.cast((flat_image), tf.float32)
         cl = tf.cast(flat_y_, tf.float32)
-        cross_entropy_sum = (1-opt.hyper.alpha)*tf.reduce_mean(tf.reduce_sum(((1-im)*cl)*cross, 1)/tf.reduce_sum((1-im)*cl, 1) + \
+        cross_entropy_sum = tf.reduce_mean((1-opt.hyper.alpha)*tf.reduce_sum(((1-im)*cl)*cross, 1)/tf.reduce_sum((1-im)*cl, 1) + \
                     (opt.hyper.alpha)*tf.reduce_sum(((1-im)*(1-cl)) * cross, 1) / tf.reduce_sum((1-im)*(1-cl), 1))
 
         tf.summary.scalar('cross_entropy', cross_entropy_sum)
@@ -150,7 +161,7 @@ def run(opt):
     ################################################################################################
 
 
-    with tf.Session(config=tf.ConfigProto(log_device_placement=True)) as sess:
+    with tf.Session() as sess:
 
         flag_testable = False
         if not opt.skip_train:
@@ -288,10 +299,18 @@ def run(opt):
                     feed_dict={handle: data_handle, dropout_rate: opt.hyper.drop_test})
 
                 ''' 
-                aa = np.reshape(a[5, :].astype(np.unint8), [100, 100])
-                from PIL import Image;
-                imga = Image.fromarray(128 * aa);
-                imga.save('testrgb1.png')
+                if 0 in err:
+                    #import matplotlib as mpl
+                    #mpl.use('Agg')
+                    import matplotlib.pyplot as plt
+                    mm = (err == 0)
+                    from PIL import Image;
+                    bb = np.reshape(imm[mm, :, :].astype(np.uint8),[32,32])
+                    imga = Image.fromarray(128 * bb);
+                    imga.save('testrgb2.png')
+                    aa = np.reshape(a[mm, :].astype(np.uint8), [32, 32])
+                    imga = Image.fromarray(128 * aa);
+                    imga.save('testrgb1.png')
                 '''
 
                 acc_tmp_loo += acc_loo * len(a)
