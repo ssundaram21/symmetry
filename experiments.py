@@ -11,7 +11,7 @@ class DNN(object):
         self.name = "MLP1"
         self.pretrained = False
         self.version = 1
-        self.layers = 4
+        self.layers = 2
         self.stride = 2
         self.neuron_multiplier = np.ones([self.layers])
         self.n_t = 1
@@ -96,10 +96,10 @@ def get_experiments(output_path):
     max_epochs = [100]
 
     idx_base = 0
-    opt_handle = Experiments(id=idx_base, name="Coloring", dataset=opt_data[50], output_path=output_path,
+    opt_handle = Experiments(id=idx_base, name="Coloring", dataset=opt_data[49], output_path=output_path,
                              family_id=0, family_name="Coloring_Optimal")
     opt_handle.skip_train = True
-    opt_handle.dnn.name = "Coloring"
+    opt_handle.dnn.name = "Crossing"
     opt_handle.dnn.n_t = 30
     #opt_handle.skip = True
     opt += [copy.deepcopy(opt_handle)] 
@@ -149,10 +149,10 @@ def get_experiments(output_path):
                 for init in [1, 1e-1, 1e1]:
                     for batch in [32, 256, 2048]:
                         for lr in [1e0, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5]:
-                            opt_handle = Experiments(id=idx_base, name="ColoringLearning_D" + str(idx_dataset),
+                            opt_handle = Experiments(id=idx_base, name="ColoringLSTM_D" + str(idx_dataset),
                                             dataset=opt_data[idx_dataset], output_path=output_path,
-                                            family_id=idx_family, family_name="Coloring_Learning_D" + str(idx_dataset))
-                            opt_handle.dnn.name = "Coloring"
+                                            family_id=idx_family, family_name="Coloring_LSTM_D" + str(idx_dataset))
+                            opt_handle.dnn.name = "ColoringLSTM"
                             opt_handle.hyper.complex_crossing = c
                             opt_handle.hyper.init_factor = init
                             opt_handle.hyper.max_num_epochs = 200
@@ -211,6 +211,7 @@ def get_experiments(output_path):
 
     return opt
 
+
 def get_best_of_the_family(output_path):
 
     opt_pre_cossval = get_experiments(output_path)
@@ -229,6 +230,7 @@ def get_best_of_the_family(output_path):
         opt += [copy.deepcopy(opt_handle)]
 
     return opt
+
 
 def get_experiments_selected(output_path):
 

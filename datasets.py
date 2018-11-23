@@ -48,7 +48,7 @@ def get_datasets(output_path):
                 opt += [copy.deepcopy(opt_handle)]
                 idx += 1
 
-
+    ''' 
     opt_handle = Dataset(idx, "vanila", output_path)
     opt_handle.num_images_training = 1000
     opt_handle.num_images_testing = 100
@@ -57,7 +57,7 @@ def get_datasets(output_path):
 
     opt += [copy.deepcopy(opt_handle)]
     idx += 1
-
+    '''
 
     return opt
 

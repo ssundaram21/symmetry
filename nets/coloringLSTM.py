@@ -27,9 +27,10 @@ def ColoringLSTM(data, opt, dropout_rate, labels_id):
     :return:
     """
 
-    n_t = getattr(opt.dnn, "n_t", 10)
+    n_t = getattr(opt.dnn, "n_t", 30)
+    print(getattr(opt.dnn, "layers", 2))
     cell = Conv2DLSTMCell(input_shape=data.shape[-3:],
-                          kernel_shape=[3, 3],
+                          kernel_shape=[opt.hyper.complex_crossing, opt.hyper.complex_crossing],
                           output_channels=getattr(opt.dnn, "layers", 2))
 
     data = tf.reshape(data,

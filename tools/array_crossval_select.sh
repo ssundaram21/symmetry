@@ -11,5 +11,5 @@ cd /om/user/xboix/src/insideness/
 singularity exec -B /om:/om /om/user/xboix/singularity/xboix-tensorflow.simg \
 python /om/user/xboix/src/insideness/main.py \
 --experiment_index=0 \
---host_filesystem=om \
+--host_filesystem=om_coloring \
 --run=crossval_select

@@ -111,3 +111,69 @@ def Crossing(data, opt, dropout_rate, labels_id):
 
     return layer3, parameters, activations
 
+
+def Crossing_Perturbation(data, opt, delta, labels_id):
+    parameters = []
+    activations = []
+
+    C = opt.hyper.complex_crossing
+
+    layer1_padding = tf.constant([[0, 0], [0, 1], [0, 0]])
+    data = tf.pad(data, layer1_padding, "CONSTANT")
+
+    data = tf.reshape(data, [-1, opt.dataset.image_size + 1, opt.dataset.image_size, 1])
+    depth = int(3 * C / 2)
+
+    print("num neurons crossing: " + str(depth))
+    w1 = tf.Variable(tf.truncated_normal([2, 1, 1, 1],
+                                         dtype=tf.float32, stddev=opt.hyper.init_factor * 1), name='w1')
+    b1 = tf.Variable(0.1 * tf.ones([1]), name='b1')
+
+    w1_delta = tf.Variable(tf.truncated_normal([2, 1, 1, 1],
+                                         dtype=tf.float32, stddev=1), name='w1_delta')
+    b1_delta = tf.Variable(tf.truncated_normal([1],
+                                         dtype=tf.float32, stddev=1), name='b1_delta')
+
+    layer1 = new_conv_layer(data, [1, 1, 1, 1], w1 + delta * w1_delta, b1 + delta * b1_delta, 'SAME')
+
+    activations += [w1, b1]
+    parameters += [w1_delta, b1_delta]
+
+    layer2_padding = tf.constant([[0, 0], [0, 0], [0, opt.dataset.image_size], [0, 0]])
+    layer1 = tf.pad(layer1, layer2_padding, "CONSTANT")
+
+    w2 = tf.Variable(tf.truncated_normal([1, opt.dataset.image_size, 1, 1],
+                                         dtype=tf.float32, stddev=opt.hyper.init_factor * 1), name='w2')
+    b2 = tf.Variable(0.1 * tf.ones([depth]), name='b2')
+
+    w2_delta = tf.Variable(tf.truncated_normal([1, opt.dataset.image_size, 1, 1],
+                                         dtype=tf.float32, stddev=1), name='w2_delta')
+
+    b2_delta = tf.Variable(tf.truncated_normal([depth],
+                                         dtype=tf.float32, stddev=1), name='b2_delta')
+
+    layer2 = new_conv_layer(layer1, [1, 1, 1, 1], w2 + delta * w2_delta, b2 + delta * b2_delta, 'SAME')
+
+    parameters += [w2_delta, b2_delta]
+    activations += [w2, b2]
+
+    w3 = tf.Variable(tf.truncated_normal([1, 1, depth, 2],
+                                         dtype=tf.float32, stddev=opt.hyper.init_factor * 1), name='w3')
+    b3 = tf.Variable(0.1 * tf.ones([2]), name='b3')
+
+    w3_delta = tf.Variable(tf.truncated_normal([1, 1, depth, 2],
+                                         dtype=tf.float32, stddev=1), name='w3_delta')
+    b3_delta = tf.Variable(tf.truncated_normal([2],
+                                         dtype=tf.float32, stddev=1), name='b3_delta')
+
+    layer3 = new_conv_layer(layer2, [1, 1, 1, 1], w3 + delta * w3_delta, b3 + delta * b3_delta, 'VALID', activation=False)
+
+    layer3 = tf.reshape(layer3, [-1, opt.dataset.image_size + 1, opt.dataset.image_size * 2, 2])
+    layer3 = tf.image.resize_image_with_crop_or_pad(layer3, opt.dataset.image_size, opt.dataset.image_size)
+    layer3 = tf.reshape(layer3, [-1, opt.dataset.image_size, opt.dataset.image_size, 2])
+
+    parameters += [w3_delta, b3_delta]
+    activations += [w3, b3]
+
+    return layer3, parameters, activations
+

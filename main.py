@@ -1,7 +1,8 @@
 import argparse
 import datasets
 import experiments
-
+import experiments2
+import experiments3
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--experiment_index', type=int, required=True)
@@ -14,12 +15,17 @@ FLAGS = parser.parse_args()
 code_path = {
     'xavier': '/Users/xboix/src/insideness/',
     'om': '/om/user/xboix/src/insideness/',
-    'om_vilim': '/om/user/vilim/src/insideness/'}[FLAGS.host_filesystem]
+    'om_vilim': '/om/user/vilim/src/insideness/',
+    'om_crossing': '/om/user/xboix/share/insideness2/',
+    'om_coloring': '/om/user/xboix/src/insideness/',
+    'om_lstm': '/om/user/xboix/src/insideness/'}[FLAGS.host_filesystem]
 
 output_path = {
     'xavier': '/Users/xboix/src/insideness/log/',
     'om_vilim': '/om/user/xboix/share/insideness_vilim/',
-    'om': '/om/user/xboix/share/insideness3/'}[FLAGS.host_filesystem]
+    'om_coloring': '/om/user/xboix/share/insideness3/',
+    'om_crossing': '/om/user/xboix/share/insideness2/',
+    'om_lstm': '/om/user/xboix/share/insideness4/'}[FLAGS.host_filesystem]
 
 
 def run_generate_dataset(id):
@@ -45,21 +51,28 @@ def get_train_errors(id):
 def run_crossval_select(id):
     #id is ignored
     from runs import crossval_select
-    run_opt = experiments.get_experiments(output_path)
+    run_opt = experiments3.get_experiments(output_path)
     crossval_select.run(run_opt, output_path)
 
 
 def run_train_selected(id):
     from runs import train
-    run_opt = experiments.get_experiments_selected(output_path)[id]
+    run_opt = experiments3.get_experiments_selected(output_path)[id]
     train.run(run_opt)
 
 
 def run_evaluate_generalization(id):
     from runs import test_generalization
     opt_data = datasets.get_datasets(output_path)
-    run_opt = experiments.get_best_of_the_family(output_path)[id]
+    run_opt = experiments3.get_best_of_the_family(output_path)[id]
     test_generalization.run(run_opt, opt_data)
+
+
+def run_evaluate_perturbation(id):
+    from runs import test_perturbation
+    opt_data = datasets.get_datasets(output_path)
+    run_opt = experiments2.get_best_of_the_family(output_path)[id]
+    test_perturbation.run(run_opt, opt_data)
 
 
 def run_plot():
@@ -76,8 +89,10 @@ switcher = {
     'crossval_select': run_crossval_select,
     'train_selected': run_train_selected,
     'evaluate_generalization': run_evaluate_generalization,
+    'evaluate_perturbation': run_evaluate_perturbation,
     'plot': run_plot
 }
+
 
 if not (FLAGS.error_correction == ""):
     text_file = open(FLAGS.error_correction, "r")

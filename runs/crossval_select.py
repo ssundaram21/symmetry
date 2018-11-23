@@ -32,7 +32,7 @@ def run(opt_all, output_path):
             selected_models[opt.family_ID] = copy.deepcopy(acc)
             acc['ID'] = opt.ID
             num_families += 1
-        elif selected_models[opt.family_ID]['val'] < acc['val']:
+        elif selected_models[opt.family_ID]['valloose'] < acc['valloose']:
             acc['ID'] = opt.ID
             selected_models[opt.family_ID] = copy.deepcopy(acc)
 
