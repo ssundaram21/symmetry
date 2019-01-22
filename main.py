@@ -1,12 +1,13 @@
 import argparse
 import datasets
 import experiments
-from experiments import experiments_crossing
+from experiments import crossing
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--experiment_index', type=int, required=True)
 parser.add_argument('--host_filesystem', type=str, required=True)
 parser.add_argument('--run', type=str, required=True)
+parser.add_argument('--network', type=str, required=True)
 parser.add_argument('--error_correction', type=str, default="", required=False)
 FLAGS = parser.parse_args()
 
@@ -72,7 +73,7 @@ def run_evaluate_generalization(id):
 def run_evaluate_perturbation(id):
     from runs import test_perturbation
     opt_data = datasets.get_datasets(output_path)
-    run_opt = experiments_crossing.get_best_of_the_family(output_path)[id]
+    run_opt = crossing.get_best_of_the_family(output_path)[id]
     test_perturbation.run(run_opt, opt_data)
 
 
