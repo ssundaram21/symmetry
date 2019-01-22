@@ -31,18 +31,17 @@ def ColoringLSTM(data, opt, dropout_rate, labels_id):
 
     data = tf.reshape(data,
                       [-1, opt.dataset.image_size, opt.dataset.image_size, 1])
-    
+
     cell = Conv2DLSTMCell(input_shape=data.shape.dims[-3:],
-                          kernel_shape=[3,3],
-                          output_channels=getattr(opt.dnn, "layers", 2))    
+                          kernel_shape=[3, 3],
+                          output_channels=getattr(opt.dnn, "layers", 2))
 
     state = cell.zero_state(opt.hyper.batch_size, dtype=tf.float32)
-    
+
     with tf.variable_scope("scp") as scope:
         for i in range(n_t):
-            if i>0:
+            if i > 0:
                 scope.reuse_variables()
             t_output, state = cell(data, state)
-
 
     return t_output[:, :, :, :2], cell.weights, state

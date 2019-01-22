@@ -1,8 +1,7 @@
 import argparse
 import datasets
 import experiments
-import experiments2
-import experiments3
+from experiments import experiments_crossing
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--experiment_index', type=int, required=True)
@@ -51,27 +50,29 @@ def get_train_errors(id):
 def run_crossval_select(id):
     #id is ignored
     from runs import crossval_select
-    run_opt = experiments3.get_experiments(output_path)
+    run_opt = experiments.get_experiments(output_path)
     crossval_select.run(run_opt, output_path)
 
 
 def run_train_selected(id):
     from runs import train
-    run_opt = experiments3.get_experiments_selected(output_path)[id]
+    run_opt = experiments.get_experiments_selected(output_path)[id]
     train.run(run_opt)
 
 
 def run_evaluate_generalization(id):
-    from runs import test_generalization
+
     opt_data = datasets.get_datasets(output_path)
-    run_opt = experiments3.get_best_of_the_family(output_path)[id]
+    run_opt = experiments.get_best_of_the_family(output_path)[id]
+
+    from runs import test_generalization
     test_generalization.run(run_opt, opt_data)
 
 
 def run_evaluate_perturbation(id):
     from runs import test_perturbation
     opt_data = datasets.get_datasets(output_path)
-    run_opt = experiments2.get_best_of_the_family(output_path)[id]
+    run_opt = experiments_crossing.get_best_of_the_family(output_path)[id]
     test_perturbation.run(run_opt, opt_data)
 
 

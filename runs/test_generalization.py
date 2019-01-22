@@ -37,7 +37,7 @@ def run(opt, opt_datasets):
             opt.dataset = opt_dataset
             datasets += [insideness_data.InsidenessDataset(opt)]
             test_datasets += [datasets[-1].create_dataset(augmentation=False, standarization=False, set_name='test',
-                                                  repeat=False)]
+                                                  repeat=True)]
             test_iterators += [test_datasets[-1].make_initializable_iterator()]
     else:
         print("Error: no valid dataset specified")
@@ -133,6 +133,7 @@ def run(opt, opt_datasets):
                 acc_tmp_loo = 0.0
                 total = 0
                 for num_iter in range(int(dataset.num_images_test / opt.hyper.batch_size)+1):
+
                     acc_val, acc_loo, a = sess.run([accuracy, accuracy_loose,  flat_output], feed_dict={handle: test_handle,
                                                               dropout_rate: opt.hyper.drop_test})
                     acc_tmp += acc_val * len(a)

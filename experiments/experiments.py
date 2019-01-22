@@ -102,7 +102,7 @@ def get_experiments(output_path):
     opt_handle.dnn.name = "Crossing"
     opt_handle.dnn.n_t = 30
     #opt_handle.skip = True
-    opt += [copy.deepcopy(opt_handle)] 
+    opt += [copy.deepcopy(opt_handle)]
     idx_base += 1
     ''' 
     opt_handle = Experiments(id=idx_base, name="Coloring", dataset=opt_data[40],
@@ -156,7 +156,7 @@ def get_experiments(output_path):
                         #opt_handle.hyper.complex_crossing = c
                         opt_handle.dnn.n_t = 28
                         opt_handle.hyper.init_factor = init
-                        opt_handle.hyper.max_num_epochs = 200
+                        opt_handle.hyper.max_num_epochs = 100
                         opt_handle.hyper.learning_rate = lr
                         opt_handle.hyper.alpha = alpha
                         opt_handle.hyper.batch_size = batch
@@ -222,14 +222,17 @@ def get_best_of_the_family(output_path):
     with open(output_path + 'selected_models.pkl', 'rb') as f:
         cross = pickle.load(f)
 
+
     opt =[]
-    for k in range(cross['num_families']+1):
+
+    for k in range(1, cross['num_families']+1):
         if not k in cross:
             continue
 
-        #print(cross[k]['ID'])
+        print(cross[k]['ID'])
         opt_handle = opt_pre_cossval[int(cross[k]['ID'])]
         opt += [copy.deepcopy(opt_handle)]
+
 
     return opt
 
@@ -246,7 +249,7 @@ def get_experiments_selected(output_path):
     idx = 0
     opt = []
 
-    for k in range(cross['num_families']+1):
+    for k in range(1, cross['num_families']+1):
         if not k in cross:
             continue
 
