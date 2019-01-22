@@ -13,12 +13,9 @@ class DNN(object):
         self.version = 1
         self.layers = 2
         self.stride = 2
-        self.neuron_multiplier = np.ones([self.layers])
+        self.c = 1
         self.n_t = 1
 
-    def set_num_layers(self, num_layers):
-        self.layers = num_layers
-        self.neuron_multiplier = np.ones([self.layers])
 
 
 class Hyperparameters(object):
@@ -27,7 +24,7 @@ class Hyperparameters(object):
         self.batch_size = 128
         self.learning_rate = 1e-2
         self.num_epochs_per_decay = 1.0
-        self.learning_rate_factor_per_decay = 1#0.95
+        self.learning_rate_factor_per_decay = 1
         self.weight_decay = 0
         self.max_num_epochs = 60
         self.drop_train = 1
@@ -87,13 +84,6 @@ def get_experiments(output_path):
     # # #
     # Create set of experiments
     opt = []
-
-    neuron_multiplier = [0.25, 0.5, 1, 2, 4]
-    crop_sizes = [28, 24, 20, 16, 12]
-    training_data = [1]
-    name = ["MLP1"]
-    num_layers = [5]
-    max_epochs = [100]
 
     idx_base = 0
     opt_handle = Experiments(id=idx_base, name="Coloring", dataset=opt_data[49], output_path=output_path,

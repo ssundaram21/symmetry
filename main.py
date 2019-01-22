@@ -15,26 +15,26 @@ FLAGS = parser.parse_args()
 code_path = {
     'xavier': '/Users/xboix/src/insideness/',
     'om': '/om/user/xboix/src/insideness/',
-    'om_vilim': '/om/user/vilim/src/insideness/',
-    'om_crossing': '/om/user/xboix/share/insideness2/',
-    'om_coloring': '/om/user/xboix/src/insideness/',
-    'om_lstm': '/om/user/xboix/src/insideness/'}[FLAGS.host_filesystem]
+    'om_vilim': '/om/user/vilim/src/insideness/'}[FLAGS.host_filesystem]
 
 output_path = {
     'xavier': '/Users/xboix/src/insideness/log/',
     'om_vilim': '/om/user/xboix/share/insideness_vilim/',
-    'om_coloring': '/om/user/xboix/share/insideness3/',
-    'om_crossing': '/om/user/xboix/share/insideness2/',
-    'om_lstm': '/om/user/xboix/share/insideness4/'}[FLAGS.host_filesystem]
+    'om': '/om/user/xboix/share/insideness/'}[FLAGS.host_filesystem]
+
 
 if FLAGS.network == "crossing":
     from experiments import crossing as experiment
+    output_path = output_path + "crossing/"
 elif FLAGS.network == "coloring":
     from experiments import coloring as experiment
+    output_path = output_path + "coloring/"
 elif FLAGS.network == "dilation":
     from experiments import dilation as experiment
+    output_path = output_path + "dilation/"
 elif FLAGS.network == "lstm":
     from experiments import lstm as experiment
+    output_path = output_path + "lstm/"
 
 
 def run_generate_dataset(id):
