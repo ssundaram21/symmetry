@@ -54,8 +54,8 @@ def Dilated_convolution(data, opt, dropout_rate, labels_id):
 
     data = tf.reshape(data, [-1, opt.dataset.image_size, opt.dataset.image_size, 1])
 
-    channel_rate = opt.hyper.complex_dilation
-    num_layers = opt.hyper.num_layers
+    channel_rate = opt.dnn.complex_dilation
+    num_layers = opt.dnn.num_layers
 
     channels = [2*channel_rate] + [(2**i) * channel_rate for i in range(1, num_layers-1)] + [2]
     dilations = [1] + [(2**i) for i in range(num_layers-3)] + [1, 1]
