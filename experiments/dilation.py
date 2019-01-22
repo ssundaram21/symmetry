@@ -108,7 +108,7 @@ def get_experiments(output_path):
                             opt_handle.dnn.name = "Dilation"
                             opt_handle.hyper.max_num_epochs = 100
                             opt_handle.dnn.num_layers = l
-                            opt_handle.dnn.complex = c
+                            opt_handle.dnn.complex_dilation = c
                             opt_handle.hyper.learning_rate = lr
                             opt_handle.hyper.alpha = alpha
                             opt_handle.hyper.batch_size = batch

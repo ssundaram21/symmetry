@@ -61,4 +61,4 @@ def Dilated_convolution(data, opt, dropout_rate, labels_id):
     dilations = [1] + [(2**i) for i in range(num_layers-3)] + [1, 1]
 
     predictions = model(data, channels, dilations)
-    return predictions
+    return predictions, [], []
