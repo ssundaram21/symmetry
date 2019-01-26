@@ -15,5 +15,6 @@ cd /om/user/xboix/src/insideness/
 singularity exec -B /om:/om --nv /om/user/xboix/singularity/xboix-tensorflow.simg \
 python /om/user/xboix/src/insideness/main.py \
 --experiment_index=${SLURM_ARRAY_TASK_ID} \
---host_filesystem=om_lstm \
+--host_filesystem=om \
+--network=dilation \
 --run=train_selected

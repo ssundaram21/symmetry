@@ -1,10 +1,10 @@
 #!/bin/bash
-#SBATCH -n 2
-#SBATCH --array=1-999
-#SBATCH -c 2
+#SBATCH -n 1
+#SBATCH --array=1-191
+#SBATCH -c 1
 #SBATCH --job-name=insideness
-#SBATCH --mem=8GB
-#SBATCH --gres=gpu:tesla-k80:1
+#SBATCH --mem=12GB
+#SBATCH --gres=gpu:GEFORCEGTX1080TI:1
 #SBATCH -t 2:00:00
 #SBATCH --qos=cbmm
 #SBATCH --workdir=./log/
@@ -18,4 +18,5 @@ python /om/user/xboix/src/insideness/main.py \
 --experiment_index=${SLURM_ARRAY_TASK_ID} \
 --host_filesystem=om \
 --network=dilation \
---run=train
+--run=train \
+--error_correction=error_ids
