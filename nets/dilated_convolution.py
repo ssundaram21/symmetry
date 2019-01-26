@@ -56,9 +56,13 @@ def Dilated_convolution(data, opt, dropout_rate, labels_id):
 
     channel_rate = opt.dnn.complex_dilation
     num_layers = opt.dnn.num_layers
+    no_dilation = opt.dnn.no_dilation
 
     channels = [2*channel_rate] + [(2**i) * channel_rate for i in range(1, num_layers-1)] + [2]
-    dilations = [1] + [(2**i) for i in range(num_layers-3)] + [1, 1]
+    if no_dilation:
+        dilations = [1 for _ in range(num_layers)]
+    else:
+        dilations = [1] + [(2**i) for i in range(num_layers-3)] + [1, 1]
 
     predictions = model(data, channels, dilations)
     return predictions, [], []
