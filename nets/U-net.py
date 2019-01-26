@@ -57,42 +57,52 @@ def decoder_block(incoming, num_channels, n, skip, has_skip=1, name=''):
     return h
 
 
-def encoder(incoming, name='encoder'):
+def encoder(incoming, base_channels, num_poolings, num_convolutions_step, name='encoder'):
     with tf.variable_scope(name):
-        h, skip_1 = encoder_block(incoming, 32, n=2, name='block_1')
-        h, skip_2 = encoder_block(h, 64, n=2, name='block_2')
-        h, skip_3 = encoder_block(h, 128, n=2, name='block_3')
+        skips = []
+        channels = base_channels
+        h = incoming
+        for i in range(num_poolings):
+            print(channels)
+            h, skip = encoder_block(h, channels, n=num_convolutions_step, name='block_{}'.format(i+1))
+            skips.append(skip)
+            if i != num_poolings:
+                channels *= 2
 
-        h = conv2d(h, 128, name='block_4')
+        h = conv2d(h, channels, name='block_4')
         h = relu(h, name='block_4')
-        h = conv2d(h, 256, name='block_4')
+        h = conv2d(h, channels*2, name='block_4')
         h = relu(h, name='block_4')
-        h = conv2d(h, 128, name='block_4')
+        h = conv2d(h, channels, name='block_4')
         h = relu(h, name='block_4')
-    return h, [skip_3, skip_2, skip_1]
+    return h, skips, channels
 
 
-def decoder(incoming, skips, has_skip=1, num_classes=3, name='decoder'):
+def decoder(incoming, base_channels, num_convolutions_step, skips, num_classes=2, name='decoder'):
     with tf.variable_scope(name):
-        h = decoder_block(incoming, 128, n=2, skip=skips[0], has_skip=has_skip, name='block_3')
-        h = decoder_block(h, 64, n=2, skip=skips[1], has_skip=has_skip, name='block_2')
-        h = decoder_block(h, 32, n=2, skip=skips[2], has_skip=has_skip, name='block_1')
-        h = conv2d(h, num_classes, 3, stride=1, name='last_conv')
+        h = incoming
+        channels = base_channels
+        for i, skip in reversed(list(enumerate(skips))):
+            h = decoder_block(h, channels, n=num_convolutions_step,
+                              skip=skip, name='block_{}'.format(i+1))
+            channels /= 2
+
+        h = conv2d(h, num_classes, k_size=1, stride=1, name='last_conv')
     return h
 
 
 def U_net(data, opt, dropout_rate, labels_id):
 
     data = tf.reshape(data, [-1, opt.dataset.image_size, opt.dataset.image_size, 1])
+    data = tf.image.resize_image_with_crop_or_pad(data, 32, 32)
 
-    # TODO: define in opt:
-    # has_skip: a boolean for indicating skip connections
-    # num_classes: number of labels for each output pixel (default is 3)
+    base_channels = opt.dnn.base_channels
+    num_poolings = opt.dnn.num_poolings
+    num_convolutions_step = opt.dnn.num_convolutions_step
 
-    has_skip = opt.has_skip
-    num_classes = opt.num_classes
+    net, skips, last_channels = encoder(data, base_channels, num_poolings, num_convolutions_step, name='encoder')
+    predictions = decoder(net, last_channels, num_convolutions_step, skips)
 
-    net, skip = encoder(data, name='encoder')
-    predictions = decoder(net, skip, has_skip, num_classes)
+    predictions = tf.image.resize_image_with_crop_or_pad(predictions, 30, 30)
 
     return predictions
