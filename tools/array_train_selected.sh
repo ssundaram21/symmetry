@@ -1,8 +1,9 @@
 #!/bin/bash
-#SBATCH -n 2
+#SBATCH -n1
 #SBATCH --array=0-999
+#SBATCH --exclude=node030
 #SBATCH --job-name=insideness
-#SBATCH --mem=16GB
+#SBATCH --mem=12GB
 #SBATCH --gres=gpu:tesla-k80:1
 #SBATCH -t 4:00:00
 #SBATCH --qos=cbmm

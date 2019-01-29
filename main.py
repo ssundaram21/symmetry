@@ -35,6 +35,9 @@ elif FLAGS.network == "dilation":
 elif FLAGS.network == "lstm":
     from experiments import lstm as experiment
     output_path = output_path + "lstm/"
+elif FLAGS.network == "unet":
+    from experiments import unet as experiment
+    output_path = output_path + "unet/"
 
 
 def run_generate_dataset(id):

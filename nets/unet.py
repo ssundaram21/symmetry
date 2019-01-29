@@ -15,7 +15,7 @@ import tensorflow.contrib.slim as slim
 def conv2d(incoming, n_filters, k_size=3, stride=1, padding='SAME', name="conv2d", dilation_rate=1, scope="conv2d"):
     with tf.name_scope(name):
         conv = slim.conv2d(incoming, n_filters, [k_size, k_size], stride,
-                           padding=padding, rate=[dilation_rate, dilation_rate], scope=scope)
+                           padding=padding, rate=[dilation_rate, dilation_rate])
     return conv
 
 
@@ -52,7 +52,7 @@ def decoder_block(incoming, num_channels, n, skip, has_skip=1, name=''):
         if has_skip:
             h = tf.concat([skip, h], axis=-1)
         for i in range(n):
-            h = conv2d(h, num_channels, k_size=3, stride=1, name='conv_{}'.format(i+1))
+            h = conv2d(h, num_channels, k_size=3, stride=1, name='de_cconv_{}'.format(i+1))
             h = relu(h, name='relu_{}'.format(i+1))
     return h
 
@@ -69,12 +69,12 @@ def encoder(incoming, base_channels, num_poolings, num_convolutions_step, name='
             if i != num_poolings:
                 channels *= 2
 
-        h = conv2d(h, channels, name='block_4')
-        h = relu(h, name='block_4')
-        h = conv2d(h, channels*2, name='block_4')
-        h = relu(h, name='block_4')
-        h = conv2d(h, channels, name='block_4')
-        h = relu(h, name='block_4')
+        h = conv2d(h, channels, name='block_4a')
+        h = relu(h, name='block_4ar')
+        h = conv2d(h, channels*2, name='block_4b')
+        h = relu(h, name='block_4br')
+        h = conv2d(h, channels, name='block_4c')
+        h = relu(h, name='block_4cr')
     return h, skips, channels
 
 
@@ -84,7 +84,7 @@ def decoder(incoming, base_channels, num_convolutions_step, skips, num_classes=2
         channels = base_channels
         for i, skip in reversed(list(enumerate(skips))):
             h = decoder_block(h, channels, n=num_convolutions_step,
-                              skip=skip, name='block_{}'.format(i+1))
+                              skip=skip, name='de_block_{}'.format(i+1))
             channels /= 2
 
         h = conv2d(h, num_classes, k_size=1, stride=1, name='last_conv')
@@ -103,6 +103,6 @@ def U_net(data, opt, dropout_rate, labels_id):
     net, skips, last_channels = encoder(data, base_channels, num_poolings, num_convolutions_step, name='encoder')
     predictions = decoder(net, last_channels, num_convolutions_step, skips)
 
-    predictions = tf.image.resize_image_with_crop_or_pad(predictions, 30, 30)
+    predictions = tf.image.resize_image_with_crop_or_pad(predictions, opt.dataset.image_size, opt.dataset.image_size)
 
-    return predictions
+    return predictions, [], []
