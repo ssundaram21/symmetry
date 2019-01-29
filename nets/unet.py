@@ -85,7 +85,7 @@ def decoder(incoming, base_channels, num_convolutions_step, skips, num_classes=2
         for i, skip in reversed(list(enumerate(skips))):
             h = decoder_block(h, channels, n=num_convolutions_step,
                               skip=skip, name='de_block_{}'.format(i+1))
-            channels /= 2
+            channels = int(channels / 2)
 
         h = conv2d(h, num_classes, k_size=1, stride=1, name='last_conv')
     return h

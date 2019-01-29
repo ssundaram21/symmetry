@@ -19,4 +19,5 @@ python /om/user/xboix/src/insideness/main.py \
 --experiment_index=${SLURM_ARRAY_TASK_ID} \
 --host_filesystem=om \
 --network=unet \
---run=train
+--run=train \
+--error_correction=error_ids
