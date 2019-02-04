@@ -118,8 +118,8 @@ def decoder_block(incoming, mask, training, n, num_channels, name='decoder', adj
                 h = conv2d(h, num_channels / 2, 3, stride=1, name='conv_{}'.format(i + 1))
             else:
                 h = conv2d(h, num_channels, 3, stride=1, name='conv_{}'.format(i + 1))
-        h = batch_norm(h, training, name='bn_{}'.format(n))
-        h = relu(h, name='relu_{}'.format(n))
+            h = batch_norm(h, training, name='bn_{}'.format(n))
+            h = relu(h, name='relu_{}'.format(n))
     return h
 
 
