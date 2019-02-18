@@ -1,8 +1,9 @@
 #This is really badly written, but the function "create_data_set(x)" 
 #returns a dictionary with x keys and such that the values correspond 
-#to ordered pairs (A,B), where A is a 30x30 image (where the pixels in the path have pixels
+#to ordered pairs (A,B), where A is a 30x30 matrix (where the pixels in the path have pixels
 #1 and the other pixels have all value 0) and B is the ground truth
 #(pixels outside are 0 and pixels inside are 1).
+#NOTE: Matrices are represented by lists of lists, i.e. A[x][y] corresponds to the pixel (x,y).
 
 
 from random import randint
