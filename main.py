@@ -47,6 +47,13 @@ def run_generate_dataset(id):
     generate_dataset.run(run_opt)
 
 
+def get_dataset_as_numpy(id):
+    from runs import get_dataset_as_numpy
+    opt_data = datasets.get_datasets(output_path)[id]
+    run_opt = experiment.generate_experiments_dataset(opt_data)
+    get_dataset_as_numpy.run(run_opt)
+
+
 def run_train(id):
     from runs import train
     run_opt = experiment.get_experiments(output_path)[id]
@@ -82,6 +89,15 @@ def run_evaluate_generalization(id):
     test_generalization.run(run_opt, opt_data)
 
 
+def run_extract_activations(id):
+
+    opt_data = datasets.get_datasets(output_path)
+    run_opt = experiment.get_best_of_the_family(output_path)[id]
+
+    from runs import extract_activations
+    extract_activations.run(run_opt, opt_data)
+
+
 def run_evaluate_perturbation(id):
     from runs import test_perturbation
     opt_data = datasets.get_datasets(output_path)
@@ -92,11 +108,13 @@ def run_evaluate_perturbation(id):
 
 switcher = {
     'generate_dataset': run_generate_dataset,
+    'get_dataset_as_numpy': get_dataset_as_numpy,
     'train': run_train,
     'get_train_errors': get_train_errors,
     'crossval_select': run_crossval_select,
     'train_selected': run_train_selected,
     'evaluate_generalization': run_evaluate_generalization,
+    'extract_activations': run_extract_activations,
     'evaluate_perturbation': run_evaluate_perturbation
 }
 
