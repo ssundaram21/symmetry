@@ -123,20 +123,30 @@ def decoder_block(incoming, mask, training, n, num_channels, name='decoder', adj
     return h
 
 
-def encoder(incoming, training, name='encoder'):
+def encoder(incoming, training, num_convolutions_step, base_channels, num_poolings, name='encoder'):
     with tf.variable_scope(name):
-        h, mask_1 = encoder_block(incoming, training, n=3, num_channels=32, name='block_1')
-        h, mask_2 = encoder_block(h, training, n=3, num_channels=64, name='block_2')
-        h, mask_3 = encoder_block(h, training, n=3, num_channels=128, name='block_3')
-    return h, [mask_3, mask_2, mask_1]
+        h = incoming
+        masks = []
+        channels = base_channels
+        for i in range(num_poolings):
+            h, mask = encoder_block(h, training, n=num_convolutions_step,
+                                    num_channels=channels, name='block_{}'.format(i+1))
+            masks.append(mask)
+            if i != num_poolings:
+                channels *= 2
+    return h, masks, channels
 
 
-def decoder(incoming, mask, training, num_classes=3, name='decoder'):
+def decoder(incoming, base_channels, num_convolutions_step, masks, training, num_classes=2, name='decoder'):
     with tf.variable_scope(name):
-        h = decoder_block(incoming, mask[0], training, n=3, num_channels=128, name='block_3')
-        h = decoder_block(h, mask[1], training, n=3, num_channels=64, name='block_2')
-        h = decoder_block(h, mask[2], training, n=3, num_channels=32, name='block_1')
-        h = conv2d(h, num_classes, 3, stride=1, name='last_conv')
+        h = incoming
+        channels = base_channels
+        for i, mask in reversed(list(enumerate(masks))):
+            h = decoder_block(h, mask, training, n=num_convolutions_step,
+                              num_channels=channels, name='de_block_{}'.format(i+1))
+            channels = int(channels / 2)
+
+        h = conv2d(h, num_classes, k_size=3, stride=1, name='last_conv')
     return h
 
 
@@ -144,14 +154,14 @@ def Segnet(data, opt, dropout_rate, labels_id):
 
     data = tf.reshape(data, [-1, opt.dataset.image_size, opt.dataset.image_size, 1])
 
-    # TODO: define in opt:
-    # training: a boolean indicating weather or not we are in training phase. this is for batch_norm in encoder
-    # num_classes: number of labels for each output pixel (default is 3).
+    base_channels = opt.dnn.base_channels
+    num_poolings = opt.dnn.num_poolings
+    num_convolutions_step = opt.dnn.num_convolutions_step
+    # todo: remove this in case batch_norm function changes
+    training = opt.dnn.training
 
-    training = opt.training
-    num_classes = opt.num_classes
+    net, masks, last_channels = encoder(data, training, num_convolutions_step,
+                                        base_channels, num_poolings, name='encoder')
+    predictions = decoder(net, last_channels, num_convolutions_step, masks, training, name='decoder')
 
-    net, mask = encoder(data, training, name='encoder')
-    predictions = decoder(net, mask, training, num_classes, name='decoder')
-
-    return predictions
+    return predictions, [], []
