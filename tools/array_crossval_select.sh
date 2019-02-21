@@ -12,5 +12,5 @@ singularity exec -B /om:/om /om/user/xboix/singularity/xboix-tensorflow.simg \
 python /om/user/xboix/src/insideness/main.py \
 --experiment_index=0 \
 --host_filesystem=om \
---network=dilation \
+--network=crossing \
 --run=crossval_select
