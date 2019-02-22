@@ -39,6 +39,8 @@ def model(incoming, channels, dilations, name="model"):
     :param name: variable_scope name
     :return: output of network. A tensor of shape (batch_size, width, height, channels[-1])
     """
+
+    act = []
     with tf.variable_scope(name):
         h = incoming
         for i in range(len(channels)):
@@ -47,7 +49,9 @@ def model(incoming, channels, dilations, name="model"):
             else:
                 h = conv2d(h, channels[i], dilation_rate=dilations[i], scope='dilated_conv2d_%d' % (i+1))
             h = relu(h, name='relu_{}'.format(i+1))
-    return h
+            act.append(h)
+
+    return h, act
 
 
 def Dilated_convolution(data, opt, dropout_rate, labels_id):
@@ -64,5 +68,5 @@ def Dilated_convolution(data, opt, dropout_rate, labels_id):
     else:
         dilations = [1] + [(2**i) for i in range(num_layers-3)] + [1, 1]
 
-    predictions = model(data, channels, dilations)
-    return predictions, [], []
+    predictions, activations = model(data, channels, dilations)
+    return predictions, [], activations

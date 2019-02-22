@@ -223,16 +223,7 @@ def get_best_of_the_family(output_path):
     with open(output_path + 'selected_models.pkl', 'rb') as f:
         cross = pickle.load(f)
 
-    #print(cross)
-
-    ### !!!!!!!
-    #pt = []
-    opt = [copy.deepcopy(opt_pre_cossval[0])]
-    ### !!!!!!!
-    ### !!!!!!!
-    ### !!!!!!!
-    ### !!!!!!!
-    ### !!!!!!!
+    opt = []
 
 
     for k in range(cross['num_families']+1):
