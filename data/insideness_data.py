@@ -1,5 +1,6 @@
 from data import data
 from data import generate_shapes
+from data import spiral_data
 import numpy as np
 import random as rnd
 import sys
@@ -22,61 +23,6 @@ class InsidenessDataset(data.Dataset):
         self.create_tfrecords()
 
     def get_parameters_complexity(self, complexity, strict):
-        '''
-        if strict == False:
-
-            if complexity == 0:
-                num_points = [3, 5]
-                minimum_radius =[23, 25]
-                maximum_radius = [25, 28]
-
-            if complexity == 1:
-                num_points = [3, 10]
-                minimum_radius =[19, 25]
-                maximum_radius = [25, 32]
-
-            if complexity == 2:
-                num_points = [3, 15]
-                minimum_radius =[15, 25]
-                maximum_radius = [25, 36]
-
-            if complexity == 3:
-                num_points = [3, 20]
-                minimum_radius =[10, 25]
-                maximum_radius = [25, 40]
-
-            if complexity == 4:
-                num_points = [3, 25]
-                minimum_radius =[6, 25]
-                maximum_radius = [25, 44]
-
-        else:
-            if complexity == 0:
-                num_points = [3, 5]
-                minimum_radius = [23, 25]
-                maximum_radius = [26, 28]
-
-            if complexity == 1:
-                num_points = [6, 10]
-                minimum_radius = [19, 22]
-                maximum_radius = [29, 32]
-
-            if complexity == 2:
-                num_points = [11, 15]
-                minimum_radius = [15, 18]
-                maximum_radius = [33, 36]
-
-            if complexity == 3:
-                num_points = [16, 20]
-                minimum_radius = [10, 14]
-                maximum_radius = [37, 40]
-
-            if complexity == 4:
-                num_points = [21, 25]
-                minimum_radius = [6, 9]
-                maximum_radius = [41, 44]
-
-         '''
 
         if strict == False:
 
@@ -137,8 +83,10 @@ class InsidenessDataset(data.Dataset):
     # Virtual functions:
     def get_data_trainval(self):
 
-        num_points_range, maximum_radius_range, minimum_radius_range = \
-            self.get_parameters_complexity(self.opt.dataset.complexity, self.opt.dataset.complexity_strict)
+        if self.opt.dataset.complexity < 5:
+            #polygon
+            num_points_range, maximum_radius_range, minimum_radius_range = \
+                self.get_parameters_complexity(self.opt.dataset.complexity, self.opt.dataset.complexity_strict)
 
         # read the 5 batch files of cifar
         X = []
@@ -149,12 +97,18 @@ class InsidenessDataset(data.Dataset):
                 print('Data: {}/{}'.format(i, int(self.opt.dataset.num_images_training)))
                 sys.stdout.flush()
 
-            num_points = rnd.randint(num_points_range[0], num_points_range[1])
-            minimum_radius = rnd.randint(minimum_radius_range[0], minimum_radius_range[1])
-            maximum_radius = rnd.randint(maximum_radius_range[0], maximum_radius_range[1])
+            if self.opt.dataset.complexity < 5 :
+                #polygon
+                num_points = rnd.randint(num_points_range[0], num_points_range[1])
+                minimum_radius = rnd.randint(minimum_radius_range[0], minimum_radius_range[1])
+                maximum_radius = rnd.randint(maximum_radius_range[0], maximum_radius_range[1])
 
-            img, gt, img_raw = generate_shapes.generate_data(num_points, self.opt.dataset.image_size, self.opt.dataset.image_size,
-                                          maximum_radius, minimum_radius)
+                img, gt, img_raw = generate_shapes.generate_data(num_points, self.opt.dataset.image_size, self.opt.dataset.image_size,
+                                              maximum_radius, minimum_radius)
+            else:
+                #spiral:
+                img, gt = spiral_data.create_data_set()
+                img_raw = img
 
             X.append(np.uint8(img))
 
@@ -187,8 +141,10 @@ class InsidenessDataset(data.Dataset):
 
 
     def get_data_test(self):
-        num_points_range, maximum_radius_range, minimum_radius_range = \
-            self.get_parameters_complexity(self.opt.dataset.complexity, self.opt.dataset.complexity_strict)
+
+        if self.opt.dataset.complexity < 5:
+            num_points_range, maximum_radius_range, minimum_radius_range = \
+                self.get_parameters_complexity(self.opt.dataset.complexity, self.opt.dataset.complexity_strict)
 
         # read the 5 batch files of cifar
         X = []
@@ -198,12 +154,18 @@ class InsidenessDataset(data.Dataset):
             if not i % 10:
                 print('Data: {}/{}'.format(i, int(self.opt.dataset.num_images_testing)))
                 sys.stdout.flush()
-            num_points = rnd.randint(num_points_range[0],num_points_range[1])
-            minimum_radius = rnd.randint(minimum_radius_range[0], minimum_radius_range[1])
-            maximum_radius = rnd.randint(maximum_radius_range[0], maximum_radius_range[1])
 
-            img, gt, img_raw = generate_shapes.generate_data(num_points, self.opt.dataset.image_size, self.opt.dataset.image_size,
-                                          maximum_radius, minimum_radius)
+            if self.opt.dataset.complexity < 5:
+                num_points = rnd.randint(num_points_range[0],num_points_range[1])
+                minimum_radius = rnd.randint(minimum_radius_range[0], minimum_radius_range[1])
+                maximum_radius = rnd.randint(maximum_radius_range[0], maximum_radius_range[1])
+
+                img, gt, img_raw = generate_shapes.generate_data(num_points, self.opt.dataset.image_size, self.opt.dataset.image_size,
+                                              maximum_radius, minimum_radius)
+            else:
+                #spiral:
+                img, gt = spiral_data.create_data_set()
+                img_raw = img
 
             X.append(np.uint8(img))
             X_raw.append(np.uint8(img_raw))

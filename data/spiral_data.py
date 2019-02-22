@@ -7,16 +7,11 @@
 
 
 from random import randint
-import matplotlib
-from matplotlib import pyplot as plt
-import argparse
 import numpy as np
-import json
-import copy
 import operator
 
 
-VECTORS={0:(0,-1), 1:(1,-1),2:(1,0),3:(1,1),4:(0,1),5:(-1,1),6:(-1,0),7:(-1,-1)}
+VECTORS ={0:(0,-1), 1:(1,-1),2:(1,0),3:(1,1),4:(0,1),5:(-1,1),6:(-1,0),7:(-1,-1)}
 INV_VECTORS={(0,-1):0, (1,-1):1,(1,0):2,(1,1):3,(0,1):4,(-1,1):5,(-1,0):6,(-1,-1):7}
 NUM_NEIGHBORS=8
 RIGHT_TURN=2
@@ -29,27 +24,32 @@ width = 40
 minimum= 1
 maximum= 3
 
+
 def prod(v, i):
     return (v[0]*i, v[1]*i)
 
+
 def sum_vectors(v1,v2):
     return tuple(map(operator.add, v1,v2))
+
 
 #True iff (x,y) has valid coordinates
 def is_valid(x,y):
     return x>0 and x<width-1 and y>0 and y<height-1
 
+
 def in_neigh(v, LATTICE):
     count= 0
-    for i in xrange(8):
+    for i in range(8):
         n = sum_vectors(v,VECTORS[i])
         if LATTICE[n[0]][n[1]] == inside:
             count+=1
     return count
 
+
 def space(v, LATTICE, direc, n):
-    for i in xrange(n):
-        for j in xrange(n):
+    for i in range(n):
+        for j in range(n):
             t = sum_vectors(prod(VECTORS[direc], i), v)
             t1 = sum_vectors(t, prod(VECTORS[(direc+2)%8], j))
             t2 = sum_vectors(t, prod(VECTORS[(direc-2)%8], j))
@@ -58,6 +58,7 @@ def space(v, LATTICE, direc, n):
             if is_valid(t2[0], t2[1]) and LATTICE[t2[0]][t2[1]] == inside:
                 return False
     return True
+
 
 def fix_corner(LATTICE):
         difference=self.current_vector-self.old_vector
@@ -79,13 +80,13 @@ def create_loop(x,y):
     succ=0
     path=[]
     thickness = randint(3,4)
-    LATTICE = [[outside]*height for i in xrange(width)]
+    LATTICE = [[outside]*height for i in range(width)]
     curr = (x, y)
-    for i in xrange(500):
+    for i in range(500):
         direc = 2* randint(0,3)
         r = randint(3,10)
         count = 0
-        for l in xrange(r):
+        for l in range(r):
             (a, b) = sum_vectors(curr,VECTORS[direc])
             new = (a, b)
             if is_valid(a, b) and LATTICE[a][b] != inside and in_neigh(new, LATTICE)<=3 and space(new, LATTICE, direc, 10):
@@ -103,39 +104,42 @@ def create_loop(x,y):
                     if is_valid(w,z):
                         LATTICE[w][z] = inside
         if e==1:
-            for i in xrange(-thickness+1, thickness):
-                for j in xrange(-thickness+1, thickness):
+            for i in range(-thickness+1, thickness):
+                for j in range(-thickness+1, thickness):
                     (w, z) = sum_vectors(c,(i,j))
                     if is_valid(w,z):
                         LATTICE[w][z] = inside
     return (LATTICE, succ)
 
+
 def fix(LATTICE):
-    for x in xrange(width):
-        for y in xrange(height):
+    for x in range(width):
+        for y in range(height):
             if LATTICE[x][y]== outside:
-                for i in xrange(8):
+                for i in range(8):
                     (a, b) = sum_vectors((x,y),VECTORS[i])
                     if is_valid(a,b) and LATTICE[a][b] == inside:
                         LATTICE[x][y] = mid
                         break
-    for x in xrange(width):
-        for y in xrange(height):
+    for x in range(width):
+        for y in range(height):
             if LATTICE[x][y]== inside:
                 LATTICE[x][y]= outside
     return LATTICE
                     
 
 def gnd(LATTICE):
-    LATTICE1 = [[outside]*height for i in xrange(width)]
-    for x in xrange(width):
-        for y in xrange(height):
+    LATTICE1 = [[outside]*height for i in range(width)]
+    for x in range(width):
+        for y in range(height):
             if LATTICE[x][y]== inside:
                 LATTICE1[x][y] = 0
             else:
                 LATTICE1[x][y] = 1
     return LATTICE1                       
-                        
+
+
+''' 
 def image():
     var= True
     while var:
@@ -148,23 +152,22 @@ def image():
             #plt.imshow(image, interpolation='none')
             plt.imshow(LATTICE1, interpolation='none')
             plt.show()
+'''
 
+def create_data_set():
+    start_x=randint(30/3,2*30/3)
+    start_y=randint(30/3,2*30/3)
+    var= True
+    while var:
+        (LATTICE, succ) = create_loop(start_x, start_y)
+        if succ>20:
+            var = False
+            LATTICE1 = gnd(LATTICE)
+            LATTICE = fix(LATTICE)
 
-def create_data_set(size):
-    images={}
-    m=0
-    for j in xrange(size):
-        start_x=randint(30/3,2*30/3)
-        start_y=randint(30/3,2*30/3)
-        count=0
-        var= True
-        while var:
-            (LATTICE, succ) = create_loop(start_x,start_y)
-            if succ>20:
-                var= False
-                LATTICE1=gnd(LATTICE)
-                LATTICE = fix(LATTICE)
-                images[m]=(LATTICE, LATTICE1)
-                m+=1
-    return images
+    LATTICE1 = 1 - np.uint8(LATTICE1)
+    LATTICE1 = np.pad(LATTICE1, ((1,1), (1,1)), 'constant', constant_values=((0, 0), (0, 0)))
+    LATTICE = np.pad(LATTICE, ((1, 1), (1, 1)), 'constant', constant_values=((0, 0), (0, 0)))
+
+    return LATTICE, LATTICE1
 
