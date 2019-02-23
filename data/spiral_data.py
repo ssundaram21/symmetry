@@ -158,12 +158,12 @@ def create_data_set():
     start_x=randint(30/3,2*30/3)
     start_y=randint(30/3,2*30/3)
     var= True
-    while var:
-        (LATTICE, succ) = create_loop(start_x, start_y)
-        if succ>20:
-            var = False
-            LATTICE1 = gnd(LATTICE)
-            LATTICE = fix(LATTICE)
+    #while var:
+    (LATTICE, succ) = create_loop(start_x, start_y)
+        #if succ>20:
+        #    var = False
+    LATTICE1 = gnd(LATTICE)
+    LATTICE = fix(LATTICE)
 
     LATTICE1 = 1 - np.uint8(LATTICE1)
     LATTICE1 = np.pad(LATTICE1, ((1,1), (1,1)), 'constant', constant_values=((0, 0), (0, 0)))

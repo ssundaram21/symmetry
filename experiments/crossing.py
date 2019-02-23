@@ -96,8 +96,8 @@ def get_experiments(output_path):
     max_epochs = [100]
 
     idx_base = 0
-    opt_handle = Experiments(id=idx_base, name="Coloring", dataset=opt_data[49], output_path=output_path,
-                             family_id=0, family_name="Coloring_Optimal")
+    opt_handle = Experiments(id=idx_base, name="Crossing", dataset=opt_data[50], output_path=output_path,
+                             family_id=0, family_name="Crossing_Optimal")
     opt_handle.skip_train = True
     opt_handle.dnn.name = "Crossing"
     opt_handle.hyper.complex_crossing = 20
@@ -142,6 +142,7 @@ def get_experiments(output_path):
                             idx_base += 1
 
         idx_family += 1
+
 
     '''
     # INSIDENESS3 FOLDER:
