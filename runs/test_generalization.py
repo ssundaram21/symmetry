@@ -153,15 +153,16 @@ def run(opt, opt_datasets):
     ################################################################################################
 
     #TODO: write a loop that goes for groups of datasets with same image size
-    datasets, test_datasets, test_iterators = get_dataset_handlers(opt, opt_datasets[0:-2])
-    acc = test_generalization(opt, opt_datasets, datasets, test_datasets, test_iterators)
+    datasets, test_datasets, test_iterators = get_dataset_handlers(opt, opt_datasets[0:-1])
+    acc_tmp1 = test_generalization(opt, opt_datasets[0:-1], datasets, test_datasets, test_iterators)
     tf.reset_default_graph()
 
     datasets, test_datasets, test_iterators = get_dataset_handlers(opt, [opt_datasets[-1]])
-    acc_tmp = test_generalization(opt, opt_datasets, datasets, test_datasets, test_iterators)
+    acc_tmp2 = test_generalization(opt, opt_datasets[-1], datasets, test_datasets, test_iterators)
 
-    acc['test_accuracy'] = {**acc['test_accuracy'], **acc_tmp['test_accuracy']}
-    acc['test_accuracy_loose'] = {**acc['test_accuracy_loose'], **acc_tmp['test_accuracy_loose']}
+    acc={}
+    acc['test_accuracy'] = {**acc_tmp1['test_accuracy'], **acc_tmp2['test_accuracy']}
+    acc['test_accuracy_loose'] = {**acc_tmp1['test_accuracy_loose'], **acc_tmp2['test_accuracy_loose']}
 
     import pickle
 
