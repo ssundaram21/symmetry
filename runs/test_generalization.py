@@ -8,25 +8,7 @@ import tensorflow as tf
 from nets import nets
 
 
-def run(opt, opt_datasets):
-
-    ################################################################################################
-    # Read experiment to run
-    ################################################################################################
-
-    # Skip execution if instructed in experiment
-    if opt.skip:
-        print("SKIP")
-        quit()
-
-    print(opt.name)
-    ################################################################################################
-
-
-    ################################################################################################
-    # Define training and validation datasets through Dataset API
-    ################################################################################################
-
+def get_dataset_handlers(opt, opt_datasets):
     # Initialize dataset and creates TF records if they do not exist
     datasets = []
     test_datasets = []
@@ -42,9 +24,10 @@ def run(opt, opt_datasets):
     else:
         print("Error: no valid dataset specified")
 
-    # No repeatable dataset for testing
+    return datasets, test_datasets, test_iterators
 
 
+def test_generalization(opt, opt_datasets, datasets, test_datasets, test_iterators):
     # Handles to switch datasets
     handle = tf.placeholder(tf.string, shape=[])
     iterator = tf.data.Iterator.from_string_handle(
@@ -119,8 +102,6 @@ def run(opt, opt_datasets):
         ################################################################################################
 
         if flag_testable:
-
-            import pickle
             acc = {}
             acc['test_accuracy'] = {}
             acc['test_accuracy_loose'] = {}
@@ -146,14 +127,50 @@ def run(opt, opt_datasets):
                 print("Full test acc loose: " + str(acc['test_accuracy_loose'][opt_dataset.ID]))
                 sys.stdout.flush()
 
-            if not os.path.exists(opt.log_dir_base + opt.name + '/results'):
-                os.makedirs(opt.log_dir_base + opt.name + '/results')
-
-            with open(opt.log_dir_base + opt.name + '/results/generalization_accuracy.pkl', 'wb') as f:
-                pickle.dump(acc, f)
-
-            print(":)")
-
         else:
             print("ERROR: MODEL WAS NOT TRAINED")
+
+    return acc
+
+
+def run(opt, opt_datasets):
+
+    ################################################################################################
+    # Read experiment to run
+    ################################################################################################
+
+    # Skip execution if instructed in experiment
+    if opt.skip:
+        print("SKIP")
+        quit()
+
+    print(opt.name)
+    ################################################################################################
+
+
+    ################################################################################################
+    # Define training and validation datasets through Dataset API
+    ################################################################################################
+
+    #TODO: write a loop that goes for groups of datasets with same image size
+    datasets, test_datasets, test_iterators = get_dataset_handlers(opt, opt_datasets[0:-2])
+    acc = test_generalization(opt, opt_datasets, datasets, test_datasets, test_iterators)
+    tf.reset_default_graph()
+
+    datasets, test_datasets, test_iterators = get_dataset_handlers(opt, [opt_datasets[-1]])
+    acc_tmp = test_generalization(opt, opt_datasets, datasets, test_datasets, test_iterators)
+
+    acc['test_accuracy'] = {**acc['test_accuracy'], **acc_tmp['test_accuracy']}
+    acc['test_accuracy_loose'] = {**acc['test_accuracy_loose'], **acc_tmp['test_accuracy_loose']}
+
+    import pickle
+
+    if not os.path.exists(opt.log_dir_base + opt.name + '/results'):
+        os.makedirs(opt.log_dir_base + opt.name + '/results')
+
+    with open(opt.log_dir_base + opt.name + '/results/generalization_accuracy.pkl', 'wb') as f:
+        pickle.dump(acc, f)
+
+    print(":)")
+
 
