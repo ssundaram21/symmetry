@@ -158,7 +158,7 @@ def run(opt, opt_datasets):
     tf.reset_default_graph()
 
     datasets, test_datasets, test_iterators = get_dataset_handlers(opt, [opt_datasets[-1]])
-    acc_tmp2 = test_generalization(opt, opt_datasets[-1], datasets, test_datasets, test_iterators)
+    acc_tmp2 = test_generalization(opt, [opt_datasets[-1]], datasets, test_datasets, test_iterators)
 
     acc={}
     acc['test_accuracy'] = {**acc_tmp1['test_accuracy'], **acc_tmp2['test_accuracy']}
