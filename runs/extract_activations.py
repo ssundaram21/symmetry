@@ -8,21 +8,8 @@ import tensorflow as tf
 from nets import nets
 
 
-def run(opt, opt_datasets):
 
-    ################################################################################################
-    # Read experiment to run
-    ################################################################################################
-
-    # Skip execution if instructed in experiment
-    if opt.skip:
-        print("SKIP")
-        quit()
-
-    print(opt.name)
-    opt.hyper.batch_size = 128
-    ################################################################################################
-
+def get_dataset_handlers(opt, opt_datasets):
 
     ################################################################################################
     # Define training and validation datasets through Dataset API
@@ -43,9 +30,10 @@ def run(opt, opt_datasets):
     else:
         print("Error: no valid dataset specified")
 
-    # No repeatable dataset for testing
+    return datasets, test_datasets, test_iterators
 
 
+def extract_activations_dataset(opt, opt_datasets, datasets, test_datasets, test_iterators):
     # Handles to switch datasets
     handle = tf.placeholder(tf.string, shape=[])
     iterator = tf.data.Iterator.from_string_handle(
@@ -134,8 +122,32 @@ def run(opt, opt_datasets):
                 with open(opt.log_dir_base + opt.name + '/results/activations_DATA' + opt_dataset.log_name + '.pkl', 'wb') as f:
                     pickle.dump(total, f)
 
-            print(":)")
-
         else:
             print("ERROR: MODEL WAS NOT TRAINED")
 
+
+
+def run(opt, opt_datasets):
+
+    ################################################################################################
+    # Read experiment to run
+    ################################################################################################
+
+    # Skip execution if instructed in experiment
+    if opt.skip:
+        print("SKIP")
+        quit()
+
+    print(opt.name)
+    opt.hyper.batch_size = 128
+    ################################################################################################
+
+    #TODO: write a loop that goes for groups of datasets with same image size
+    datasets, test_datasets, test_iterators = get_dataset_handlers(opt, opt_datasets[0:-1])
+    extract_activations_dataset(opt, opt_datasets[0:-1], datasets, test_datasets, test_iterators)
+    tf.reset_default_graph()
+
+    datasets, test_datasets, test_iterators = get_dataset_handlers(opt, [opt_datasets[-1]])
+    extract_activations_dataset(opt, [opt_datasets[-1]], datasets, test_datasets, test_iterators)
+
+    print(":)")
