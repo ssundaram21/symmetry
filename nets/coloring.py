@@ -55,10 +55,10 @@ class FillingCell(RNNCell):
                                     stddev=self._weight_std,
                                     name="w_kern"), name="devs",
                 dtype=tf.float32)
-            self._bias_i = self._deviations[0]
+            self._bias_i = tf.Variable(tf.constant(10.0)) #self._deviations[0]
             self._w1 = self._deviations[1]
             self._w2 = self._deviations[2]
-            self._bias_s = self._deviations[2]
+            self._bias_s = tf.Variable(tf.constant(10.0))# self._deviations[2]
 
     @property
     def output_size(self):
@@ -127,10 +127,15 @@ def Coloring(data, opt, dropout_rate, labels_id):
     state = tf.constant(initial_state[None, :, :, None], dtype=np.float32)
 
     with tf.variable_scope("FilledCell") as scope:
+        out = []
         for i in range(n_t):
             if i > 0:
                 scope.reuse_variables()
             t_output, state = fc(data, state)
             activations.append(state)
+            out.append(tf.concat([state, t_output], 3))
 
-    return tf.concat([state, t_output], 3), parameters, activations
+    if opt.dnn.train_per_step:
+        return out, parameters, activations
+    else:
+        return out[-1], parameters, activations

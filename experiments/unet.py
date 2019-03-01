@@ -120,6 +120,32 @@ def get_experiments(output_path):
 
         idx_family += 1
 
+    print(idx_base)
+    for idx_dataset in [50]:
+        for c in [64]:
+            for l in [1, 2, 3]:
+                for conv_steps in [1, 2]:
+                    for alpha in [0.1, 0.2, 0.4]:
+                        for batch in [32, 256, 2048]:
+                            for lr in [1e0, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5]:
+                                opt_handle = Experiments(id=idx_base, name="UNet_D" + str(idx_dataset),
+                                                dataset=opt_data[idx_dataset], output_path=output_path,
+                                                family_id=idx_family, family_name="UNet_D" + str(idx_dataset))
+                                opt_handle.dnn.name = "U_net"
+                                opt_handle.hyper.max_num_epochs = 50
+
+                                opt_handle.dnn.base_channels = c
+                                opt_handle.dnn.num_poolings = l
+                                opt_handle.dnn.num_convolutions_step = conv_steps
+
+                                opt_handle.hyper.learning_rate = lr
+                                opt_handle.hyper.alpha = alpha
+                                opt_handle.hyper.batch_size = batch
+                                opt += [copy.deepcopy(opt_handle)]
+                                idx_base += 1
+
+        idx_family += 1
+
     return opt
 
 

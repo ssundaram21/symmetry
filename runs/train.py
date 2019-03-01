@@ -92,16 +92,39 @@ def run(opt):
             name='weights_norm')
         tf.summary.scalar('weight_decay', weights_norm)
 
-        flat_y = tf.reshape(tensor=y, shape=[-1, opt.dataset.image_size**2, len(dataset.list_labels)])
-        flat_y_ = tf.reshape(tensor=y_, shape=[-1, opt.dataset.image_size**2])
-        flat_image = tf.reshape(tensor=tf.cast(image, tf.int64), shape=[-1, opt.dataset.image_size**2])
-
-        cross = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=flat_y_, logits=flat_y)
-
+        flat_y_ = tf.reshape(tensor=y_, shape=[-1, opt.dataset.image_size ** 2])
+        flat_image = tf.reshape(tensor=tf.cast(image, tf.int64), shape=[-1, opt.dataset.image_size ** 2])
         im = tf.cast((flat_image), tf.float32)
         cl = tf.cast(flat_y_, tf.float32)
-        cross_entropy_sum = tf.reduce_mean((1-opt.hyper.alpha)*tf.reduce_sum(((1-im)*cl)*cross, 1)/tf.reduce_sum((1-im)*cl, 1) + \
-                    (opt.hyper.alpha)*tf.reduce_sum(((1-im)*(1-cl)) * cross, 1) / tf.reduce_sum((1-im)*(1-cl), 1))
+
+        flag_loss_per_step = False
+        if hasattr(opt.dnn, 'train_per_step'):
+            if opt.dnn.train_per_step:
+                flag_loss_per_step = True
+                print("TRAIN PER STEP")
+                sys.stdout.flush()
+                cross_list = []
+                for yy in y:
+                    flat_y = tf.reshape(tensor=yy, shape=[-1, opt.dataset.image_size ** 2, len(dataset.list_labels)])
+                    cross_tmp = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=flat_y_, logits=flat_y)
+                    cross_list.append(tf.reduce_mean( \
+                        (1 - opt.hyper.alpha) * tf.reduce_sum(((1 - im) * cl) * cross_tmp, 1) / tf.reduce_sum(
+                            (1 - im) * cl, 1) + \
+                        (opt.hyper.alpha) * tf.reduce_sum(((1 - im) * (1 - cl)) * cross_tmp, 1) / tf.reduce_sum(
+                            (1 - im) * (1 - cl), 1)))
+
+                cross_entropy_sum = tf.add_n(cross_list)
+
+        #If loss is for the last state
+        if not flag_loss_per_step:
+            print("TRAIN AT END")
+            sys.stdout.flush()
+            flat_y = tf.reshape(tensor=y, shape=[-1, opt.dataset.image_size ** 2, len(dataset.list_labels)])
+            cross = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=flat_y_, logits=flat_y)
+            cross_entropy_sum = tf.reduce_mean( \
+                (1 - opt.hyper.alpha) * tf.reduce_sum(((1 - im) * cl) * cross, 1) / tf.reduce_sum((1 - im) * cl, 1) + \
+                (opt.hyper.alpha) * tf.reduce_sum(((1 - im) * (1 - cl)) * cross, 1) / tf.reduce_sum((1 - im) * (1 - cl),
+                                                                                                    1))
 
         tf.summary.scalar('cross_entropy', cross_entropy_sum)
 
@@ -319,6 +342,7 @@ def run(opt):
 
             acc[name] = acc_tmp / float(total)
             acc[name + 'loose'] = acc_tmp_loo / float(total)
+            print("Total " + name + " = " + str(float(total)))
             print("Full " + name + " = " + str(acc[name]))
             print("Full " + name + " loose = " + str(acc[name + 'loose']))
             sys.stdout.flush()

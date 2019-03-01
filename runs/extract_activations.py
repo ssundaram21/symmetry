@@ -9,7 +9,7 @@ from nets import nets
 
 
 
-def get_dataset_handlers(opt, opt_datasets):
+def get_dataset_handlers(opt, opt_datasets, name='test'):
 
     ################################################################################################
     # Define training and validation datasets through Dataset API
@@ -24,7 +24,7 @@ def get_dataset_handlers(opt, opt_datasets):
         for opt_dataset in opt_datasets:
             opt.dataset = opt_dataset
             datasets += [insideness_data.InsidenessDataset(opt)]
-            test_datasets += [datasets[-1].create_dataset(augmentation=False, standarization=False, set_name='test',
+            test_datasets += [datasets[-1].create_dataset(augmentation=False, standarization=False, set_name=name,
                                                   repeat=True)]
             test_iterators += [test_datasets[-1].make_initializable_iterator()]
     else:
@@ -33,7 +33,7 @@ def get_dataset_handlers(opt, opt_datasets):
     return datasets, test_datasets, test_iterators
 
 
-def extract_activations_dataset(opt, opt_datasets, datasets, test_datasets, test_iterators):
+def extract_activations_dataset(opt, opt_datasets, datasets, test_datasets, test_iterators, name='test'):
     # Handles to switch datasets
     handle = tf.placeholder(tf.string, shape=[])
     iterator = tf.data.Iterator.from_string_handle(
@@ -119,8 +119,12 @@ def extract_activations_dataset(opt, opt_datasets, datasets, test_datasets, test
 
                 sys.stdout.flush()
 
-                with open(opt.log_dir_base + opt.name + '/results/activations_DATA' + opt_dataset.log_name + '.pkl', 'wb') as f:
-                    pickle.dump(total, f)
+                if name == 'test':
+                    with open(opt.log_dir_base + opt.name + '/results/activations_DATA' + opt_dataset.log_name + '.pkl', 'wb') as f:
+                        pickle.dump(total, f)
+                else:
+                    with open(opt.log_dir_base + opt.name + '/results/activations_' + name + '_DATA' + opt_dataset.log_name + '.pkl', 'wb') as f:
+                        pickle.dump(total, f)
 
         else:
             print("ERROR: MODEL WAS NOT TRAINED")
@@ -149,5 +153,13 @@ def run(opt, opt_datasets):
 
     datasets, test_datasets, test_iterators = get_dataset_handlers(opt, [opt_datasets[-1]])
     extract_activations_dataset(opt, [opt_datasets[-1]], datasets, test_datasets, test_iterators)
+    tf.reset_default_graph()
+
+    datasets, test_datasets, test_iterators = get_dataset_handlers(opt, opt_datasets[0:-1], 'train')
+    extract_activations_dataset(opt, opt_datasets[0:-1], datasets, test_datasets, test_iterators, 'train')
+    tf.reset_default_graph()
+
+    datasets, test_datasets, test_iterators = get_dataset_handlers(opt, [opt_datasets[-1]], 'train')
+    extract_activations_dataset(opt, [opt_datasets[-1]], datasets, test_datasets, test_iterators, 'train')
 
     print(":)")

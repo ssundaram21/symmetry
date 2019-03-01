@@ -29,12 +29,27 @@ if FLAGS.network == "crossing":
 elif FLAGS.network == "coloring":
     from experiments import coloring as experiment
     output_path = output_path + "coloring/"
+elif FLAGS.network == "coloring_debug":
+    from experiments import coloring as experiment
+    output_path = output_path + "coloring_debug/"
+elif FLAGS.network == "coloring_step":
+    from experiments import coloring_step as experiment
+    output_path = output_path + "coloring_step/"
 elif FLAGS.network == "dilation":
     from experiments import dilation as experiment
     output_path = output_path + "dilation/"
+elif FLAGS.network == "FF":
+    from experiments import FF as experiment
+    output_path = output_path + "FF/"
 elif FLAGS.network == "lstm":
     from experiments import lstm as experiment
     output_path = output_path + "lstm/"
+elif FLAGS.network == "lstm_step":
+    from experiments import lstm_step as experiment
+    output_path = output_path + "lstm_step/"
+elif FLAGS.network == "multi_lstm":
+    from experiments import multi_lstm as experiment
+    output_path = output_path + "multi_lstm/"
 elif FLAGS.network == "unet":
     from experiments import unet as experiment
     output_path = output_path + "unet/"

@@ -21,6 +21,9 @@ from nets.dilated_convolution import Dilated_convolution as net_Dilated_convolut
 from nets.unet import U_net as net_U_net
 
 
+from nets.multiLSTM import MultiLSTM as net_MultiLSTM
+
+
 def MLP1(x, opt, dropout_rate, labels_id):
     return net_MLP1(x, opt, dropout_rate, labels_id)
 
@@ -44,6 +47,8 @@ def Coloring(x, opt, dropout_rate, labels_id):
 def ColoringLSTM(x, opt, dropout_rate, labels_id):
     return net_ColoringLSTM(x, opt, dropout_rate, labels_id)
 
+def MultiLSTM(x, opt, dropout_rate, labels_id):
+    return net_MultiLSTM(x, opt, dropout_rate, labels_id)
 
 def Dilation(x, opt, dropout_rate, labels_id):
     return net_Dilated_convolution(x, opt, dropout_rate, labels_id)

@@ -15,6 +15,8 @@ class DNN(object):
         self.stride = 2
         self.neuron_multiplier = np.ones([self.layers])
         self.n_t = 1
+        self.train_per_step = False
+
 
     def set_num_layers(self, num_layers):
         self.layers = num_layers
@@ -153,6 +155,8 @@ def get_experiments(output_path):
                                             dataset=opt_data[idx_dataset], output_path=output_path,
                                             family_id=idx_family, family_name="Coloring_Learning_D" + str(idx_dataset))
                             opt_handle.dnn.name = "Coloring"
+                            opt_handle.dnn.n_t = 30
+                            opt_handle.dnn.train_per_step = False
                             opt_handle.hyper.complex_crossing = c
                             opt_handle.hyper.init_factor = init
                             opt_handle.hyper.max_num_epochs = 200
@@ -176,6 +180,8 @@ def get_experiments(output_path):
                                             dataset=opt_data[idx_dataset], output_path=output_path,
                                             family_id=idx_family, family_name="Coloring_Learning_D" + str(idx_dataset))
                             opt_handle.dnn.name = "Coloring"
+                            opt_handle.dnn.n_t = 30
+                            opt_handle.dnn.train_per_step = False
                             opt_handle.hyper.complex_crossing = c
                             opt_handle.hyper.init_factor = init
                             opt_handle.hyper.max_num_epochs = 200
@@ -198,6 +204,8 @@ def get_experiments(output_path):
                                             dataset=opt_data[idx_dataset], output_path=output_path,
                                             family_id=idx_family, family_name="Coloring_Learning_D" + str(idx_dataset))
                             opt_handle.dnn.name = "Coloring"
+                            opt_handle.dnn.n_t = 30
+                            opt_handle.dnn.train_per_step = False
                             opt_handle.hyper.complex_crossing = c
                             opt_handle.hyper.init_factor = init
                             opt_handle.hyper.max_num_epochs = 200

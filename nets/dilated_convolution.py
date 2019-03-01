@@ -13,10 +13,11 @@ import tensorflow as tf
 import tensorflow.contrib.slim as slim
 
 
-def conv2d(incoming, n_filters, k_size=3, stride=1, padding='SAME', name="conv2d", dilation_rate=1, scope="conv2d"):
+def conv2d(incoming, n_filters, k_size=3, stride=1, padding='SAME', name="conv2d", dilation_rate=1, scope="conv2d", wd=0.0):
     with tf.variable_scope(name):
         conv = slim.conv2d(incoming, n_filters, [k_size, k_size], stride,
-                           padding=padding, rate=[dilation_rate, dilation_rate], scope=scope)
+                           padding=padding, rate=[dilation_rate, dilation_rate], scope=scope,
+                           weights_regularizer=slim.l2_regularizer(wd))
     return conv
 
 
@@ -26,7 +27,7 @@ def relu(incoming, name='relu'):
     return output
 
 
-def model(incoming, channels, dilations, name="model"):
+def model(incoming, channels, dilations, name="model", wd=0.0):
     """
     makes the network.
 
@@ -45,9 +46,10 @@ def model(incoming, channels, dilations, name="model"):
         h = incoming
         for i in range(len(channels)):
             if i == len(channels)-1:
-                h = conv2d(h, channels[i], k_size=1, dilation_rate=dilations[i], scope='dilated_conv2d_%d' % (i+1))
+                h = conv2d(h, channels[i], k_size=1, dilation_rate=dilations[i], scope='dilated_conv2d_%d' % (i+1),
+                           wd=wd)
             else:
-                h = conv2d(h, channels[i], dilation_rate=dilations[i], scope='dilated_conv2d_%d' % (i+1))
+                h = conv2d(h, channels[i], dilation_rate=dilations[i], scope='dilated_conv2d_%d' % (i+1), wd=wd)
             h = relu(h, name='relu_{}'.format(i+1))
             act.append(h)
 
@@ -68,5 +70,5 @@ def Dilated_convolution(data, opt, dropout_rate, labels_id):
     else:
         dilations = [1] + [(2**i) for i in range(num_layers-3)] + [1, 1]
 
-    predictions, activations = model(data, channels, dilations)
+    predictions, activations = model(data, channels, dilations, wd=opt.hyper.weight_decay)
     return predictions, [], activations
