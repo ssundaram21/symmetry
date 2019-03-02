@@ -16,5 +16,5 @@ singularity exec -B /om:/om --nv /om/user/xboix/singularity/xboix-tensorflow.sim
 python /om/user/xboix/src/insideness/main.py \
 --experiment_index=${SLURM_ARRAY_TASK_ID} \
 --host_filesystem=om \
---network=unet \
+--network=dilation \
 --run=evaluate_generalization

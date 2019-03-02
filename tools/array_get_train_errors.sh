@@ -12,5 +12,5 @@ singularity exec -B /om:/om /om/user/xboix/singularity/xboix-tensorflow.simg \
 python /om/user/xboix/src/insideness/main.py \
 --experiment_index=0 \
 --host_filesystem=om \
---network=unet \
+--network=dilation \
 --run=get_train_errors

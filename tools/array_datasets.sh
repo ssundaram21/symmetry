@@ -1,9 +1,9 @@
 #!/bin/bash
 #SBATCH -n 2
-#SBATCH --array=0-49
+#SBATCH --array=50
 #SBATCH --job-name=insideness
 #SBATCH --mem=8GB
-#SBATCH -t 50:00:00
+#SBATCH -t 100:00:00
 #SBATCH --gres=gpu:tesla-k80:1
 #SBATCH --workdir=./log/
 #SBATCH --qos=cbmm
@@ -16,6 +16,7 @@ singularity exec -B /om:/om  --nv /om/user/xboix/singularity/xboix-tensorflow.si
 python /om/user/xboix/src/insideness/main.py \
 --experiment_index=${SLURM_ARRAY_TASK_ID} \
 --host_filesystem=om \
---run=generate_dataset
+--run=generate_dataset \
+--network=crossing
 
 

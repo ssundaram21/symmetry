@@ -3,6 +3,8 @@ import shutil
 import sys
 import numpy as np
 
+import os
+os.environ["CUDA_VISIBLE_DEVICES"]="3"
 import tensorflow as tf
 
 from nets import nets
@@ -25,7 +27,7 @@ def get_dataset_handlers(opt, opt_datasets, name='test'):
             opt.dataset = opt_dataset
             datasets += [insideness_data.InsidenessDataset(opt)]
             test_datasets += [datasets[-1].create_dataset(augmentation=False, standarization=False, set_name=name,
-                                                  repeat=True)]
+                                                  repeat=False)]
             test_iterators += [test_datasets[-1].make_initializable_iterator()]
     else:
         print("Error: no valid dataset specified")
@@ -63,7 +65,6 @@ def extract_activations_dataset(opt, opt_datasets, datasets, test_datasets, test
     correct_prediction = tf.reshape(tf.cast(correct_prediction, tf.float32), [-1, opt.dataset.image_size, opt.dataset.image_size])
 
     ################################################################################################
-
 
     with tf.Session() as sess:
         ################################################################################################
@@ -106,6 +107,7 @@ def extract_activations_dataset(opt, opt_datasets, datasets, test_datasets, test
             for opt_dataset, dataset, test_handle, test_iterator in \
                     zip(opt_datasets, datasets, test_handles, test_iterators):
 
+                print(opt_dataset.log_name)
                 # Run one pass over a batch of the test dataset.
                 sess.run(test_iterator.initializer)
                 total = []
@@ -115,7 +117,6 @@ def extract_activations_dataset(opt, opt_datasets, datasets, test_datasets, test
                                                               dropout_rate: opt.hyper.drop_test})
 
                     total.append(act)
-                    print(len(act))
 
                 sys.stdout.flush()
 
@@ -143,20 +144,20 @@ def run(opt, opt_datasets):
         quit()
 
     print(opt.name)
-    opt.hyper.batch_size = 128
+    opt.hyper.batch_size = 32
     ################################################################################################
 
     #TODO: write a loop that goes for groups of datasets with same image size
-    datasets, test_datasets, test_iterators = get_dataset_handlers(opt, opt_datasets[0:-1])
-    extract_activations_dataset(opt, opt_datasets[0:-1], datasets, test_datasets, test_iterators)
+    datasets, test_datasets, test_iterators = get_dataset_handlers(opt, opt_datasets[40:-1])
+    extract_activations_dataset(opt, opt_datasets[40:-1], datasets, test_datasets, test_iterators)
     tf.reset_default_graph()
 
     datasets, test_datasets, test_iterators = get_dataset_handlers(opt, [opt_datasets[-1]])
     extract_activations_dataset(opt, [opt_datasets[-1]], datasets, test_datasets, test_iterators)
     tf.reset_default_graph()
 
-    datasets, test_datasets, test_iterators = get_dataset_handlers(opt, opt_datasets[0:-1], 'train')
-    extract_activations_dataset(opt, opt_datasets[0:-1], datasets, test_datasets, test_iterators, 'train')
+    datasets, test_datasets, test_iterators = get_dataset_handlers(opt, opt_datasets[40:-1], 'train')
+    extract_activations_dataset(opt, opt_datasets[40:-1], datasets, test_datasets, test_iterators, 'train')
     tf.reset_default_graph()
 
     datasets, test_datasets, test_iterators = get_dataset_handlers(opt, [opt_datasets[-1]], 'train')

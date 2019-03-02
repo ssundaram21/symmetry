@@ -113,12 +113,14 @@ def get_experiments(output_path):
                             opt_handle.hyper.learning_rate = lr
                             opt_handle.hyper.alpha = alpha
                             opt_handle.hyper.batch_size = batch
+                            opt_handle.hyper.weight_decay = 0.0
                             opt += [copy.deepcopy(opt_handle)]
                             idx_base += 1
 
         idx_family += 1
 
     #Spirals
+    print(idx_base)
     idx_dataset = 50
     for wd in [0.0, 1e-2, 1e-4]:
         for c in [2, 4, 8]:

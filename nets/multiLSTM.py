@@ -44,6 +44,8 @@ def MultiLSTM(data, opt, dropout_rate, labels_id):
     state2 = cell2.zero_state(opt.hyper.batch_size, dtype=tf.float32)
 
     out = []
+    act_state1 = []
+    act_state2 = []
     with tf.variable_scope("scp") as scope:
         for i in range(n_t):
             if i > 0:
@@ -53,8 +55,10 @@ def MultiLSTM(data, opt, dropout_rate, labels_id):
             t_output, state2 = cell2(tt[:, :, :, :64], state2)
 
             out.append([t_output[:, :, :, :2]])
+            act_state1.append(state1)
+            act_state2.append(state2)
 
     if opt.dnn.train_per_step:
-        return out, [cell1.weights, cell2.weights], [state1, state2]
+        return out, [cell1.weights, cell2.weights], [act_state1, act_state2]
     else:
-        return out[-1], [], [state1]
+        return out[-1], [], [act_state1, act_state2]

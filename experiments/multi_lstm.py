@@ -166,6 +166,7 @@ def get_experiments(output_path):
 
         idx_family += 1
 
+    print(idx_base)
     for idx_dataset in [50]:
         for alpha in [0.1, 0.2, 0.4]:
             for init in [1, 1e-1, 1e1]:
