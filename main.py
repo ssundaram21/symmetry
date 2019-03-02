@@ -62,6 +62,13 @@ def run_generate_dataset(id):
     generate_dataset.run(run_opt)
 
 
+def run_dataset_hamming(id):
+    from runs import dataset_hamming
+    opt_data = datasets.get_datasets(output_path)[id]
+    run_opt = experiment.generate_experiments_dataset(opt_data)
+    dataset_hamming.run(run_opt)
+
+
 def get_dataset_as_numpy(id):
     from runs import get_dataset_as_numpy
     opt_data = datasets.get_datasets(output_path)[id]
@@ -123,6 +130,7 @@ def run_evaluate_perturbation(id):
 
 switcher = {
     'generate_dataset': run_generate_dataset,
+    'dataset_hamming': run_dataset_hamming,
     'get_dataset_as_numpy': get_dataset_as_numpy,
     'train': run_train,
     'get_train_errors': get_train_errors,
