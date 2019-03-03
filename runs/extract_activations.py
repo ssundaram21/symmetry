@@ -4,7 +4,6 @@ import sys
 import numpy as np
 
 import os
-os.environ["CUDA_VISIBLE_DEVICES"]="3"
 import tensorflow as tf
 
 from nets import nets

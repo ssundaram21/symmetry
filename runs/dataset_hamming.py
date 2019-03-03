@@ -4,6 +4,7 @@ import sys
 import numpy as np
 
 
+os.environ["CUDA_VISIBLE_DEVICES"]="3"
 
 import tensorflow as tf
 
@@ -47,10 +48,13 @@ def run(opt):
 
     # Get data from dataset dataset
     image, y_ = iterator.get_next()
+    test_in = tf.placeholder(tf.int32, [opt.hyper.batch_size, opt.dataset.image_size, opt.dataset.image_size])
 
-    test_in = tf.placeholder(tf.float32)
+    image = tf.cast(image, tf.int32)
+    image_flat = tf.reshape(tf.cast(image, tf.int32), [opt.hyper.batch_size,  opt.dataset.image_size**2])
+    test_in_flat = tf.reshape(tf.cast(test_in, tf.int32), [opt.hyper.batch_size,  opt.dataset.image_size**2])
 
-    corr_out = tf.matmul(test_in, image)
+    corr_out = tf.matmul(test_in_flat, tf.transpose(image_flat))
 
     with tf.Session() as sess:
 
@@ -64,16 +68,24 @@ def run(opt):
         sess.run(tf.global_variables_initializer())
 
         # TEST SET
+        corr = []
         for num_iter in range(int(dataset.num_images_test / opt.hyper.batch_size) + 1):
-            test_img = sess.run([image], feed_dict={handle: test_handle,
-                                                    test_in: 1.0})
+            test_img = sess.run(image, feed_dict={handle: test_handle,
+                    test_in: np.zeros((opt.hyper.batch_size, opt.dataset.image_size, opt.dataset.image_size))})
 
-            for num_iter in range(int(dataset.num_images_train / opt.hyper.batch_size) + 1):
+            ones_iter = np.sum(np.sum(test_img, axis=1), axis=1).astype(float)
+            corr_iter = np.zeros(opt.hyper.batch_size).astype(float)
+            for _ in range(int(dataset.num_images_training / opt.hyper.batch_size) + 1):
 
-                corr = sess.run([image], feed_dict={handle: training_handle,
+                corr_tmp = sess.run([corr_out], feed_dict={handle: training_handle,
                                                     test_in: test_img})
 
-                print(corr)
+                corr_tmp = np.squeeze(np.amax(np.squeeze(corr_tmp), axis=1)).astype(float)
+
+                corr_iter = np.maximum(corr_iter, corr_tmp/ones_iter)
+
+
+            corr.append
             print("----------------")
             sys.stdout.flush()
 
