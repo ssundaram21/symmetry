@@ -42,6 +42,7 @@ def get_datasets(output_path):
                 opt_handle = Dataset(idx, "C" + str(complexity) + '_' + "D" + str(k), output_path)
                 opt_handle.num_images_training = num_data
                 opt_handle.num_images_testing = 1e4
+                opt_handle.image_size = 32
                 opt_handle.complexity = complexity
                 opt_handle.complexity_strict = complexity_strict
 
@@ -71,6 +72,20 @@ def get_datasets(output_path):
                 opt_handle.num_images_training = num_data
                 opt_handle.num_images_testing = 1e4
                 opt_handle.image_size = 80
+                opt_handle.complexity = complexity
+                opt_handle.complexity_strict = complexity_strict
+
+                opt += [copy.deepcopy(opt_handle)]
+                idx += 1
+
+    for k, num_data in enumerate([2e5]):
+        for complexity in [6]:
+            for complexity_strict in [True]:
+                # Create base for TF records:
+                opt_handle = Dataset(idx, "C" + str(complexity) + '_' + "D" + str(k), output_path)
+                opt_handle.num_images_training = num_data
+                opt_handle.num_images_testing = 2e4
+                opt_handle.image_size = 42
                 opt_handle.complexity = complexity
                 opt_handle.complexity_strict = complexity_strict
 

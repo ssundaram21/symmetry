@@ -7,7 +7,7 @@ import sys
 
 class InsidenessDataset(data.Dataset):
 
-    def __init__(self, opt):
+    def __init__(self, opt, flag_creation=True):
         super(InsidenessDataset, self).__init__(opt)
 
         self.num_threads = 8
@@ -20,7 +20,8 @@ class InsidenessDataset(data.Dataset):
         self.num_images_epoch = self.opt.dataset.proportion_training_set*self.num_images_training
         self.num_images_val = self.num_images_training - self.num_images_epoch
 
-        self.create_tfrecords()
+        if flag_creation:
+            self.create_tfrecords()
 
     def get_parameters_complexity(self, complexity, strict):
 

@@ -84,8 +84,8 @@ def run(opt):
 
                 corr_iter = np.maximum(corr_iter, corr_tmp/ones_iter)
 
+            print(corr_iter)
 
-            corr.append
             print("----------------")
             sys.stdout.flush()
 

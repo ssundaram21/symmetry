@@ -14,18 +14,19 @@ FLAGS = parser.parse_args()
 
 code_path = {
     'xavier': '/Users/xboix/src/insideness/',
-    'om': '/om/user/xboix/src/insideness/',
-    'om_vilim': '/om/user/vilim/src/insideness/'}[FLAGS.host_filesystem]
+    'om': '/om/user/xboix/src/insideness/'}[FLAGS.host_filesystem]
 
 output_path = {
     'xavier': '/Users/xboix/src/insideness/log/',
-    'om_vilim': '/om/user/xboix/share/insideness_vilim/',
     'om': '/om/user/xboix/share/insideness/'}[FLAGS.host_filesystem]
 
 
 if FLAGS.network == "crossing":
     from experiments import crossing as experiment
     output_path = output_path + "crossing/"
+if FLAGS.network == "segnet":
+    from experiments import segnet as experiment
+    output_path = output_path + "segnet/"
 elif FLAGS.network == "coloring":
     from experiments import coloring as experiment
     output_path = output_path + "coloring/"
@@ -62,11 +63,28 @@ def run_generate_dataset(id):
     generate_dataset.run(run_opt)
 
 
+def run_generate_dataset_mix(id):
+    from runs import generate_dataset_mix
+    opt_data = datasets.get_datasets(output_path)
+    run_opt = experiment.generate_experiments_dataset(opt_data[id])
+    run_opt1 = experiment.generate_experiments_dataset(opt_data[49])
+    run_opt2 = experiment.generate_experiments_dataset(opt_data[50])
+
+    generate_dataset_mix.run(run_opt, run_opt1, run_opt2)
+
+
 def run_dataset_hamming(id):
     from runs import dataset_hamming
     opt_data = datasets.get_datasets(output_path)[id]
     run_opt = experiment.generate_experiments_dataset(opt_data)
     dataset_hamming.run(run_opt)
+
+
+def run_cross_dataset_hamming(id):
+    from runs import cross_dataset_hamming
+    opt_data = datasets.get_datasets(output_path)
+    run_opt = experiment.generate_experiments_dataset(opt_data[id])
+    cross_dataset_hamming.run(run_opt, opt_data)
 
 
 def get_dataset_as_numpy(id):
@@ -103,7 +121,6 @@ def run_train_selected(id):
 
 
 def run_evaluate_generalization(id):
-
     opt_data = datasets.get_datasets(output_path)
     run_opt = experiment.get_best_of_the_family(output_path)[id]
 
@@ -112,7 +129,6 @@ def run_evaluate_generalization(id):
 
 
 def run_extract_activations(id):
-
     opt_data = datasets.get_datasets(output_path)
     run_opt = experiment.get_best_of_the_family(output_path)[id]
 
@@ -130,7 +146,9 @@ def run_evaluate_perturbation(id):
 
 switcher = {
     'generate_dataset': run_generate_dataset,
+    'generate_dataset_mix': run_generate_dataset_mix,
     'dataset_hamming': run_dataset_hamming,
+    'cross_dataset_hamming': run_cross_dataset_hamming,
     'get_dataset_as_numpy': get_dataset_as_numpy,
     'train': run_train,
     'get_train_errors': get_train_errors,

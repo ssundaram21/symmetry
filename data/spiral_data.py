@@ -19,10 +19,10 @@ outside = 0
 inside = 0.3
 even = [0,2,4,6]
 mid = 1
-height = 40
-width = 40
-minimum= 1
-maximum= 3
+height = 78
+width = 78
+minimum = 1
+maximum = 3
 
 
 def prod(v, i):

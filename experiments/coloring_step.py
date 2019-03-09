@@ -32,7 +32,7 @@ class Hyperparameters(object):
         self.weight_decay = 0
         self.max_num_epochs = 60
         self.drop_train = 1
-        self.drop_test = 1
+        self.drop_test = 0
         self.momentum = 0.9
         self.init_factor = 1
         self.alpha = 0.1

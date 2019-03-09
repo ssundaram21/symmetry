@@ -67,7 +67,7 @@ def batch_norm(incoming, training,
                     [update_moving_mean, update_moving_variance]):
                 return tf.identity(batch_mean), tf.identity(batch_variance)
 
-        mean, variance = tf.cond(training, update, lambda: (moving_mean, moving_variance))
+        mean, variance = tf.cond(tf.equal(training, 1), update, lambda: (moving_mean, moving_variance))
 
         output = tf.nn.batch_normalization(incoming, mean, variance, beta, gamma, epsilon)
     return output
@@ -157,8 +157,9 @@ def Segnet(data, opt, dropout_rate, labels_id):
     base_channels = opt.dnn.base_channels
     num_poolings = opt.dnn.num_poolings
     num_convolutions_step = opt.dnn.num_convolutions_step
-    # todo: remove this in case batch_norm function changes
-    training = opt.dnn.training
+
+    #DROPOUT_RATE == 1 MEANS IS TRAINING
+    training = dropout_rate
 
     net, masks, last_channels = encoder(data, training, num_convolutions_step,
                                         base_channels, num_poolings, name='encoder')

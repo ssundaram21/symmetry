@@ -11,14 +11,16 @@ def run(run_opt):
     results_data = []
     for opt in run_opt:
 
-        if not os.path.isfile(opt.log_dir_base + opt.name + '/results/intra_dataset_accuracy.pkl'):
-            data_point = "empty"
+        if not opt.skip:
 
-        else:
-            with open(opt.log_dir_base + opt.name + '/results/intra_dataset_accuracy.pkl', 'rb') as f:
-                data_point = pickle.load(f)
+            if not os.path.isfile(opt.log_dir_base + opt.name + '/results/intra_dataset_accuracy.pkl'):
+                data_point = "empty"
 
-        results_data.append(copy.deepcopy(data_point))
+            else:
+                with open(opt.log_dir_base + opt.name + '/results/intra_dataset_accuracy.pkl', 'rb') as f:
+                    data_point = pickle.load(f)
+
+            results_data.append(copy.deepcopy(data_point))
 
 
     list_id_errors = []

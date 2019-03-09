@@ -38,10 +38,26 @@ def MultiLSTM(data, opt, dropout_rate, labels_id):
                           output_channels=64, name='a')
     state1 = cell1.zero_state(opt.hyper.batch_size, dtype=tf.float32)
 
+    '''
+    if opt.dnn.good_init:
+        state1[0][:, 0, :, :] = 1
+        state1[0][:, - 1, :, :] = 1
+        state1[0][:, :, 0, :] = 1
+        state1[0][:, :,  - 1, :] = 1
+    '''
+
     cell2 = Conv2DLSTMCell(input_shape=[opt.dataset.image_size, opt.dataset.image_size, 64],
                           kernel_shape=[1, 1],
                           output_channels=2, name='b')
     state2 = cell2.zero_state(opt.hyper.batch_size, dtype=tf.float32)
+
+    ''' 
+    if opt.dnn.good_init:
+        state2[0][:, 0, :, :] = 1
+        state2[0][:, -1, :, :] = 1
+        state2[0][:, :, 0, :] = 1
+        state2[0][:, :, -1, :] = 1
+    '''
 
     out = []
     act_state1 = []

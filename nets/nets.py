@@ -20,6 +20,8 @@ from nets.dilated_convolution import Dilated_convolution as net_Dilated_convolut
 
 from nets.unet import U_net as net_U_net
 
+from nets.segnet import Segnet as net_Segnet
+
 
 from nets.multiLSTM import MultiLSTM as net_MultiLSTM
 
@@ -55,3 +57,6 @@ def Dilation(x, opt, dropout_rate, labels_id):
 
 def U_net(x, opt, dropout_rate, labels_id):
     return net_U_net(x, opt, dropout_rate, labels_id)
+
+def Segnet(x, opt, dropout_rate, labels_id):
+    return net_Segnet(x, opt, dropout_rate, labels_id)
