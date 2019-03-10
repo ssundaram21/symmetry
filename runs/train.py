@@ -3,11 +3,12 @@ import shutil
 import sys
 import numpy as np
 
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = "0"
 import tensorflow as tf
 
 from nets import nets
 from util import summary
-#os.environ['TF_CPP_MIN_LOG_LEVEL'] = '0'
+
 
 def run(opt):
 

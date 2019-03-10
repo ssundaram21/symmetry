@@ -21,7 +21,7 @@ from tensorflow.python.training import moving_averages
 def conv2d(incoming, n_filters, k_size=3, stride=1, padding='SAME', name="conv2d", dilation_rate=1, scope="conv2d"):
     with tf.name_scope(name):
         conv = slim.conv2d(incoming, n_filters, [k_size, k_size], stride,
-                           padding=padding, rate=[dilation_rate, dilation_rate], scope=scope)
+                           padding=padding, rate=[dilation_rate, dilation_rate])
     return conv
 
 

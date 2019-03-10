@@ -106,6 +106,10 @@ def get_experiments(output_path):
                                             dataset=opt_data[idx_dataset], output_path=output_path,
                                             family_id=idx_family, family_name="Dilation_D" + str(idx_dataset))
                             opt_handle.dnn.name = "Dilation"
+
+                            if batch == 2048:
+                                opt_handle.skip = True
+
                             opt_handle.hyper.max_num_epochs = 100
                             opt_handle.dnn.num_layers = l
                             opt_handle.dnn.complex_dilation = c
@@ -133,6 +137,10 @@ def get_experiments(output_path):
                             opt_handle.dnn.name = "Dilation"
                             opt_handle.hyper.max_num_epochs = 25
                             opt_handle.dnn.num_layers = l
+
+                            if batch == 2048:
+                                opt_handle.skip = True
+
                             opt_handle.dnn.complex_dilation = c
                             opt_handle.dnn.no_dilation = False
                             opt_handle.hyper.learning_rate = lr
@@ -141,9 +149,34 @@ def get_experiments(output_path):
                             opt_handle.hyper.weight_decay = wd
                             opt += [copy.deepcopy(opt_handle)]
                             idx_base += 1
-
+    idx_family += 1
 
     idx_dataset = 51
+    for wd in [0.0, 1e-2, 1e-4]:
+        for c in [2, 4, 8]:
+            for l in [5, 6, 7]:
+                for alpha in [0.1, 0.2, 0.4]:
+                    for batch in [32]:
+                        for lr in [1e0, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5]:
+                            opt_handle = Experiments(id=idx_base, name="Dilation_D" + str(idx_dataset),
+                                                     dataset=opt_data[idx_dataset], output_path=output_path,
+                                                     family_id=idx_family, family_name="Dilation_D" + str(idx_dataset))
+
+                            opt_handle.skip = True
+                            opt_handle.dnn.name = "Dilation"
+                            opt_handle.hyper.max_num_epochs = 25
+                            opt_handle.dnn.num_layers = l
+                            opt_handle.dnn.complex_dilation = c
+                            opt_handle.dnn.no_dilation = False
+                            opt_handle.hyper.learning_rate = lr
+                            opt_handle.hyper.alpha = alpha
+                            opt_handle.hyper.batch_size = batch
+                            opt_handle.hyper.weight_decay = wd
+                            opt += [copy.deepcopy(opt_handle)]
+                            idx_base += 1
+    idx_family += 1
+
+    idx_dataset = 52
     for wd in [0.0, 1e-2, 1e-4]:
         for c in [2, 4, 8]:
             for l in [5, 6, 7]:
@@ -165,13 +198,11 @@ def get_experiments(output_path):
                             opt += [copy.deepcopy(opt_handle)]
                             idx_base += 1
 
-    print(idx_base)
-    idx_dataset = 52
     for wd in [0.0, 1e-2, 1e-4]:
         for c in [2, 4, 8]:
             for l in [5, 6, 7]:
                 for alpha in [0.1, 0.2, 0.4]:
-                    for batch in [32]:
+                    for batch in [256]:
                         for lr in [1e0, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5]:
                             opt_handle = Experiments(id=idx_base, name="Dilation_D" + str(idx_dataset),
                                                      dataset=opt_data[idx_dataset], output_path=output_path,

@@ -8,7 +8,7 @@ parser.add_argument('--experiment_index', type=int, required=True)
 parser.add_argument('--host_filesystem', type=str, required=True)
 parser.add_argument('--run', type=str, required=True)
 parser.add_argument('--network', type=str, required=True)
-parser.add_argument('--error_correction', type=str, default="", required=False)
+parser.add_argument('--error_correction', action='store_true')
 FLAGS = parser.parse_args()
 
 
@@ -51,6 +51,9 @@ elif FLAGS.network == "lstm_step":
 elif FLAGS.network == "multi_lstm":
     from experiments import multi_lstm as experiment
     output_path = output_path + "multi_lstm/"
+elif FLAGS.network == "multi_lstm_init":
+    from experiments import multi_lstm_init as experiment
+    output_path = output_path + "multi_lstm_init/"
 elif FLAGS.network == "unet":
     from experiments import unet as experiment
     output_path = output_path + "unet/"
@@ -104,7 +107,7 @@ def get_train_errors(id):
     # id is ignored
     from runs import get_train_errors
     run_opt = experiment.get_experiments(output_path)
-    get_train_errors.run(run_opt)
+    get_train_errors.run(run_opt, FLAGS.network)
 
 
 def run_crossval_select(id):
@@ -160,8 +163,8 @@ switcher = {
 }
 
 
-if not (FLAGS.error_correction == ""):
-    text_file = open(FLAGS.error_correction, "r")
+if FLAGS.error_correction:
+    text_file = open('error_ids_' + FLAGS.network, "r")
     lines = text_file.readlines()
     id_errors = [int(l) for l in lines]
     text_file.close()

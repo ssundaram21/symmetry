@@ -6,10 +6,11 @@ import copy
 import numpy as np
 
 
-def run(run_opt):
+def run(run_opt, net_name):
 
     results_data = []
-    for opt in run_opt:
+    ids = []
+    for idx, opt in enumerate(run_opt):
 
         if not opt.skip:
 
@@ -21,14 +22,14 @@ def run(run_opt):
                     data_point = pickle.load(f)
 
             results_data.append(copy.deepcopy(data_point))
-
+            ids.append(idx)
 
     list_id_errors = []
     for point_idx, data_point in enumerate(results_data):
         if not ("val" in data_point):
-            list_id_errors.append(point_idx)
+            list_id_errors.append(ids[point_idx])
 
-    with open('error_ids', 'w') as f:
+    with open('error_ids_' + net_name, 'w') as f:
         for item in list_id_errors:
             f.write("%s\n" % item)
 

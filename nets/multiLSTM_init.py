@@ -13,7 +13,7 @@ from pprint import pprint
 
 
 
-def MultiLSTM(data, opt, dropout_rate, labels_id):
+def MultiLSTM_init(data, opt, dropout_rate, labels_id):
     """ Run the coloring network on data, with hyperparameters
 
     :param data: in the shape batch_size, image_height, image_width, 2
@@ -36,13 +36,28 @@ def MultiLSTM(data, opt, dropout_rate, labels_id):
     cell1 = Conv2DLSTMCell(input_shape=data.shape.dims[-3:],
                           kernel_shape=[3, 3],
                           output_channels=64, name='a')
-    state1 = cell1.zero_state(opt.hyper.batch_size, dtype=tf.float32)
 
+    istate1 = np.zeros([opt.hyper.batch_size, opt.dataset.image_size, opt.dataset.image_size, 64])
+    istate1[:, 0, :, :] = 1
+    istate1[:, data.shape[1] - 1, :, :] = 1
+    istate1[:, :, 0, :] = 1
+    istate1[:, :, data.shape[2] - 1, :] = 1
+    iistate1 = tf.constant(istate1, dtype=np.float32)
+
+    state1 = tf.nn.rnn_cell.LSTMStateTuple(iistate1, iistate1)
 
     cell2 = Conv2DLSTMCell(input_shape=[opt.dataset.image_size, opt.dataset.image_size, 64],
                           kernel_shape=[1, 1],
                           output_channels=2, name='b')
-    state2 = cell2.zero_state(opt.hyper.batch_size, dtype=tf.float32)
+
+    istate2 = np.zeros([opt.hyper.batch_size, opt.dataset.image_size, opt.dataset.image_size, 2])
+    istate2[:, 0, :, :] = 1
+    istate2[:, data.shape[1] - 1, :, :] = 1
+    istate2[:, :, 0, :] = 1
+    istate2[:, :, data.shape[2] - 1, :] = 1
+    iistate2 = tf.constant(istate2, dtype=np.float32)
+
+    state2 = tf.nn.rnn_cell.LSTMStateTuple(iistate2, iistate2)
 
 
     out = []

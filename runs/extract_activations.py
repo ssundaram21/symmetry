@@ -4,11 +4,12 @@ import sys
 import numpy as np
 
 import os
+os.environ["CUDA_VISIBLE_DEVICES"]="0"
 import tensorflow as tf
 
 from nets import nets
 
-os.environ["CUDA_VISIBLE_DEVICES"]="3"
+
 
 
 def get_dataset_handlers(opt, opt_datasets, name='test'):
