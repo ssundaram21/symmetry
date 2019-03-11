@@ -86,6 +86,7 @@ def extract_activations_dataset(opt, opt_datasets, datasets, test_datasets, test
                 saver.restore(sess, opt.log_dir_base + opt.name + '/models/model-' + str(opt.hyper.max_num_epochs-1))
                 flag_testable = True
         else:
+            sess.run(tf.global_variables_initializer())
             flag_testable = True
 
         # datasets

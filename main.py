@@ -1,3 +1,7 @@
+import os
+os.environ['CUDA_VISIBLE_DEVICES'] = "0"
+
+
 import argparse
 import datasets
 import experiments
@@ -48,6 +52,9 @@ elif FLAGS.network == "lstm":
 elif FLAGS.network == "lstm_step":
     from experiments import lstm_step as experiment
     output_path = output_path + "lstm_step/"
+elif FLAGS.network == "optimal_lstm":
+    from experiments import optimal_lstm as experiment
+    output_path = output_path + "optimal_lstm/"
 elif FLAGS.network == "multi_lstm":
     from experiments import multi_lstm as experiment
     output_path = output_path + "multi_lstm/"

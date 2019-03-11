@@ -22,7 +22,7 @@ from nets.unet import U_net as net_U_net
 
 from nets.segnet import Segnet as net_Segnet
 
-
+from nets.optimalLSTM import optimalLSTM as net_optimalLSTM
 from nets.multiLSTM import MultiLSTM as net_MultiLSTM
 from nets.multiLSTM_init import MultiLSTM_init as net_MultiLSTM_init
 
@@ -56,6 +56,9 @@ def MultiLSTM(x, opt, dropout_rate, labels_id):
 
 def MultiLSTMInit(x, opt, dropout_rate, labels_id):
     return net_MultiLSTM_init(x, opt, dropout_rate, labels_id)
+
+def optimalLSTM(x, opt, dropout_rate, labels_id):
+    return net_optimalLSTM(x, opt, dropout_rate, labels_id)
 
 def Dilation(x, opt, dropout_rate, labels_id):
     return net_Dilated_convolution(x, opt, dropout_rate, labels_id)

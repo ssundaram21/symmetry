@@ -37,6 +37,8 @@ def MultiLSTM_init(data, opt, dropout_rate, labels_id):
                           kernel_shape=[3, 3],
                           output_channels=64, name='a')
 
+    istate1_zero = tf.constant(np.zeros([opt.hyper.batch_size, opt.dataset.image_size, opt.dataset.image_size, 64]),
+                               dtype=np.float32)
     istate1 = np.zeros([opt.hyper.batch_size, opt.dataset.image_size, opt.dataset.image_size, 64])
     istate1[:, 0, :, :] = 1
     istate1[:, data.shape[1] - 1, :, :] = 1
@@ -44,12 +46,14 @@ def MultiLSTM_init(data, opt, dropout_rate, labels_id):
     istate1[:, :, data.shape[2] - 1, :] = 1
     iistate1 = tf.constant(istate1, dtype=np.float32)
 
-    state1 = tf.nn.rnn_cell.LSTMStateTuple(iistate1, iistate1)
+    state1 = tf.nn.rnn_cell.LSTMStateTuple(istate1_zero, iistate1)
 
     cell2 = Conv2DLSTMCell(input_shape=[opt.dataset.image_size, opt.dataset.image_size, 64],
                           kernel_shape=[1, 1],
                           output_channels=2, name='b')
 
+    istate2_zero = tf.constant(np.zeros([opt.hyper.batch_size, opt.dataset.image_size, opt.dataset.image_size, 2]),
+                               dtype=np.float32)
     istate2 = np.zeros([opt.hyper.batch_size, opt.dataset.image_size, opt.dataset.image_size, 2])
     istate2[:, 0, :, :] = 1
     istate2[:, data.shape[1] - 1, :, :] = 1
@@ -57,7 +61,7 @@ def MultiLSTM_init(data, opt, dropout_rate, labels_id):
     istate2[:, :, data.shape[2] - 1, :] = 1
     iistate2 = tf.constant(istate2, dtype=np.float32)
 
-    state2 = tf.nn.rnn_cell.LSTMStateTuple(iistate2, iistate2)
+    state2 = tf.nn.rnn_cell.LSTMStateTuple(istate2_zero, iistate2)
 
 
     out = []

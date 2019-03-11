@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH -n 1
-#SBATCH --array=0-999
+#SBATCH --array=0-185
 #SBATCH -c 1
 #SBATCH --job-name=dilation
 #SBATCH --mem=12GB
@@ -17,7 +17,10 @@ hostname
 
 singularity exec -B /om:/om --nv /om/user/xboix/singularity/xboix-tensorflow.simg \
 python /om/user/xboix/src/insideness/main.py \
---experiment_index=$((${SLURM_ARRAY_TASK_ID} + 4861)) \
+--experiment_index=$((${SLURM_ARRAY_TASK_ID} + 0)) \
 --host_filesystem=om \
 --network=dilation \
---run=train
+--run=train \
+--error_correction
+
+

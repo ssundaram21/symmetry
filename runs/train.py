@@ -3,7 +3,6 @@ import shutil
 import sys
 import numpy as np
 
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = "0"
 import tensorflow as tf
 
 from nets import nets
@@ -216,6 +215,7 @@ def run(opt):
 
             # Set up directories and checkpoints
             if not os.path.isfile(opt.log_dir_base + opt.name + '/models/checkpoint'):
+                print("INIT")
                 sess.run(tf.global_variables_initializer())
             elif opt.restart:
                 print("RESTART")
@@ -301,8 +301,13 @@ def run(opt):
         # RUN TEST
         ################################################################################################
 
+        else:
+            sess.run(tf.global_variables_initializer())
+
+
         if flag_testable:
             print("MODEL WAS NOT TRAINED")
+
 
         import pickle
         acc = {}
