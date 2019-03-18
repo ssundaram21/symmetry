@@ -147,8 +147,8 @@ def get_experiments(output_path):
     idx_family = 1
     for idx_dataset in range(40, 50, 2):
         for alpha in [0.1, 0.2, 0.4]:
-            for init in [1, 1e-1, 1e1]:
-                for batch in [32, 256]:
+            for init in [1, 1]:
+                for batch in [32]:
                     for lr in [1e0, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5]:
                         opt_handle = Experiments(id=idx_base, name="MultiLSTMInit_D" + str(idx_dataset),
                                         dataset=opt_data[idx_dataset], output_path=output_path,
@@ -157,7 +157,7 @@ def get_experiments(output_path):
                         opt_handle.dnn.n_t = 28
                         opt_handle.dnn.train_per_step = False
                         opt_handle.hyper.init_factor = init
-                        opt_handle.hyper.max_num_epochs = 1
+                        opt_handle.hyper.max_num_epochs = 10
                         opt_handle.hyper.learning_rate = lr
                         opt_handle.hyper.alpha = alpha
                         opt_handle.hyper.batch_size = batch
@@ -166,11 +166,11 @@ def get_experiments(output_path):
 
         idx_family += 1
 
-    print(idx_base)
+    #print(idx_base)
     for idx_dataset in [50, 52]:
         for alpha in [0.1, 0.2, 0.4]:
-            for init in [1, 1e-1, 1e1]:
-                for batch in [32, 256]:
+            for init in [1, 1]:
+                for batch in [32]:
                     for lr in [1e0, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5]:
                         opt_handle = Experiments(id=idx_base, name="MultiLSTMInit_D" + str(idx_dataset),
                                         dataset=opt_data[idx_dataset], output_path=output_path,

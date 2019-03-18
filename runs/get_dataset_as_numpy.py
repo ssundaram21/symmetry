@@ -72,7 +72,7 @@ def run(opt):
         insideness['train_gt'] = []
 
         # Steps for doing one epoch
-        for num_iter in range(int(dataset.num_images_training / opt.hyper.batch_size) + 1):
+        for num_iter in range(10):#int(dataset.num_images_training / opt.hyper.batch_size) + 1):
             tmp_img, tmp_gt = sess.run([image, y_], feed_dict={handle: training_handle})
 
             insideness['train_img'].append(tmp_img.astype(np.uint8))
@@ -86,7 +86,7 @@ def run(opt):
         sys.stdout.flush()
         insideness['test_img'] = []
         insideness['test_gt'] = []
-        for num_iter in range(int(dataset.num_images_test / opt.hyper.batch_size) + 1):
+        for num_iter in range(10):#int(dataset.num_images_test / opt.hyper.batch_size) + 1):
             tmp_img, tmp_gt = sess.run([image, y_], feed_dict={handle: test_handle})
 
             insideness['test_img'].append(tmp_img.astype(np.uint8))
