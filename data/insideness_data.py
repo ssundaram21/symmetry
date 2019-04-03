@@ -1,6 +1,7 @@
 from data import data
 from data import generate_shapes
 from data import spiral_data
+from data import square
 import numpy as np
 import random as rnd
 import sys
@@ -106,10 +107,16 @@ class InsidenessDataset(data.Dataset):
 
                 img, gt, img_raw = generate_shapes.generate_data(num_points, self.opt.dataset.image_size, self.opt.dataset.image_size,
                                               maximum_radius, minimum_radius)
-            else:
+
+            elif self.opt.dataset.complexity==5:
                 #spiral:
                 img, gt = spiral_data.create_data_set()
                 img_raw = img
+
+            elif self.opt.dataset.complexity == 7:
+                img = square.gen_square()
+                img_raw = img
+                gt = img
 
             X.append(np.uint8(img))
 
@@ -163,10 +170,16 @@ class InsidenessDataset(data.Dataset):
 
                 img, gt, img_raw = generate_shapes.generate_data(num_points, self.opt.dataset.image_size, self.opt.dataset.image_size,
                                               maximum_radius, minimum_radius)
-            else:
+
+            elif self.opt.dataset.complexity == 5:
                 #spiral:
                 img, gt = spiral_data.create_data_set()
                 img_raw = img
+
+            elif self.opt.dataset.complexity == 7:
+                img = square.gen_square()
+                img_raw = img
+                gt = img
 
             X.append(np.uint8(img))
             X_raw.append(np.uint8(img_raw))

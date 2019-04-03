@@ -104,7 +104,7 @@ def encoder_block(incoming, training, n, num_channels, name):
             h = conv2d(h, num_channels, 3, stride=1, name='conv_{}'.format(i + 1))
             h = batch_norm(h, training, name='bn_{}'.format(i + 1))
             h = relu(h, name='relu_{}'.format(i + 1))
-        h, mask = maxpool2d_with_argmax(h, name='maxpool_{}'.format(n))
+        h, mask = maxpool2d_with_argmax(h, name='maxpool_{}'.format(i + 1))
     return h, mask
 
 
@@ -115,11 +115,11 @@ def decoder_block(incoming, mask, training, n, num_channels, name='decoder', adj
         h = tf.reshape(h, shape=[-1, input_shape[1]*2, input_shape[2]*2, input_shape[3]])
         for i in range(n):
             if i == (n - 1) and adj_k:
-                h = conv2d(h, num_channels / 2, 3, stride=1, name='conv_{}'.format(i + 1))
+                h = conv2d(h, num_channels / 2, 3, stride=1, name='deconv_{}'.format(i + 1))
             else:
-                h = conv2d(h, num_channels, 3, stride=1, name='conv_{}'.format(i + 1))
-            h = batch_norm(h, training, name='bn_{}'.format(n))
-            h = relu(h, name='relu_{}'.format(n))
+                h = conv2d(h, num_channels, 3, stride=1, name='deconv_{}'.format(i + 1))
+            h = batch_norm(h, training, name='bnn_{}'.format(i + 1))
+            h = relu(h, name='relu_{}'.format(i + 1))
     return h
 
 

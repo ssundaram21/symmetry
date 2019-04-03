@@ -106,7 +106,7 @@ def get_experiments(output_path):
                                                 dataset=opt_data[idx_dataset], output_path=output_path,
                                                 family_id=idx_family, family_name="UNet_D" + str(idx_dataset))
                                 opt_handle.dnn.name = "U_net"
-                                opt_handle.hyper.max_num_epochs = 100
+                                opt_handle.hyper.max_num_epochs = 30
 
                                 if batch == 2048:
                                     opt_handle.skip = True
@@ -123,21 +123,19 @@ def get_experiments(output_path):
 
         idx_family += 1
 
+    print(idx_base)
     for idx_dataset in [50]:
         for c in [64]:
             for l in [1, 2, 3]:
                 for conv_steps in [1, 2]:
-                    for alpha in [0.1, 0.2, 0.4]:
-                        for batch in [32, 256, 2048]:
-                            for lr in [1e0, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5]:
+                    for alpha in [0.2, 0.4]:
+                        for batch in [32]:
+                            for lr in [1e-1, 1e-2]:
                                 opt_handle = Experiments(id=idx_base, name="UNet_D" + str(idx_dataset),
                                                 dataset=opt_data[idx_dataset], output_path=output_path,
                                                 family_id=idx_family, family_name="UNet_D" + str(idx_dataset))
                                 opt_handle.dnn.name = "U_net"
-                                opt_handle.hyper.max_num_epochs = 50
-
-                                if batch == 2048:
-                                    opt_handle.skip = True
+                                opt_handle.hyper.max_num_epochs = 30
 
                                 opt_handle.dnn.base_channels = c
                                 opt_handle.dnn.num_poolings = l
@@ -155,17 +153,14 @@ def get_experiments(output_path):
         for c in [64]:
             for l in [1, 2, 3]:
                 for conv_steps in [1, 2]:
-                    for alpha in [0.1, 0.2, 0.4]:
-                        for batch in [32, 256, 2048]:
-                            for lr in [1e0, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5]:
+                    for alpha in [0.2, 0.4]:
+                        for batch in [32]:
+                            for lr in [1e-1, 1e-2]:
                                 opt_handle = Experiments(id=idx_base, name="UNet_D" + str(idx_dataset),
                                                 dataset=opt_data[idx_dataset], output_path=output_path,
                                                 family_id=idx_family, family_name="UNet_D" + str(idx_dataset))
                                 opt_handle.dnn.name = "U_net"
-                                opt_handle.hyper.max_num_epochs = 50
-
-                                if batch == 2048:
-                                    opt_handle.skip = True
+                                opt_handle.hyper.max_num_epochs = 30
 
                                 opt_handle.dnn.base_channels = c
                                 opt_handle.dnn.num_poolings = l
@@ -202,7 +197,7 @@ def get_best_of_the_family(output_path):
 
 def get_experiments_selected(output_path):
 
-    NUM_TRIALS = 100
+    NUM_TRIALS = 20
 
     opt_pre_cossval = get_experiments(output_path)
 
@@ -212,13 +207,28 @@ def get_experiments_selected(output_path):
     idx = 0
     opt = []
 
-    for k in range(1, cross['num_families']+1):
+    for k in range(cross['num_families']-1, cross['num_families']+1):
         if not k in cross:
             continue
 
         for trial in range(NUM_TRIALS):
-            #print(cross[k]['ID'])
+            print(cross[k]['ID'])
             opt_handle = opt_pre_cossval[int(cross[k]['ID'])]
+            print(opt_handle.family_name)
+            opt_handle.ID = idx
+            opt_handle.name = 'ID' + str(opt_handle.ID) + "_FINAL" + str(trial) + "_" + opt_handle.family_name
+
+            idx += 1
+            opt += [copy.deepcopy(opt_handle)]
+
+    for k in [cross['num_families']-2]:
+        if not k in cross:
+            continue
+
+        for trial in range(NUM_TRIALS):
+            print(cross[k]['ID'])
+            opt_handle = opt_pre_cossval[int(cross[k]['ID'])]
+            print(opt_handle.family_name)
             opt_handle.ID = idx
             opt_handle.name = 'ID' + str(opt_handle.ID) + "_FINAL" + str(trial) + "_" + opt_handle.family_name
 

@@ -32,7 +32,7 @@ def MultiLSTM_init(data, opt, dropout_rate, labels_id):
     data = tf.reshape(data,
                       [-1, opt.dataset.image_size, opt.dataset.image_size, 1])
 
-    print(data.shape.dims[-3:])
+    #print(data.shape.dims[-3:])
     cell1 = Conv2DLSTMCell(input_shape=data.shape.dims[-3:],
                           kernel_shape=[3, 3],
                           output_channels=64, name='a')
@@ -67,6 +67,8 @@ def MultiLSTM_init(data, opt, dropout_rate, labels_id):
     out = []
     act_state1 = []
     act_state2 = []
+    out_1 = []
+    out_2 = []
     with tf.variable_scope("scp") as scope:
         for i in range(n_t):
             if i > 0:
@@ -74,12 +76,14 @@ def MultiLSTM_init(data, opt, dropout_rate, labels_id):
 
             tt, state1 = cell1(data, state1)
             t_output, state2 = cell2(tt[:, :, :, :64], state2)
-
             out.append([t_output[:, :, :, :2]])
+
+            out_1.append(tt)
+            out_2.append(t_output)
             act_state1.append(state1)
             act_state2.append(state2)
 
     if opt.dnn.train_per_step:
         return out, [cell1.weights, cell2.weights], [act_state1, act_state2]
     else:
-        return out[-1], [], [act_state1, act_state2]
+        return out[-1], [], [act_state1, act_state2, out_1, out_2]

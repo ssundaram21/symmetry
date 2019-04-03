@@ -97,6 +97,9 @@ def run(opt):
             tmp_img, tmp_gt, net_out, err_img = sess.run([image, y_, flat_output, error_images], feed_dict={handle: training_handle,
                                                        dropout_rate: 1.0})
 
+            # Use network to generate ground-truth
+            tmp_gt = np.reshape(net_out, [opt.hyper.batch_size, 42, 42])
+            ''' 
             if np.sum(np.int8(np.sum(np.sum(np.int8(tmp_img == 1), 1), 1) == 0)) > 0:
                 print("EMPTY")
                 err_img[(np.sum(np.sum(np.int8(tmp_img == 1), 1), 1) == 0)] = 0
@@ -106,37 +109,39 @@ def run(opt):
             if missing > 0:
                 idx_not_acc = idx_acc[np.random.randint(idx_acc.shape[0], size=missing)]
                 idx[err_img == 0] = idx_not_acc
-
-                ''' VISUALIZE ERRORS 
-                mm = (err_img == 0)
-                plt.imshow(np.reshape(tmp_img[mm, :, :],[100,100]))
-                plt.show()
-                plt.savefig(str(err_idx),
-                            format="pdf", dpi=1000)
-                plt.close()
-
-                plt.imshow(np.reshape(tmp_gt[mm, :, :],[100,100]))
-                plt.show()
-                plt.savefig("gt"+str(err_idx),
-                            format="pdf", dpi=1000)
-                plt.close()
-
-                oo = np.reshape(net_out[mm, :], [100,100])
-                oo = (oo-np.reshape(tmp_gt[mm, :, :], [100,100]))*(1-np.reshape(tmp_img[mm, :, :],[100,100]))
-                plt.imshow(oo)
-                plt.show()
-                plt.savefig("net"+str(err_idx),
-                            format="pdf", dpi=1000)
-                plt.close()
-
-                err_idx = err_idx + 1
-                '''
-
+                
             tmp_img = tmp_img[idx, :, :]
             tmp_gt = tmp_gt[idx, :, :]
+            '''
+            ''' VISUALIZE ERRORS 
+            mm = (err_img == 0)
+            plt.imshow(np.reshape(tmp_img[mm, :, :],[100,100]))
+            plt.show()
+            plt.savefig(str(err_idx),
+                        format="pdf", dpi=1000)
+            plt.close()
+
+            plt.imshow(np.reshape(tmp_gt[mm, :, :],[100,100]))
+            plt.show()
+            plt.savefig("gt"+str(err_idx),
+                        format="pdf", dpi=1000)
+            plt.close()
+
+            oo = np.reshape(net_out[mm, :], [100,100])
+            oo = (oo-np.reshape(tmp_gt[mm, :, :], [100,100]))*(1-np.reshape(tmp_img[mm, :, :],[100,100]))
+            plt.imshow(oo)
+            plt.show()
+            plt.savefig("net"+str(err_idx),
+                        format="pdf", dpi=1000)
+            plt.close()
+
+            err_idx = err_idx + 1
+            '''
+
 
             insideness['train_img'].append(tmp_img.astype(np.uint8))
             insideness['train_gt'].append(tmp_gt.astype(np.uint8))
+
         insideness['train_img'] = [tmp for tmp in np.concatenate(insideness['train_img'])[:int(dataset.num_images_training), :, :]]
         insideness['train_gt'] = [tmp for tmp in np.concatenate(insideness['train_gt'])[:int(dataset.num_images_training), :, :]]
 
@@ -145,8 +150,13 @@ def run(opt):
         insideness['val_img'] = []
         insideness['val_gt'] = []
         for num_iter in range(int(dataset.num_images_val / opt.hyper.batch_size) + 1):
-            tmp_img, tmp_gt, err_img = sess.run([image, y_, error_images], feed_dict={handle: validation_handle,
+            tmp_img, tmp_gt, net_out, err_img = sess.run([image, y_, flat_output, error_images], feed_dict={handle: validation_handle,
                                                        dropout_rate: 1.0})
+
+            # Use network to generate ground-truth
+            tmp_gt = np.reshape(net_out, [opt.hyper.batch_size, 42, 42])
+
+            '''
             if np.sum(np.int8(np.sum(np.sum(np.int8(tmp_img == 1),1),1)==0))>0:
                 print("EMPTY")
                 err_img[(np.sum(np.sum(np.int8(tmp_img == 1), 1), 1) == 0)] = 0
@@ -159,6 +169,8 @@ def run(opt):
                 idx[err_img == 0] = idx_not_acc
             tmp_img = tmp_img[idx, :, :]
             tmp_gt = tmp_gt[idx, :, :]
+            '''
+
             insideness['val_img'].append(tmp_img.astype(np.uint8))
             insideness['val_gt'].append(tmp_gt.astype(np.uint8))
         insideness['val_img'] = [tmp for tmp in np.concatenate(insideness['val_img'])[:int(np.maximum(dataset.num_images_val, 1)), :, :]]
@@ -170,8 +182,13 @@ def run(opt):
         insideness['test_img'] = []
         insideness['test_gt'] = []
         for num_iter in range(int(dataset.num_images_test / opt.hyper.batch_size) + 1):
-            tmp_img, tmp_gt, err_img = sess.run([image, y_, error_images], feed_dict={handle: test_handle,
+            tmp_img, tmp_gt, net_out, err_img = sess.run([image, y_, flat_output, error_images], feed_dict={handle: test_handle,
                                                        dropout_rate: 1.0})
+
+            # Use network to generate ground-truth
+            tmp_gt = np.reshape(net_out, [opt.hyper.batch_size, 42, 42])
+
+            '''
             if np.sum(np.int8(np.sum(np.sum(np.int8(tmp_img == 1),1),1)==0))>0:
                 print("EMPTY")
                 err_img[(np.sum(np.sum(np.int8(tmp_img == 1), 1), 1) == 0)] = 0
@@ -184,6 +201,8 @@ def run(opt):
                 idx[err_img == 0] = idx_not_acc
             tmp_img = tmp_img[idx, :, :]
             tmp_gt = tmp_gt[idx, :, :]
+            '''
+
             insideness['test_img'].append(tmp_img.astype(np.uint8))
             insideness['test_gt'].append(tmp_gt.astype(np.uint8))
         insideness['test_img'] = [tmp for tmp in np.concatenate(insideness['test_img'])[:int(dataset.num_images_test), :, :]]

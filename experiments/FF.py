@@ -187,6 +187,7 @@ def get_experiments(output_path):
                                             dataset=opt_data[idx_dataset], output_path=output_path,
                                             family_id=idx_family, family_name="FF_D" + str(idx_dataset))
 
+
                             opt_handle.dnn.name = "Dilation"
                             opt_handle.hyper.max_num_epochs = 25
                             opt_handle.dnn.num_layers = l
@@ -212,6 +213,8 @@ def get_experiments(output_path):
                             opt_handle = Experiments(id=idx_base, name="FF_D" + str(idx_dataset),
                                                      dataset=opt_data[idx_dataset], output_path=output_path,
                                                      family_id=idx_family, family_name="FF_D" + str(idx_dataset))
+                            if batch == 256:
+                                opt_handle.skip = True
 
                             opt_handle.dnn.name = "Dilation"
                             opt_handle.hyper.max_num_epochs = 25
@@ -226,7 +229,7 @@ def get_experiments(output_path):
                             idx_base += 1
 
     idx_family += 1
-    #Spirals
+    #Spirals & Potatoes
     idx_dataset = 52
     for wd in [0.0, 1e-2, 1e-4]:
         for c in [2, 4, 8]:
@@ -237,6 +240,10 @@ def get_experiments(output_path):
                             opt_handle = Experiments(id=idx_base, name="FF_D" + str(idx_dataset),
                                                      dataset=opt_data[idx_dataset], output_path=output_path,
                                                      family_id=idx_family, family_name="FF_D" + str(idx_dataset))
+
+                            if batch == 256:
+                                opt_handle.skip = True
+
                             opt_handle.dnn.name = "Dilation"
                             opt_handle.hyper.max_num_epochs = 25
                             opt_handle.dnn.num_layers = l
@@ -248,7 +255,112 @@ def get_experiments(output_path):
                             opt_handle.hyper.weight_decay = wd
                             opt += [copy.deepcopy(opt_handle)]
                             idx_base += 1
+# EVEN MORE LAYERS
 
+        idx_family = 1
+        for idx_dataset in range(40, 50):
+            for c in [8]:
+                for l in [16, 25]:
+                    for alpha in [0.2]:
+                        for batch in [32]:
+                            for lr in [1e-1, 1e-2]:
+                                opt_handle = Experiments(id=idx_base, name="FF_D" + str(idx_dataset),
+                                                         dataset=opt_data[idx_dataset], output_path=output_path,
+                                                         family_id=idx_family, family_name="FF_D" + str(idx_dataset))
+
+                                opt_handle.dnn.name = "Dilation"
+                                opt_handle.hyper.max_num_epochs = 25
+                                opt_handle.dnn.num_layers = l
+                                opt_handle.dnn.complex_dilation = c
+                                opt_handle.hyper.learning_rate = lr
+                                opt_handle.hyper.alpha = alpha
+                                opt_handle.dnn.no_dilation = True
+                                opt_handle.hyper.batch_size = batch
+                                opt_handle.hyper.weight_decay = 0.0
+                                opt += [copy.deepcopy(opt_handle)]
+                                idx_base += 1
+
+            idx_family += 1
+
+        # Spirals
+        idx_dataset = 50
+        for wd in [0.0]:
+            for c in [8]:
+                for l in [16, 25]:
+                    for alpha in [0.2]:
+                        for batch in [32]:
+                            for lr in [1e-1, 1e-2]:
+                                opt_handle = Experiments(id=idx_base, name="FF_D" + str(idx_dataset),
+                                                         dataset=opt_data[idx_dataset], output_path=output_path,
+                                                         family_id=idx_family, family_name="FF_D" + str(idx_dataset))
+                                if batch == 256:
+                                    opt_handle.skip = True
+
+                                opt_handle.dnn.name = "Dilation"
+                                opt_handle.hyper.max_num_epochs = 25
+                                opt_handle.dnn.num_layers = l
+                                opt_handle.dnn.complex_dilation = c
+                                opt_handle.hyper.learning_rate = lr
+                                opt_handle.hyper.alpha = alpha
+                                opt_handle.dnn.no_dilation = True
+                                opt_handle.hyper.batch_size = batch
+                                opt_handle.hyper.weight_decay = wd
+                                opt += [copy.deepcopy(opt_handle)]
+                                idx_base += 1
+
+        idx_family += 1
+        # Spirals & Potatoes
+        idx_dataset = 52
+        for wd in [0.0]:
+            for c in [8]:
+                for l in [16, 25]:
+                    for alpha in [0.2]:
+                        for batch in [32]:
+                            for lr in [1e-1, 1e-2]:
+                                opt_handle = Experiments(id=idx_base, name="FF_D" + str(idx_dataset),
+                                                         dataset=opt_data[idx_dataset], output_path=output_path,
+                                                         family_id=idx_family, family_name="FF_D" + str(idx_dataset))
+
+                                if batch == 256:
+                                    opt_handle.skip = True
+
+                                opt_handle.dnn.name = "Dilation"
+                                opt_handle.hyper.max_num_epochs = 25
+                                opt_handle.dnn.num_layers = l
+                                opt_handle.dnn.complex_dilation = c
+                                opt_handle.hyper.learning_rate = lr
+                                opt_handle.hyper.alpha = alpha
+                                opt_handle.dnn.no_dilation = True
+                                opt_handle.hyper.batch_size = batch
+                                opt_handle.hyper.weight_decay = wd
+                                opt += [copy.deepcopy(opt_handle)]
+                                idx_base += 1
+
+        idx_dataset = 52
+        for wd in [0.0]:
+            for c in [8]:
+                for l in [10, 11, 12]:
+                    for alpha in [0.2]:
+                        for batch in [32]:
+                            for lr in [1e-1, 1e-2]:
+                                opt_handle = Experiments(id=idx_base, name="FF_D" + str(idx_dataset),
+                                                         dataset=opt_data[idx_dataset], output_path=output_path,
+                                                         family_id=idx_family, family_name="FF_D" + str(idx_dataset))
+
+                                if batch == 256:
+                                    opt_handle.skip = True
+
+                                opt_handle.dnn.name = "Dilation"
+                                opt_handle.hyper.max_num_epochs = 25
+                                opt_handle.dnn.num_layers = l
+                                opt_handle.dnn.complex_dilation = c
+                                opt_handle.hyper.learning_rate = lr
+                                opt_handle.hyper.alpha = alpha
+                                opt_handle.dnn.no_dilation = True
+                                opt_handle.hyper.batch_size = batch
+                                opt_handle.hyper.weight_decay = wd
+                                opt += [copy.deepcopy(opt_handle)]
+                                idx_base += 1
 
     return opt
 

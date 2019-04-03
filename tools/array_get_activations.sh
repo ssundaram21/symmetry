@@ -1,10 +1,10 @@
 #!/bin/bash
 #SBATCH -n 2
-#SBATCH --array=1
+#SBATCH --array=2-3
 #SBATCH --job-name=insideness
-#SBATCH --mem=32GB
-#SBATCH --gres=gpu:GEFORCEGTX1080TI:1
-#SBATCH -t 2:00:00
+#SBATCH --mem=30GB
+#SBATCH --gres=gpu:titan-x:1
+#SBATCH -t 5:00:00
 #SBATCH --qos=cbmm
 #SBATCH --workdir=./log/
 
@@ -16,5 +16,5 @@ singularity exec -B /om:/om --nv /om/user/xboix/singularity/xboix-tensorflow.sim
 python /om/user/xboix/src/insideness/main.py \
 --experiment_index=${SLURM_ARRAY_TASK_ID} \
 --host_filesystem=om \
---network=dilation \
+--network=multi_lstm \
 --run=extract_activations

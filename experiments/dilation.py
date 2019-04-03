@@ -110,7 +110,7 @@ def get_experiments(output_path):
                             if batch == 2048:
                                 opt_handle.skip = True
 
-                            opt_handle.hyper.max_num_epochs = 100
+                            opt_handle.hyper.max_num_epochs = 25
                             opt_handle.dnn.num_layers = l
                             opt_handle.dnn.complex_dilation = c
                             opt_handle.dnn.no_dilation = False
@@ -244,6 +244,29 @@ def get_experiments(output_path):
                             opt += [copy.deepcopy(opt_handle)]
                             idx_base += 1
 
+    #EVEN MORE WEIGHT DECAY
+    for wd in [1.0, 1e-1]:
+        for c in [8]:
+            for l in [8]:
+                for alpha in [0.4]:
+                    for batch in [32]:
+                        for lr in [1e-1]:
+                            opt_handle = Experiments(id=idx_base, name="Dilation_D" + str(idx_dataset),
+                                                     dataset=opt_data[idx_dataset], output_path=output_path,
+                                                     family_id=idx_family, family_name="Dilation_D" + str(idx_dataset))
+                            opt_handle.dnn.name = "Dilation"
+                            opt_handle.hyper.max_num_epochs = 25
+                            opt_handle.dnn.num_layers = l
+                            opt_handle.dnn.complex_dilation = c
+                            opt_handle.dnn.no_dilation = False
+                            opt_handle.hyper.learning_rate = lr
+                            opt_handle.hyper.alpha = alpha
+                            opt_handle.hyper.batch_size = batch
+                            opt_handle.hyper.weight_decay = wd
+                            opt += [copy.deepcopy(opt_handle)]
+                            idx_base += 1
+
+
     idx_family += 1
 
     return opt
@@ -271,7 +294,7 @@ def get_best_of_the_family(output_path):
 
 def get_experiments_selected(output_path):
 
-    NUM_TRIALS = 100
+    NUM_TRIALS = 20
 
     opt_pre_cossval = get_experiments(output_path)
 
@@ -283,6 +306,10 @@ def get_experiments_selected(output_path):
 
     for k in range(1, cross['num_families']+1):
         if not k in cross:
+            continue
+
+        opt_handle = opt_pre_cossval[int(cross[k]['ID'])]
+        if opt_handle.dataset.complexity_strict == False:
             continue
 
         for trial in range(NUM_TRIALS):

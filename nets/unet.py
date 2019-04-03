@@ -50,6 +50,7 @@ def decoder_block(incoming, num_channels, n, skip, has_skip=1, name=''):
     with tf.variable_scope(name):
         h = transpose_conv2d(incoming, num_channels, k_size=2, stride=2)
         if has_skip:
+            h = tf.image.resize_image_with_crop_or_pad(h, tf.shape(skip)[1],  tf.shape(skip)[1])
             h = tf.concat([skip, h], axis=-1)
         for i in range(n):
             h = conv2d(h, num_channels, k_size=3, stride=1, name='de_cconv_{}'.format(i+1))
@@ -94,7 +95,7 @@ def decoder(incoming, base_channels, num_convolutions_step, skips, num_classes=2
 def U_net(data, opt, dropout_rate, labels_id):
 
     data = tf.reshape(data, [-1, opt.dataset.image_size, opt.dataset.image_size, 1])
-    data = tf.image.resize_image_with_crop_or_pad(data, 32, 32)
+    data = tf.image.resize_image_with_crop_or_pad(data, opt.dataset.image_size, opt.dataset.image_size)
 
     base_channels = opt.dnn.base_channels
     num_poolings = opt.dnn.num_poolings
@@ -105,4 +106,4 @@ def U_net(data, opt, dropout_rate, labels_id):
 
     predictions = tf.image.resize_image_with_crop_or_pad(predictions, opt.dataset.image_size, opt.dataset.image_size)
 
-    return predictions, [], []
+    return predictions, [], predictions

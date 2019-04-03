@@ -64,11 +64,17 @@ def Dilated_convolution(data, opt, dropout_rate, labels_id):
     num_layers = opt.dnn.num_layers
     no_dilation = opt.dnn.no_dilation
 
-    channels = [2*channel_rate] + [(2**i) * channel_rate for i in range(1, num_layers-1)] + [2]
+
+    if num_layers>9:
+        import numpy as np
+        channels = [2*channel_rate] + [np.minimum((2**i) * channel_rate, 256) for i in range(1, num_layers-1)] + [2]
+    else:
+        channels = [2*channel_rate] + [(2**i) * channel_rate for i in range(1, num_layers-1)] + [2]
+
     if no_dilation:
         dilations = [1 for _ in range(num_layers)]
     else:
         dilations = [1] + [(2**i) for i in range(num_layers-3)] + [1, 1]
 
     predictions, activations = model(data, channels, dilations, wd=opt.hyper.weight_decay)
-    return predictions, [], activations
+    return predictions, [], predictions#activations

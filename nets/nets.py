@@ -14,6 +14,7 @@ from nets.coloring import Coloring as net_Coloring
 
 
 from nets.coloringLSTM import ColoringLSTM as net_ColoringLSTM
+from nets.coloringLSTM_init import ColoringLSTM as net_ColoringLSTM_init
 
 
 from nets.dilated_convolution import Dilated_convolution as net_Dilated_convolution
@@ -50,6 +51,9 @@ def Coloring(x, opt, dropout_rate, labels_id):
 
 def ColoringLSTM(x, opt, dropout_rate, labels_id):
     return net_ColoringLSTM(x, opt, dropout_rate, labels_id)
+
+def ColoringLSTM_init(x, opt, dropout_rate, labels_id):
+    return net_ColoringLSTM_init(x, opt, dropout_rate, labels_id)
 
 def MultiLSTM(x, opt, dropout_rate, labels_id):
     return net_MultiLSTM(x, opt, dropout_rate, labels_id)

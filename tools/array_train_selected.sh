@@ -1,10 +1,10 @@
 #!/bin/bash
 #SBATCH -n1
-#SBATCH --array=0-999
-#SBATCH --exclude=node030
-#SBATCH --job-name=insideness
+#SBATCH --array=0-40
+#SBATCH --job-name=unet
 #SBATCH --mem=12GB
-#SBATCH --gres=gpu:tesla-k80:1
+#SBATCH --gres=gpu:titan-x:1
+#SBATCH --qos=cbmm
 #SBATCH -t 10:00:00
 #SBATCH --workdir=./log/
 

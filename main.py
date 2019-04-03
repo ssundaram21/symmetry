@@ -49,6 +49,9 @@ elif FLAGS.network == "FF":
 elif FLAGS.network == "lstm":
     from experiments import lstm as experiment
     output_path = output_path + "lstm/"
+elif FLAGS.network == "lstm_init":
+    from experiments import lstm_init as experiment
+    output_path = output_path + "lstm_init/"
 elif FLAGS.network == "lstm_step":
     from experiments import lstm_step as experiment
     output_path = output_path + "lstm_step/"

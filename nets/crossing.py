@@ -40,7 +40,7 @@ def Crossing(data, opt, dropout_rate, labels_id):
 
     data = tf.reshape(data, [-1, opt.dataset.image_size+1, opt.dataset.image_size, 1])
     depth = int(3*C/2)
-    print(depth)
+    #print(depth)
     w1 = tf.constant(1.0, shape=[2, 1, 1, 1])
     b1 = tf.constant(-1.0)
 

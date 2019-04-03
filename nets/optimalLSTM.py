@@ -61,32 +61,33 @@ def _conv(args, filter_size, num_features, bias, bias_start=0.0):
 
   # Now the computation.
 
+  q = 1e2
   optimalW = np.zeros(filter_size + [total_arg_size_depth, num_features])
   optimalB = np.zeros([num_features])
   #in gate
-  optimalW[1, 1, 0, 0] = -1e4
-  optimalW[1, 1, 0, 1] = -1e4
-  optimalB[0] = 5e3
-  optimalB[1] = 5e3
+  optimalW[1, 1, 0, 0] = -q
+  optimalW[1, 1, 0, 1] = -q
+  optimalB[0] = q/2
+  optimalB[1] = q/2
 
   #C cell gate:
-  optimalB[2] = -1e4
-  optimalB[3] = 1e4
+  optimalB[2] = q
+  optimalB[3] = q
 
   #forget gate
-  optimalB[4] = -1e5
-  optimalB[5] = -1e5
+  optimalB[4] = -q
+  optimalB[5] = -q
 
   #output gate:
 
-  optimalW[0, :, 2, 6] = 1e5
-  optimalW[1, 0, 2, 6] = 1e5
-  optimalW[1, 2, 2, 6] = 1e5
-  optimalW[2, :, 2, 6] = 1e5
+  optimalW[0, :, 2, 6] = 2*q
+  optimalW[1, 0, 2, 6] = 2*q
+  optimalW[1, 2, 2, 6] = 2*q
+  optimalW[2, :, 2, 6] = 2*q
   optimalW[:, :, :, 7] = optimalW[:, :, :, 6]
 
-  optimalB[6] = -5e4
-  optimalB[7] = -5e4
+  optimalB[6] = -q/2
+  optimalB[7] = -q/2
 
 
   kernel = tf.get_variable(
@@ -226,11 +227,14 @@ def optimalLSTM(data, opt, dropout_rate, labels_id):
 
             t_output, state1 = cell1(data, state1)
 
-            out.append([t_output[:, :, :, :2]])
+            a = -t_output[:, :, :, 0]+1
+            b = t_output[:, :, :, 1]
+
+            out.append(tf.stack([b,a], axis=3))
             act_state1.append(state1)
 
 
     if opt.dnn.train_per_step:
         return out, [cell1.weights], [act_state1]
     else:
-        return out[-1], [], [act_state1]
+        return out[-1], [], [act_state1, out]

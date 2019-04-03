@@ -96,7 +96,7 @@ def get_experiments(output_path):
     max_epochs = [100]
 
     idx_base = 0
-    opt_handle = Experiments(id=idx_base, name="Crossing", dataset=opt_data[50], output_path=output_path,
+    opt_handle = Experiments(id=idx_base, name="Crossing", dataset=opt_data[53], output_path=output_path,
                              family_id=0, family_name="Crossing_Optimal")
     opt_handle.skip_train = True
     opt_handle.dnn.name = "Crossing"
@@ -227,7 +227,7 @@ def get_best_of_the_family(output_path):
     opt = []
 
 
-    for k in range(cross['num_families']+1):
+    for k in range(1, cross['num_families']+1):
         if not k in cross:
             continue
 
@@ -249,7 +249,7 @@ def get_experiments_selected(output_path):
     idx = 0
     opt = []
 
-    for k in range(cross['num_families']+1):
+    for k in range(1, cross['num_families']+1):
         if not k in cross:
             continue
 
