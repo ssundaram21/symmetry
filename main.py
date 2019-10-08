@@ -19,8 +19,7 @@ FLAGS = parser.parse_args()
 code_path = {
     'xavier': '/Users/xboix/src/insideness/',
     'om': '/om/user/xboix/src/insideness/',
-    'om-shobhita': '/om/user/shobhita/insideness',
-    'shobhita': '/users/shobh/insideness'}[FLAGS.host_filesystem]
+    'om-shobhita': '/om/user/shobhita/insideness'}[FLAGS.host_filesystem]
 
 output_path = {
     'xavier': '/Users/xboix/src/insideness/log/',
