@@ -1,0 +1,854 @@
+node043
+tensor([[0.6110, 0.3122, 0.4695],
+        [0.7572, 0.3206, 0.2091]], device='cuda:0')
+
+        
+
+        id: 0,
+        name: DATA_C0_D0,
+        dataset_path: ,
+        num_images_training: 10.0,
+        num_images_testing: 10000.0,
+        complexity: 0,
+        
+
+        
+
+        id: 1,
+        name: DATA_C0_D0,
+        dataset_path: ,
+        num_images_training: 10.0,
+        num_images_testing: 10000.0,
+        complexity: 0,
+        
+
+        
+
+        id: 2,
+        name: DATA_C1_D0,
+        dataset_path: ,
+        num_images_training: 10.0,
+        num_images_testing: 10000.0,
+        complexity: 1,
+        
+
+        
+
+        id: 3,
+        name: DATA_C1_D0,
+        dataset_path: ,
+        num_images_training: 10.0,
+        num_images_testing: 10000.0,
+        complexity: 1,
+        
+
+        
+
+        id: 4,
+        name: DATA_C2_D0,
+        dataset_path: ,
+        num_images_training: 10.0,
+        num_images_testing: 10000.0,
+        complexity: 2,
+        
+
+        
+
+        id: 5,
+        name: DATA_C2_D0,
+        dataset_path: ,
+        num_images_training: 10.0,
+        num_images_testing: 10000.0,
+        complexity: 2,
+        
+
+        
+
+        id: 6,
+        name: DATA_C3_D0,
+        dataset_path: ,
+        num_images_training: 10.0,
+        num_images_testing: 10000.0,
+        complexity: 3,
+        
+
+        
+
+        id: 7,
+        name: DATA_C3_D0,
+        dataset_path: ,
+        num_images_training: 10.0,
+        num_images_testing: 10000.0,
+        complexity: 3,
+        
+
+        
+
+        id: 8,
+        name: DATA_C4_D0,
+        dataset_path: ,
+        num_images_training: 10.0,
+        num_images_testing: 10000.0,
+        complexity: 4,
+        
+
+        
+
+        id: 9,
+        name: DATA_C4_D0,
+        dataset_path: ,
+        num_images_training: 10.0,
+        num_images_testing: 10000.0,
+        complexity: 4,
+        
+
+        
+
+        id: 10,
+        name: DATA_C0_D1,
+        dataset_path: ,
+        num_images_training: 100.0,
+        num_images_testing: 10000.0,
+        complexity: 0,
+        
+
+        
+
+        id: 11,
+        name: DATA_C0_D1,
+        dataset_path: ,
+        num_images_training: 100.0,
+        num_images_testing: 10000.0,
+        complexity: 0,
+        
+
+        
+
+        id: 12,
+        name: DATA_C1_D1,
+        dataset_path: ,
+        num_images_training: 100.0,
+        num_images_testing: 10000.0,
+        complexity: 1,
+        
+
+        
+
+        id: 13,
+        name: DATA_C1_D1,
+        dataset_path: ,
+        num_images_training: 100.0,
+        num_images_testing: 10000.0,
+        complexity: 1,
+        
+
+        
+
+        id: 14,
+        name: DATA_C2_D1,
+        dataset_path: ,
+        num_images_training: 100.0,
+        num_images_testing: 10000.0,
+        complexity: 2,
+        
+
+        
+
+        id: 15,
+        name: DATA_C2_D1,
+        dataset_path: ,
+        num_images_training: 100.0,
+        num_images_testing: 10000.0,
+        complexity: 2,
+        
+
+        
+
+        id: 16,
+        name: DATA_C3_D1,
+        dataset_path: ,
+        num_images_training: 100.0,
+        num_images_testing: 10000.0,
+        complexity: 3,
+        
+
+        
+
+        id: 17,
+        name: DATA_C3_D1,
+        dataset_path: ,
+        num_images_training: 100.0,
+        num_images_testing: 10000.0,
+        complexity: 3,
+        
+
+        
+
+        id: 18,
+        name: DATA_C4_D1,
+        dataset_path: ,
+        num_images_training: 100.0,
+        num_images_testing: 10000.0,
+        complexity: 4,
+        
+
+        
+
+        id: 19,
+        name: DATA_C4_D1,
+        dataset_path: ,
+        num_images_training: 100.0,
+        num_images_testing: 10000.0,
+        complexity: 4,
+        
+
+        
+
+        id: 20,
+        name: DATA_C0_D2,
+        dataset_path: ,
+        num_images_training: 1000.0,
+        num_images_testing: 10000.0,
+        complexity: 0,
+        
+
+        
+
+        id: 21,
+        name: DATA_C0_D2,
+        dataset_path: ,
+        num_images_training: 1000.0,
+        num_images_testing: 10000.0,
+        complexity: 0,
+        
+
+        
+
+        id: 22,
+        name: DATA_C1_D2,
+        dataset_path: ,
+        num_images_training: 1000.0,
+        num_images_testing: 10000.0,
+        complexity: 1,
+        
+
+        
+
+        id: 23,
+        name: DATA_C1_D2,
+        dataset_path: ,
+        num_images_training: 1000.0,
+        num_images_testing: 10000.0,
+        complexity: 1,
+        
+
+        
+
+        id: 24,
+        name: DATA_C2_D2,
+        dataset_path: ,
+        num_images_training: 1000.0,
+        num_images_testing: 10000.0,
+        complexity: 2,
+        
+
+        
+
+        id: 25,
+        name: DATA_C2_D2,
+        dataset_path: ,
+        num_images_training: 1000.0,
+        num_images_testing: 10000.0,
+        complexity: 2,
+        
+
+        
+
+        id: 26,
+        name: DATA_C3_D2,
+        dataset_path: ,
+        num_images_training: 1000.0,
+        num_images_testing: 10000.0,
+        complexity: 3,
+        
+
+        
+
+        id: 27,
+        name: DATA_C3_D2,
+        dataset_path: ,
+        num_images_training: 1000.0,
+        num_images_testing: 10000.0,
+        complexity: 3,
+        
+
+        
+
+        id: 28,
+        name: DATA_C4_D2,
+        dataset_path: ,
+        num_images_training: 1000.0,
+        num_images_testing: 10000.0,
+        complexity: 4,
+        
+
+        
+
+        id: 29,
+        name: DATA_C4_D2,
+        dataset_path: ,
+        num_images_training: 1000.0,
+        num_images_testing: 10000.0,
+        complexity: 4,
+        
+
+        
+
+        id: 30,
+        name: DATA_C0_D3,
+        dataset_path: ,
+        num_images_training: 10000.0,
+        num_images_testing: 10000.0,
+        complexity: 0,
+        
+
+        
+
+        id: 31,
+        name: DATA_C0_D3,
+        dataset_path: ,
+        num_images_training: 10000.0,
+        num_images_testing: 10000.0,
+        complexity: 0,
+        
+
+        
+
+        id: 32,
+        name: DATA_C1_D3,
+        dataset_path: ,
+        num_images_training: 10000.0,
+        num_images_testing: 10000.0,
+        complexity: 1,
+        
+
+        
+
+        id: 33,
+        name: DATA_C1_D3,
+        dataset_path: ,
+        num_images_training: 10000.0,
+        num_images_testing: 10000.0,
+        complexity: 1,
+        
+
+        
+
+        id: 34,
+        name: DATA_C2_D3,
+        dataset_path: ,
+        num_images_training: 10000.0,
+        num_images_testing: 10000.0,
+        complexity: 2,
+        
+
+        
+
+        id: 35,
+        name: DATA_C2_D3,
+        dataset_path: ,
+        num_images_training: 10000.0,
+        num_images_testing: 10000.0,
+        complexity: 2,
+        
+
+        
+
+        id: 36,
+        name: DATA_C3_D3,
+        dataset_path: ,
+        num_images_training: 10000.0,
+        num_images_testing: 10000.0,
+        complexity: 3,
+        
+
+        
+
+        id: 37,
+        name: DATA_C3_D3,
+        dataset_path: ,
+        num_images_training: 10000.0,
+        num_images_testing: 10000.0,
+        complexity: 3,
+        
+
+        
+
+        id: 38,
+        name: DATA_C4_D3,
+        dataset_path: ,
+        num_images_training: 10000.0,
+        num_images_testing: 10000.0,
+        complexity: 4,
+        
+
+        
+
+        id: 39,
+        name: DATA_C4_D3,
+        dataset_path: ,
+        num_images_training: 10000.0,
+        num_images_testing: 10000.0,
+        complexity: 4,
+        
+
+        
+
+        id: 40,
+        name: DATA_C0_D4,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 0,
+        
+
+        
+
+        id: 41,
+        name: DATA_C0_D4,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 0,
+        
+
+        
+
+        id: 42,
+        name: DATA_C1_D4,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 1,
+        
+
+        
+
+        id: 43,
+        name: DATA_C1_D4,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 1,
+        
+
+        
+
+        id: 44,
+        name: DATA_C2_D4,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 2,
+        
+
+        
+
+        id: 45,
+        name: DATA_C2_D4,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 2,
+        
+
+        
+
+        id: 46,
+        name: DATA_C3_D4,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 3,
+        
+
+        
+
+        id: 47,
+        name: DATA_C3_D4,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 3,
+        
+
+        
+
+        id: 48,
+        name: DATA_C4_D4,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 4,
+        
+
+        
+
+        id: 49,
+        name: DATA_C4_D4,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 4,
+        
+
+        
+
+        id: 50,
+        name: DATA_C5_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 5,
+        
+
+        
+
+        id: 51,
+        name: DATA_C5_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 5,
+        
+
+        
+
+        id: 52,
+        name: DATA_C6_D0,
+        dataset_path: ,
+        num_images_training: 200000.0,
+        num_images_testing: 20000.0,
+        complexity: 6,
+        
+
+        
+
+        id: 53,
+        name: DATA_C7_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 7,
+        
+
+        
+
+        id: 54,
+        name: DATA_C0_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 0,
+        
+
+        
+
+        id: 55,
+        name: DATA_C1_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 1,
+        
+
+        
+
+        id: 56,
+        name: DATA_C1_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 1,
+        
+
+        
+
+        id: 57,
+        name: DATA_C3_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 3,
+        
+
+        
+
+        id: 58,
+        name: DATA_C4_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 4,
+        
+
+        
+
+        id: 59,
+        name: DATA_C5_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 5,
+        
+
+        
+
+        id: 60,
+        name: DATA_C5_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 5,
+        
+
+        
+
+        id: 61,
+        name: DATA_C5_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 5,
+        
+
+        
+
+        id: 62,
+        name: DATA_C5_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 5,
+        
+
+        
+
+        id: 63,
+        name: DATA_C5_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 5,
+        
+
+TRAINING
+ID569_MultiLSTMInit_D58
+1
+10
+0.001
+0.2
+32
+REUSING TFRECORDS
+WARNING: Logging before flag parsing goes to stderr.
+W1107 08:40:08.329947 47514644291392 deprecation_wrapper.py:119] From /om/user/shobhita/src/insideness/data/data.py:123: The name tf.FixedLenFeature is deprecated. Please use tf.io.FixedLenFeature instead.
+
+W1107 08:40:08.330358 47514644291392 deprecation_wrapper.py:119] From /om/user/shobhita/src/insideness/data/data.py:129: The name tf.parse_single_example is deprecated. Please use tf.io.parse_single_example instead.
+
+W1107 08:40:08.518892 47514644291392 deprecation_wrapper.py:119] From /om/user/shobhita/src/insideness/runs/train.py:61: The name tf.placeholder is deprecated. Please use tf.compat.v1.placeholder instead.
+
+W1107 08:40:08.519791 47514644291392 deprecation_wrapper.py:119] From /om/user/shobhita/src/insideness/runs/train.py:62: The name tf.data.Iterator is deprecated. Please use tf.compat.v1.data.Iterator instead.
+
+W1107 08:40:08.519943 47514644291392 deprecation.py:323] From /om/user/shobhita/src/insideness/runs/train.py:63: DatasetV1.output_types (from tensorflow.python.data.ops.dataset_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.compat.v1.data.get_output_types(dataset)`.
+W1107 08:40:08.520092 47514644291392 deprecation.py:323] From /om/user/shobhita/src/insideness/runs/train.py:63: DatasetV1.output_shapes (from tensorflow.python.data.ops.dataset_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.compat.v1.data.get_output_shapes(dataset)`.
+W1107 08:40:08.523732 47514644291392 deprecation.py:323] From /om/user/shobhita/src/insideness/runs/train.py:65: DatasetV1.make_one_shot_iterator (from tensorflow.python.data.ops.dataset_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `for ... in dataset:` to iterate over a dataset. If using `tf.estimator`, return the `Dataset` object directly from your input function. As a last resort, you can use `tf.compat.v1.data.make_one_shot_iterator(dataset)`.
+W1107 08:40:08.552126 47514644291392 deprecation.py:323] From /om/user/shobhita/src/insideness/runs/train.py:68: DatasetV1.make_initializable_iterator (from tensorflow.python.data.ops.dataset_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `for ... in dataset:` to iterate over a dataset. If using `tf.estimator`, return the `Dataset` object directly from your input function. As a last resort, you can use `tf.compat.v1.data.make_initializable_iterator(dataset)`.
+W1107 08:40:08.594726 47514644291392 deprecation_wrapper.py:119] From /om/user/shobhita/src/insideness/nets/multiLSTM_init.py:49: The name tf.nn.rnn_cell.LSTMStateTuple is deprecated. Please use tf.compat.v1.nn.rnn_cell.LSTMStateTuple instead.
+
+W1107 08:40:08.596860 47514644291392 deprecation_wrapper.py:119] From /om/user/shobhita/src/insideness/nets/multiLSTM_init.py:72: The name tf.variable_scope is deprecated. Please use tf.compat.v1.variable_scope instead.
+
+W1107 08:40:08.835298 47514644291392 deprecation.py:506] From /usr/local/lib/python3.6/dist-packages/tensorflow/python/ops/init_ops.py:1251: calling VarianceScaling.__init__ (from tensorflow.python.ops.init_ops) with dtype is deprecated and will be removed in a future version.
+Instructions for updating:
+Call initializer instance with the dtype argument instead of passing it to the constructor
+W1107 08:40:08.853768 47514644291392 deprecation.py:506] From /usr/local/lib/python3.6/dist-packages/tensorflow/contrib/rnn/python/ops/rnn_cell.py:2242: calling Constant.__init__ (from tensorflow.python.ops.init_ops) with dtype is deprecated and will be removed in a future version.
+Instructions for updating:
+Call initializer instance with the dtype argument instead of passing it to the constructor
+W1107 08:40:09.019999 47514644291392 deprecation_wrapper.py:119] From /om/user/shobhita/src/insideness/runs/train.py:93: The name tf.summary.scalar is deprecated. Please use tf.compat.v1.summary.scalar instead.
+
+TRAIN AT END
+W1107 08:40:09.096645 47514644291392 deprecation_wrapper.py:119] From /om/user/shobhita/src/insideness/runs/train.py:145: The name tf.train.exponential_decay is deprecated. Please use tf.compat.v1.train.exponential_decay instead.
+
+W1107 08:40:09.132711 47514644291392 deprecation_wrapper.py:119] From /om/user/shobhita/src/insideness/runs/train.py:170: The name tf.summary.image is deprecated. Please use tf.compat.v1.summary.image instead.
+
+W1107 08:40:09.158705 47514644291392 deprecation_wrapper.py:119] From /om/user/shobhita/src/insideness/runs/train.py:187: The name tf.Session is deprecated. Please use tf.compat.v1.Session instead.
+
+2019-11-07 08:40:09.160846: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcuda.so.1
+2019-11-07 08:40:09.176762: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1640] Found device 0 with properties: 
+name: GeForce GTX TITAN X major: 5 minor: 2 memoryClockRate(GHz): 1.076
+pciBusID: 0000:81:00.0
+2019-11-07 08:40:09.235603: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcudart.so.10.0
+2019-11-07 08:40:09.283069: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcublas.so.10.0
+2019-11-07 08:40:09.336785: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcufft.so.10.0
+2019-11-07 08:40:09.368910: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcurand.so.10.0
+2019-11-07 08:40:09.423827: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcusolver.so.10.0
+2019-11-07 08:40:09.445882: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcusparse.so.10.0
+2019-11-07 08:40:09.503994: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcudnn.so.7
+2019-11-07 08:40:09.505786: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1763] Adding visible gpu devices: 0
+2019-11-07 08:40:09.506160: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2019-11-07 08:40:09.573937: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x4bebf90 executing computations on platform CUDA. Devices:
+2019-11-07 08:40:09.574025: I tensorflow/compiler/xla/service/service.cc:175]   StreamExecutor device (0): GeForce GTX TITAN X, Compute Capability 5.2
+2019-11-07 08:40:09.592978: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2599985000 Hz
+2019-11-07 08:40:09.593101: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x54e8010 executing computations on platform Host. Devices:
+2019-11-07 08:40:09.593138: I tensorflow/compiler/xla/service/service.cc:175]   StreamExecutor device (0): <undefined>, <undefined>
+2019-11-07 08:40:09.594718: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1640] Found device 0 with properties: 
+name: GeForce GTX TITAN X major: 5 minor: 2 memoryClockRate(GHz): 1.076
+pciBusID: 0000:81:00.0
+2019-11-07 08:40:09.594780: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcudart.so.10.0
+2019-11-07 08:40:09.594809: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcublas.so.10.0
+2019-11-07 08:40:09.594834: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcufft.so.10.0
+2019-11-07 08:40:09.594858: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcurand.so.10.0
+2019-11-07 08:40:09.594882: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcusolver.so.10.0
+2019-11-07 08:40:09.594906: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcusparse.so.10.0
+2019-11-07 08:40:09.594930: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcudnn.so.7
+2019-11-07 08:40:09.596137: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1763] Adding visible gpu devices: 0
+2019-11-07 08:40:09.597656: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcudart.so.10.0
+2019-11-07 08:40:09.598573: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1181] Device interconnect StreamExecutor with strength 1 edge matrix:
+2019-11-07 08:40:09.598621: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1187]      0 
+2019-11-07 08:40:09.598640: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1200] 0:   N 
+2019-11-07 08:40:09.610147: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1326] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 11498 MB memory) -> physical GPU (device: 0, name: GeForce GTX TITAN X, pci bus id: 0000:81:00.0, compute capability: 5.2)
+W1107 08:40:09.610825 47514644291392 deprecation_wrapper.py:119] From /om/user/shobhita/src/insideness/runs/train.py:196: The name tf.train.MomentumOptimizer is deprecated. Please use tf.compat.v1.train.MomentumOptimizer instead.
+
+W1107 08:40:10.428833 47514644291392 deprecation_wrapper.py:119] From /om/user/shobhita/src/insideness/runs/train.py:211: The name tf.train.Saver is deprecated. Please use tf.compat.v1.train.Saver instead.
+
+2019-11-07 08:40:10.521748: W tensorflow/compiler/jit/mark_for_compilation_pass.cc:1412] (One-time warning): Not using XLA:CPU for cluster because envvar TF_XLA_FLAGS=--tf_xla_cpu_global_jit was not set.  If you want XLA:CPU, either set that envvar, or use experimental_jit_scope to enable XLA:CPU.  To confirm that XLA is active, pass --vmodule=xla_compilation_cache=1 (as a proper command-line flag, not via TF_XLA_FLAGS) or set the envvar XLA_FLAGS=--xla_hlo_profile.
+W1107 08:40:12.681199 47514644291392 deprecation_wrapper.py:119] From /om/user/shobhita/src/insideness/runs/train.py:242: The name tf.summary.merge_all is deprecated. Please use tf.compat.v1.summary.merge_all instead.
+
+W1107 08:40:12.682590 47514644291392 deprecation_wrapper.py:119] From /om/user/shobhita/src/insideness/runs/train.py:243: The name tf.summary.FileWriter is deprecated. Please use tf.compat.v1.summary.FileWriter instead.
+
+2019-11-07 08:40:14.262507: I tensorflow/core/profiler/lib/profiler_session.cc:174] Profiler session started.
+2019-11-07 08:40:14.283124: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcupti.so.10.0
+2019-11-07 08:40:14.414550: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcudnn.so.7
+2019-11-07 08:40:16.341744: I tensorflow/core/platform/default/device_tracer.cc:641] Collecting 256 kernel records, 17 memcpy records.
+INIT
+STARTING EPOCH =  0
+* epoch: 0.0
+train acc: 0.0
+train acc loose: 0.53721434
+train loss: 0.69534826
+val acc: 0.0
+val acc loose: 0.5453026
+val loss: 0.69535005
+----------------
+2019-11-07 08:41:51.921157: I tensorflow/core/profiler/lib/profiler_session.cc:174] Profiler session started.
+2019-11-07 08:41:51.936635: I tensorflow/core/platform/default/device_tracer.cc:641] Collecting 221 kernel records, 16 memcpy records.
+* epoch: 1.0
+train acc: 0.0
+train acc loose: 0.8586713
+train loss: 0.24584492
+val acc: 0.0
+val acc loose: 0.85395145
+val loss: 0.2498907
+----------------
+2019-11-07 08:43:22.348949: I tensorflow/core/profiler/lib/profiler_session.cc:174] Profiler session started.
+2019-11-07 08:43:22.364711: I tensorflow/core/platform/default/device_tracer.cc:641] Collecting 221 kernel records, 16 memcpy records.
+W1107 08:43:23.999875 47514644291392 deprecation.py:323] From /usr/local/lib/python3.6/dist-packages/tensorflow/python/training/saver.py:960: remove_checkpoint (from tensorflow.python.training.checkpoint_management) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use standard file APIs to delete files with this prefix.
+* epoch: 2.0
+train acc: 0.0
+train acc loose: 0.8844271
+train loss: 0.22063753
+val acc: 0.0
+val acc loose: 0.88464177
+val loss: 0.22092739
+----------------
+2019-11-07 08:44:54.636271: I tensorflow/core/profiler/lib/profiler_session.cc:174] Profiler session started.
+2019-11-07 08:44:54.652579: I tensorflow/core/platform/default/device_tracer.cc:641] Collecting 221 kernel records, 16 memcpy records.
+* epoch: 3.0
+train acc: 0.0
+train acc loose: 0.8995787
+train loss: 0.21619272
+val acc: 0.0
+val acc loose: 0.89601153
+val loss: 0.21616349
+----------------
+2019-11-07 08:46:25.154287: I tensorflow/core/profiler/lib/profiler_session.cc:174] Profiler session started.
+2019-11-07 08:46:25.170524: I tensorflow/core/platform/default/device_tracer.cc:641] Collecting 221 kernel records, 16 memcpy records.
+* epoch: 4.0
+train acc: 0.0
+train acc loose: 0.8868973
+train loss: 0.21490207
+val acc: 0.0
+val acc loose: 0.8921857
+val loss: 0.21306506
+----------------
+2019-11-07 08:47:55.684660: I tensorflow/core/profiler/lib/profiler_session.cc:174] Profiler session started.
+2019-11-07 08:47:55.700476: I tensorflow/core/platform/default/device_tracer.cc:641] Collecting 221 kernel records, 16 memcpy records.
+* epoch: 5.0
+train acc: 0.0
+train acc loose: 0.88404685
+train loss: 0.21222012
+val acc: 0.0
+val acc loose: 0.8974322
+val loss: 0.21115586
+----------------
+2019-11-07 08:49:26.176002: I tensorflow/core/profiler/lib/profiler_session.cc:174] Profiler session started.
+2019-11-07 08:49:26.191496: I tensorflow/core/platform/default/device_tracer.cc:641] Collecting 221 kernel records, 16 memcpy records.
+* epoch: 6.0
+train acc: 0.0
+train acc loose: 0.89701796
+train loss: 0.21256344
+val acc: 0.0
+val acc loose: 0.8999274
+val loss: 0.21163541
+----------------
+2019-11-07 08:50:56.793592: I tensorflow/core/profiler/lib/profiler_session.cc:174] Profiler session started.
+2019-11-07 08:50:56.808826: I tensorflow/core/platform/default/device_tracer.cc:641] Collecting 221 kernel records, 16 memcpy records.
+* epoch: 7.0
+train acc: 0.0
+train acc loose: 0.9031008
+train loss: 0.2111766
+val acc: 0.0
+val acc loose: 0.9090024
+val loss: 0.20800221
+----------------
+2019-11-07 08:52:27.278792: I tensorflow/core/profiler/lib/profiler_session.cc:174] Profiler session started.
+2019-11-07 08:52:27.294589: I tensorflow/core/platform/default/device_tracer.cc:641] Collecting 221 kernel records, 16 memcpy records.
+* epoch: 8.0
+train acc: 0.0
+train acc loose: 0.9069055
+train loss: 0.20596577
+val acc: 0.0
+val acc loose: 0.9050437
+val loss: 0.20819908
+----------------
+2019-11-07 08:53:58.573311: I tensorflow/core/profiler/lib/profiler_session.cc:174] Profiler session started.
+2019-11-07 08:53:58.588881: I tensorflow/core/platform/default/device_tracer.cc:641] Collecting 221 kernel records, 16 memcpy records.
+* epoch: 9.0
+train acc: 0.0
+train acc loose: 0.90439564
+train loss: 0.20755602
+val acc: 0.0
+val acc loose: 0.90890825
+val loss: 0.20558351
+----------------
+Total train = 95008.0
+Full train = 0.0
+Full train loose = 0.9098007805663032
+Total val = 95008.0
+Full val = 0.0
+Full val loose = 0.9099304438360053
+Total test = 95008.0
+Full test = 0.0
+Full test loose = 0.9098742404302068
+:)
+
+DONE.

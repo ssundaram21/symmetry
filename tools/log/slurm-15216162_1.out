@@ -1,0 +1,651 @@
+node061.cm.cluster
+tensor([[0.5296, 0.5632, 0.8205],
+        [0.2040, 0.6770, 0.3080]], device='cuda:0')
+
+        
+
+        id: 0,
+        name: DATA_C0_D0,
+        dataset_path: ,
+        num_images_training: 10.0,
+        num_images_testing: 10000.0,
+        complexity: 0,
+        
+
+        
+
+        id: 1,
+        name: DATA_C0_D0,
+        dataset_path: ,
+        num_images_training: 10.0,
+        num_images_testing: 10000.0,
+        complexity: 0,
+        
+
+        
+
+        id: 2,
+        name: DATA_C1_D0,
+        dataset_path: ,
+        num_images_training: 10.0,
+        num_images_testing: 10000.0,
+        complexity: 1,
+        
+
+        
+
+        id: 3,
+        name: DATA_C1_D0,
+        dataset_path: ,
+        num_images_training: 10.0,
+        num_images_testing: 10000.0,
+        complexity: 1,
+        
+
+        
+
+        id: 4,
+        name: DATA_C2_D0,
+        dataset_path: ,
+        num_images_training: 10.0,
+        num_images_testing: 10000.0,
+        complexity: 2,
+        
+
+        
+
+        id: 5,
+        name: DATA_C2_D0,
+        dataset_path: ,
+        num_images_training: 10.0,
+        num_images_testing: 10000.0,
+        complexity: 2,
+        
+
+        
+
+        id: 6,
+        name: DATA_C3_D0,
+        dataset_path: ,
+        num_images_training: 10.0,
+        num_images_testing: 10000.0,
+        complexity: 3,
+        
+
+        
+
+        id: 7,
+        name: DATA_C3_D0,
+        dataset_path: ,
+        num_images_training: 10.0,
+        num_images_testing: 10000.0,
+        complexity: 3,
+        
+
+        
+
+        id: 8,
+        name: DATA_C4_D0,
+        dataset_path: ,
+        num_images_training: 10.0,
+        num_images_testing: 10000.0,
+        complexity: 4,
+        
+
+        
+
+        id: 9,
+        name: DATA_C4_D0,
+        dataset_path: ,
+        num_images_training: 10.0,
+        num_images_testing: 10000.0,
+        complexity: 4,
+        
+
+        
+
+        id: 10,
+        name: DATA_C0_D1,
+        dataset_path: ,
+        num_images_training: 100.0,
+        num_images_testing: 10000.0,
+        complexity: 0,
+        
+
+        
+
+        id: 11,
+        name: DATA_C0_D1,
+        dataset_path: ,
+        num_images_training: 100.0,
+        num_images_testing: 10000.0,
+        complexity: 0,
+        
+
+        
+
+        id: 12,
+        name: DATA_C1_D1,
+        dataset_path: ,
+        num_images_training: 100.0,
+        num_images_testing: 10000.0,
+        complexity: 1,
+        
+
+        
+
+        id: 13,
+        name: DATA_C1_D1,
+        dataset_path: ,
+        num_images_training: 100.0,
+        num_images_testing: 10000.0,
+        complexity: 1,
+        
+
+        
+
+        id: 14,
+        name: DATA_C2_D1,
+        dataset_path: ,
+        num_images_training: 100.0,
+        num_images_testing: 10000.0,
+        complexity: 2,
+        
+
+        
+
+        id: 15,
+        name: DATA_C2_D1,
+        dataset_path: ,
+        num_images_training: 100.0,
+        num_images_testing: 10000.0,
+        complexity: 2,
+        
+
+        
+
+        id: 16,
+        name: DATA_C3_D1,
+        dataset_path: ,
+        num_images_training: 100.0,
+        num_images_testing: 10000.0,
+        complexity: 3,
+        
+
+        
+
+        id: 17,
+        name: DATA_C3_D1,
+        dataset_path: ,
+        num_images_training: 100.0,
+        num_images_testing: 10000.0,
+        complexity: 3,
+        
+
+        
+
+        id: 18,
+        name: DATA_C4_D1,
+        dataset_path: ,
+        num_images_training: 100.0,
+        num_images_testing: 10000.0,
+        complexity: 4,
+        
+
+        
+
+        id: 19,
+        name: DATA_C4_D1,
+        dataset_path: ,
+        num_images_training: 100.0,
+        num_images_testing: 10000.0,
+        complexity: 4,
+        
+
+        
+
+        id: 20,
+        name: DATA_C0_D2,
+        dataset_path: ,
+        num_images_training: 1000.0,
+        num_images_testing: 10000.0,
+        complexity: 0,
+        
+
+        
+
+        id: 21,
+        name: DATA_C0_D2,
+        dataset_path: ,
+        num_images_training: 1000.0,
+        num_images_testing: 10000.0,
+        complexity: 0,
+        
+
+        
+
+        id: 22,
+        name: DATA_C1_D2,
+        dataset_path: ,
+        num_images_training: 1000.0,
+        num_images_testing: 10000.0,
+        complexity: 1,
+        
+
+        
+
+        id: 23,
+        name: DATA_C1_D2,
+        dataset_path: ,
+        num_images_training: 1000.0,
+        num_images_testing: 10000.0,
+        complexity: 1,
+        
+
+        
+
+        id: 24,
+        name: DATA_C2_D2,
+        dataset_path: ,
+        num_images_training: 1000.0,
+        num_images_testing: 10000.0,
+        complexity: 2,
+        
+
+        
+
+        id: 25,
+        name: DATA_C2_D2,
+        dataset_path: ,
+        num_images_training: 1000.0,
+        num_images_testing: 10000.0,
+        complexity: 2,
+        
+
+        
+
+        id: 26,
+        name: DATA_C3_D2,
+        dataset_path: ,
+        num_images_training: 1000.0,
+        num_images_testing: 10000.0,
+        complexity: 3,
+        
+
+        
+
+        id: 27,
+        name: DATA_C3_D2,
+        dataset_path: ,
+        num_images_training: 1000.0,
+        num_images_testing: 10000.0,
+        complexity: 3,
+        
+
+        
+
+        id: 28,
+        name: DATA_C4_D2,
+        dataset_path: ,
+        num_images_training: 1000.0,
+        num_images_testing: 10000.0,
+        complexity: 4,
+        
+
+        
+
+        id: 29,
+        name: DATA_C4_D2,
+        dataset_path: ,
+        num_images_training: 1000.0,
+        num_images_testing: 10000.0,
+        complexity: 4,
+        
+
+        
+
+        id: 30,
+        name: DATA_C0_D3,
+        dataset_path: ,
+        num_images_training: 10000.0,
+        num_images_testing: 10000.0,
+        complexity: 0,
+        
+
+        
+
+        id: 31,
+        name: DATA_C0_D3,
+        dataset_path: ,
+        num_images_training: 10000.0,
+        num_images_testing: 10000.0,
+        complexity: 0,
+        
+
+        
+
+        id: 32,
+        name: DATA_C1_D3,
+        dataset_path: ,
+        num_images_training: 10000.0,
+        num_images_testing: 10000.0,
+        complexity: 1,
+        
+
+        
+
+        id: 33,
+        name: DATA_C1_D3,
+        dataset_path: ,
+        num_images_training: 10000.0,
+        num_images_testing: 10000.0,
+        complexity: 1,
+        
+
+        
+
+        id: 34,
+        name: DATA_C2_D3,
+        dataset_path: ,
+        num_images_training: 10000.0,
+        num_images_testing: 10000.0,
+        complexity: 2,
+        
+
+        
+
+        id: 35,
+        name: DATA_C2_D3,
+        dataset_path: ,
+        num_images_training: 10000.0,
+        num_images_testing: 10000.0,
+        complexity: 2,
+        
+
+        
+
+        id: 36,
+        name: DATA_C3_D3,
+        dataset_path: ,
+        num_images_training: 10000.0,
+        num_images_testing: 10000.0,
+        complexity: 3,
+        
+
+        
+
+        id: 37,
+        name: DATA_C3_D3,
+        dataset_path: ,
+        num_images_training: 10000.0,
+        num_images_testing: 10000.0,
+        complexity: 3,
+        
+
+        
+
+        id: 38,
+        name: DATA_C4_D3,
+        dataset_path: ,
+        num_images_training: 10000.0,
+        num_images_testing: 10000.0,
+        complexity: 4,
+        
+
+        
+
+        id: 39,
+        name: DATA_C4_D3,
+        dataset_path: ,
+        num_images_training: 10000.0,
+        num_images_testing: 10000.0,
+        complexity: 4,
+        
+
+        
+
+        id: 40,
+        name: DATA_C0_D4,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 0,
+        
+
+        
+
+        id: 41,
+        name: DATA_C0_D4,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 0,
+        
+
+        
+
+        id: 42,
+        name: DATA_C1_D4,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 1,
+        
+
+        
+
+        id: 43,
+        name: DATA_C1_D4,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 1,
+        
+
+        
+
+        id: 44,
+        name: DATA_C2_D4,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 2,
+        
+
+        
+
+        id: 45,
+        name: DATA_C2_D4,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 2,
+        
+
+        
+
+        id: 46,
+        name: DATA_C3_D4,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 3,
+        
+
+        
+
+        id: 47,
+        name: DATA_C3_D4,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 3,
+        
+
+        
+
+        id: 48,
+        name: DATA_C4_D4,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 4,
+        
+
+        
+
+        id: 49,
+        name: DATA_C4_D4,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 4,
+        
+
+        
+
+        id: 50,
+        name: DATA_C5_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 5,
+        
+
+        
+
+        id: 51,
+        name: DATA_C5_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 5,
+        
+
+        
+
+        id: 52,
+        name: DATA_C6_D0,
+        dataset_path: ,
+        num_images_training: 200000.0,
+        num_images_testing: 20000.0,
+        complexity: 6,
+        
+
+        
+
+        id: 53,
+        name: DATA_C7_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 7,
+        
+
+        
+
+        id: 54,
+        name: DATA_C0_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 0,
+        
+
+        
+
+        id: 55,
+        name: DATA_C1_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 1,
+        
+
+        
+
+        id: 56,
+        name: DATA_C1_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 1,
+        
+
+        
+
+        id: 57,
+        name: DATA_C3_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 3,
+        
+
+        
+
+        id: 58,
+        name: DATA_C4_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 4,
+        
+
+        
+
+        id: 59,
+        name: DATA_C5_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 5,
+        
+
+        
+
+        id: 60,
+        name: DATA_C5_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 5,
+        
+
+        
+
+        id: 61,
+        name: DATA_C5_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 5,
+        
+
+        
+
+        id: 62,
+        name: DATA_C5_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 5,
+        
+
+        
+
+        id: 63,
+        name: DATA_C5_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 5,
+        
+Traceback (most recent call last):
+  File "/om/user/shobhita/src/insideness/main.py", line 187, in <module>
+    switcher[FLAGS.run](FLAGS.experiment_index)
+  File "/om/user/shobhita/src/insideness/main.py", line 114, in run_train
+    run_opt = experiment.get_experiments(output_path)[id]
+  File "/om/user/shobhita/src/insideness/experiments/lstm.py", line 118, in get_experiments
+    family_id=idx_family, family_name="MultiLSTM_D" + str(idx_dataset))
+UnboundLocalError: local variable 'idx_family' referenced before assignment

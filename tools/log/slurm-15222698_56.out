@@ -1,0 +1,1072 @@
+tensor([[0.5312, 0.3981, 0.4495],
+        [0.3619, 0.6862, 0.3659]], device='cuda:0')
+
+        
+
+        id: 0,
+        name: DATA_C0_D0,
+        dataset_path: ,
+        num_images_training: 10.0,
+        num_images_testing: 10000.0,
+        complexity: 0,
+        
+
+        
+
+        id: 1,
+        name: DATA_C0_D0,
+        dataset_path: ,
+        num_images_training: 10.0,
+        num_images_testing: 10000.0,
+        complexity: 0,
+        
+
+        
+
+        id: 2,
+        name: DATA_C1_D0,
+        dataset_path: ,
+        num_images_training: 10.0,
+        num_images_testing: 10000.0,
+        complexity: 1,
+        
+
+        
+
+        id: 3,
+        name: DATA_C1_D0,
+        dataset_path: ,
+        num_images_training: 10.0,
+        num_images_testing: 10000.0,
+        complexity: 1,
+        
+
+        
+
+        id: 4,
+        name: DATA_C2_D0,
+        dataset_path: ,
+        num_images_training: 10.0,
+        num_images_testing: 10000.0,
+        complexity: 2,
+        
+
+        
+
+        id: 5,
+        name: DATA_C2_D0,
+        dataset_path: ,
+        num_images_training: 10.0,
+        num_images_testing: 10000.0,
+        complexity: 2,
+        
+
+        
+
+        id: 6,
+        name: DATA_C3_D0,
+        dataset_path: ,
+        num_images_training: 10.0,
+        num_images_testing: 10000.0,
+        complexity: 3,
+        
+
+        
+
+        id: 7,
+        name: DATA_C3_D0,
+        dataset_path: ,
+        num_images_training: 10.0,
+        num_images_testing: 10000.0,
+        complexity: 3,
+        
+
+        
+
+        id: 8,
+        name: DATA_C4_D0,
+        dataset_path: ,
+        num_images_training: 10.0,
+        num_images_testing: 10000.0,
+        complexity: 4,
+        
+
+        
+
+        id: 9,
+        name: DATA_C4_D0,
+        dataset_path: ,
+        num_images_training: 10.0,
+        num_images_testing: 10000.0,
+        complexity: 4,
+        
+
+        
+
+        id: 10,
+        name: DATA_C0_D1,
+        dataset_path: ,
+        num_images_training: 100.0,
+        num_images_testing: 10000.0,
+        complexity: 0,
+        
+
+        
+
+        id: 11,
+        name: DATA_C0_D1,
+        dataset_path: ,
+        num_images_training: 100.0,
+        num_images_testing: 10000.0,
+        complexity: 0,
+        
+
+        
+
+        id: 12,
+        name: DATA_C1_D1,
+        dataset_path: ,
+        num_images_training: 100.0,
+        num_images_testing: 10000.0,
+        complexity: 1,
+        
+
+        
+
+        id: 13,
+        name: DATA_C1_D1,
+        dataset_path: ,
+        num_images_training: 100.0,
+        num_images_testing: 10000.0,
+        complexity: 1,
+        
+
+        
+
+        id: 14,
+        name: DATA_C2_D1,
+        dataset_path: ,
+        num_images_training: 100.0,
+        num_images_testing: 10000.0,
+        complexity: 2,
+        
+
+        
+
+        id: 15,
+        name: DATA_C2_D1,
+        dataset_path: ,
+        num_images_training: 100.0,
+        num_images_testing: 10000.0,
+        complexity: 2,
+        
+
+        
+
+        id: 16,
+        name: DATA_C3_D1,
+        dataset_path: ,
+        num_images_training: 100.0,
+        num_images_testing: 10000.0,
+        complexity: 3,
+        
+
+        
+
+        id: 17,
+        name: DATA_C3_D1,
+        dataset_path: ,
+        num_images_training: 100.0,
+        num_images_testing: 10000.0,
+        complexity: 3,
+        
+
+        
+
+        id: 18,
+        name: DATA_C4_D1,
+        dataset_path: ,
+        num_images_training: 100.0,
+        num_images_testing: 10000.0,
+        complexity: 4,
+        
+
+        
+
+        id: 19,
+        name: DATA_C4_D1,
+        dataset_path: ,
+        num_images_training: 100.0,
+        num_images_testing: 10000.0,
+        complexity: 4,
+        
+
+        
+
+        id: 20,
+        name: DATA_C0_D2,
+        dataset_path: ,
+        num_images_training: 1000.0,
+        num_images_testing: 10000.0,
+        complexity: 0,
+        
+
+        
+
+        id: 21,
+        name: DATA_C0_D2,
+        dataset_path: ,
+        num_images_training: 1000.0,
+        num_images_testing: 10000.0,
+        complexity: 0,
+        
+
+        
+
+        id: 22,
+        name: DATA_C1_D2,
+        dataset_path: ,
+        num_images_training: 1000.0,
+        num_images_testing: 10000.0,
+        complexity: 1,
+        
+
+        
+
+        id: 23,
+        name: DATA_C1_D2,
+        dataset_path: ,
+        num_images_training: 1000.0,
+        num_images_testing: 10000.0,
+        complexity: 1,
+        
+
+        
+
+        id: 24,
+        name: DATA_C2_D2,
+        dataset_path: ,
+        num_images_training: 1000.0,
+        num_images_testing: 10000.0,
+        complexity: 2,
+        
+
+        
+
+        id: 25,
+        name: DATA_C2_D2,
+        dataset_path: ,
+        num_images_training: 1000.0,
+        num_images_testing: 10000.0,
+        complexity: 2,
+        
+
+        
+
+        id: 26,
+        name: DATA_C3_D2,
+        dataset_path: ,
+        num_images_training: 1000.0,
+        num_images_testing: 10000.0,
+        complexity: 3,
+        
+
+        
+
+        id: 27,
+        name: DATA_C3_D2,
+        dataset_path: ,
+        num_images_training: 1000.0,
+        num_images_testing: 10000.0,
+        complexity: 3,
+        
+
+        
+
+        id: 28,
+        name: DATA_C4_D2,
+        dataset_path: ,
+        num_images_training: 1000.0,
+        num_images_testing: 10000.0,
+        complexity: 4,
+        
+
+        
+
+        id: 29,
+        name: DATA_C4_D2,
+        dataset_path: ,
+        num_images_training: 1000.0,
+        num_images_testing: 10000.0,
+        complexity: 4,
+        
+
+        
+
+        id: 30,
+        name: DATA_C0_D3,
+        dataset_path: ,
+        num_images_training: 10000.0,
+        num_images_testing: 10000.0,
+        complexity: 0,
+        
+
+        
+
+        id: 31,
+        name: DATA_C0_D3,
+        dataset_path: ,
+        num_images_training: 10000.0,
+        num_images_testing: 10000.0,
+        complexity: 0,
+        
+
+        
+
+        id: 32,
+        name: DATA_C1_D3,
+        dataset_path: ,
+        num_images_training: 10000.0,
+        num_images_testing: 10000.0,
+        complexity: 1,
+        
+
+        
+
+        id: 33,
+        name: DATA_C1_D3,
+        dataset_path: ,
+        num_images_training: 10000.0,
+        num_images_testing: 10000.0,
+        complexity: 1,
+        
+
+        
+
+        id: 34,
+        name: DATA_C2_D3,
+        dataset_path: ,
+        num_images_training: 10000.0,
+        num_images_testing: 10000.0,
+        complexity: 2,
+        
+
+        
+
+        id: 35,
+        name: DATA_C2_D3,
+        dataset_path: ,
+        num_images_training: 10000.0,
+        num_images_testing: 10000.0,
+        complexity: 2,
+        
+
+        
+
+        id: 36,
+        name: DATA_C3_D3,
+        dataset_path: ,
+        num_images_training: 10000.0,
+        num_images_testing: 10000.0,
+        complexity: 3,
+        
+
+        
+
+        id: 37,
+        name: DATA_C3_D3,
+        dataset_path: ,
+        num_images_training: 10000.0,
+        num_images_testing: 10000.0,
+        complexity: 3,
+        
+
+        
+
+        id: 38,
+        name: DATA_C4_D3,
+        dataset_path: ,
+        num_images_training: 10000.0,
+        num_images_testing: 10000.0,
+        complexity: 4,
+        
+
+        
+
+        id: 39,
+        name: DATA_C4_D3,
+        dataset_path: ,
+        num_images_training: 10000.0,
+        num_images_testing: 10000.0,
+        complexity: 4,
+        
+
+        
+
+        id: 40,
+        name: DATA_C0_D4,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 0,
+        
+
+        
+
+        id: 41,
+        name: DATA_C0_D4,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 0,
+        
+
+        
+
+        id: 42,
+        name: DATA_C1_D4,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 1,
+        
+
+        
+
+        id: 43,
+        name: DATA_C1_D4,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 1,
+        
+
+        
+
+        id: 44,
+        name: DATA_C2_D4,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 2,
+        
+
+        
+
+        id: 45,
+        name: DATA_C2_D4,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 2,
+        
+
+        
+
+        id: 46,
+        name: DATA_C3_D4,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 3,
+        
+
+        
+
+        id: 47,
+        name: DATA_C3_D4,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 3,
+        
+
+        
+
+        id: 48,
+        name: DATA_C4_D4,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 4,
+        
+
+        
+
+        id: 49,
+        name: DATA_C4_D4,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 4,
+        
+
+        
+
+        id: 50,
+        name: DATA_C5_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 5,
+        
+
+        
+
+        id: 51,
+        name: DATA_C5_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 5,
+        
+
+        
+
+        id: 52,
+        name: DATA_C6_D0,
+        dataset_path: ,
+        num_images_training: 200000.0,
+        num_images_testing: 20000.0,
+        complexity: 6,
+        
+
+        
+
+        id: 53,
+        name: DATA_C7_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 7,
+        
+
+        
+
+        id: 54,
+        name: DATA_C0_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 0,
+        
+
+        
+
+        id: 55,
+        name: DATA_C1_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 1,
+        
+
+        
+
+        id: 56,
+        name: DATA_C1_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 1,
+        
+
+        
+
+        id: 57,
+        name: DATA_C3_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 3,
+        
+
+        
+
+        id: 58,
+        name: DATA_C4_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 4,
+        
+
+        
+
+        id: 59,
+        name: DATA_C5_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 5,
+        
+
+        
+
+        id: 60,
+        name: DATA_C5_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 5,
+        
+
+        
+
+        id: 61,
+        name: DATA_C5_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 5,
+        
+
+        
+
+        id: 62,
+        name: DATA_C5_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 5,
+        
+
+        
+
+        id: 63,
+        name: DATA_C5_D0,
+        dataset_path: ,
+        num_images_training: 100000.0,
+        num_images_testing: 10000.0,
+        complexity: 5,
+        
+ID56_DATA_C1_D0
+REUSING TFRECORDS
+WARNING: Logging before flag parsing goes to stderr.
+W1106 19:34:33.222003 47612027445056 deprecation_wrapper.py:119] From /om/user/shobhita/src/insideness/data/data.py:123: The name tf.FixedLenFeature is deprecated. Please use tf.io.FixedLenFeature instead.
+
+W1106 19:34:33.222372 47612027445056 deprecation_wrapper.py:119] From /om/user/shobhita/src/insideness/data/data.py:129: The name tf.parse_single_example is deprecated. Please use tf.io.parse_single_example instead.
+
+W1106 19:34:33.326565 47612027445056 deprecation_wrapper.py:119] From /om/user/shobhita/src/insideness/runs/dataset_hamming.py:48: The name tf.placeholder is deprecated. Please use tf.compat.v1.placeholder instead.
+
+W1106 19:34:33.327808 47612027445056 deprecation_wrapper.py:119] From /om/user/shobhita/src/insideness/runs/dataset_hamming.py:49: The name tf.data.Iterator is deprecated. Please use tf.compat.v1.data.Iterator instead.
+
+W1106 19:34:33.328006 47612027445056 deprecation.py:323] From /om/user/shobhita/src/insideness/runs/dataset_hamming.py:50: DatasetV1.output_types (from tensorflow.python.data.ops.dataset_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.compat.v1.data.get_output_types(dataset)`.
+W1106 19:34:33.328186 47612027445056 deprecation.py:323] From /om/user/shobhita/src/insideness/runs/dataset_hamming.py:50: DatasetV1.output_shapes (from tensorflow.python.data.ops.dataset_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.compat.v1.data.get_output_shapes(dataset)`.
+W1106 19:34:33.334127 47612027445056 deprecation.py:323] From /om/user/shobhita/src/insideness/runs/dataset_hamming.py:52: DatasetV1.make_one_shot_iterator (from tensorflow.python.data.ops.dataset_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `for ... in dataset:` to iterate over a dataset. If using `tf.estimator`, return the `Dataset` object directly from your input function. As a last resort, you can use `tf.compat.v1.data.make_one_shot_iterator(dataset)`.
+W1106 19:34:33.390635 47612027445056 deprecation_wrapper.py:119] From /om/user/shobhita/src/insideness/runs/dataset_hamming.py:66: The name tf.Session is deprecated. Please use tf.compat.v1.Session instead.
+
+2019-11-06 19:34:33.400877: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcuda.so.1
+2019-11-06 19:34:33.413307: E tensorflow/stream_executor/cuda/cuda_driver.cc:318] failed call to cuInit: CUDA_ERROR_NO_DEVICE: no CUDA-capable device is detected
+2019-11-06 19:34:33.413394: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:169] retrieving CUDA diagnostic information for host: node020.cm.cluster
+2019-11-06 19:34:33.413426: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:176] hostname: node020.cm.cluster
+2019-11-06 19:34:33.416128: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:200] libcuda reported version is: Invalid argument: expected %d.%d, %d.%d.%d, or %d.%d.%d.%d form for driver version; got "1"
+2019-11-06 19:34:33.416260: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:204] kernel reported version is: 430.50.0
+2019-11-06 19:34:33.488116: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2200050000 Hz
+2019-11-06 19:34:33.488439: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x5c712c0 executing computations on platform Host. Devices:
+2019-11-06 19:34:33.488510: I tensorflow/compiler/xla/service/service.cc:175]   StreamExecutor device (0): <undefined>, <undefined>
+W1106 19:34:33.810980 47612027445056 deprecation_wrapper.py:119] From /om/user/shobhita/src/insideness/runs/dataset_hamming.py:75: The name tf.global_variables_initializer is deprecated. Please use tf.compat.v1.global_variables_initializer instead.
+
+2019-11-06 19:34:33.823211: W tensorflow/compiler/jit/mark_for_compilation_pass.cc:1412] (One-time warning): Not using XLA:CPU for cluster because envvar TF_XLA_FLAGS=--tf_xla_cpu_global_jit was not set.  If you want XLA:CPU, either set that envvar, or use experimental_jit_scope to enable XLA:CPU.  To confirm that XLA is active, pass --vmodule=xla_compilation_cache=1 (as a proper command-line flag, not via TF_XLA_FLAGS) or set the envvar XLA_FLAGS=--xla_hlo_profile.
+[1.         1.         1.         0.97222222 1.         1.         1.         0.96875    1.         1.         1.         1.         1.         1.         0.93333333 0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.94444444 1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.
+ 0.93333333 1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         0.94117647 1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         0.96875    1.         1.         1.         0.94117647 1.         1.
+ 0.96153846 1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.        ]
+----------------
+[1.         1.         1.         1.         1.         0.91176471 1.         1.         1.         1.         1.         1.         0.97058824 0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         0.97222222 1.         0.95833333 1.
+ 0.9375     1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         0.86666667 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.
+ 1.         0.9375     1.         1.         1.         1.         1.         1.         1.         0.96666667 1.         1.         0.97222222 1.         1.         1.         1.         0.96428571 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96875    0.96666667 1.         1.
+ 1.         1.         1.         0.96153846 1.         1.         1.         1.         1.         0.97058824 1.         1.         0.94444444 1.         1.         0.97222222 0.94444444 1.         1.         1.        ]
+----------------
+[1.         1.         1.         1.         1.         1.         1.         1.         0.96666667 1.         1.         1.         1.         0.96875    1.         0.97058824 1.         1.         1.         1.         0.91666667 1.         1.         1.         1.         1.         1.         0.88888889 1.         1.         0.97058824 1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         0.94444444 1.         0.92105263 1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         0.96428571 1.         1.         0.94444444 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         0.88888889 1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96875    1.         0.96666667 0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96666667 1.         1.         1.         1.         0.8125
+ 1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         0.97058824 1.         1.         1.         0.94117647 0.97058824 1.         1.         1.         1.        ]
+----------------
+[1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         0.88461538 0.96153846 1.         0.91176471 1.         1.         1.         1.         1.         1.         1.         1.         0.93333333 1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 0.94444444 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.94117647 1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         0.94117647 0.92857143 1.         1.         0.97222222 0.93333333 1.         1.         1.         1.         1.         1.         0.91666667 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96428571
+ 1.         0.96666667 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.82142857 1.         1.         1.         1.         1.         1.        ]
+----------------
+[1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         0.96875    1.         1.         0.96666667 0.85294118 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         0.97222222 1.         1.         1.         1.         0.96666667 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         0.96875    1.         1.         0.9375     1.         1.         1.         1.         1.         0.95454545 1.
+ 1.         1.         1.         1.         1.         0.96153846 1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         0.96153846 1.         0.96875    1.         1.         1.         1.         1.         1.         0.97058824 1.         0.91176471 0.96875    1.         1.         1.         1.         0.9375     1.
+ 1.         0.97222222 1.         0.91666667 0.97058824 1.         1.         1.         0.96666667 0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.        ]
+----------------
+[1.         1.         1.         1.         1.         0.97222222 1.         1.         0.96428571 1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         0.96153846 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         0.8        1.         0.96875    1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         0.96428571 1.         1.         1.         0.97222222 0.94117647 1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         0.94444444 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96428571 1.         1.         1.         1.         1.         1.         1.         0.96875    1.         1.         1.         0.96666667 1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.        ]
+----------------
+[1.         1.         1.         1.         1.         1.         1.         0.97222222 0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.91666667 1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         0.97058824 1.         1.         0.97222222 1.         1.
+ 1.         1.         1.         1.         1.         0.97222222 0.97058824 1.         0.91666667 1.         1.         1.         1.         1.         1.         1.         1.         0.93333333 1.         0.85294118 0.96153846 1.         1.         1.         1.         1.         0.97058824 0.97222222 1.         0.96875    1.         1.         0.92307692 0.96875    1.         1.
+ 1.         0.96666667 1.         1.         1.         1.         1.         1.         1.         1.         0.96875    1.         1.         1.         1.         1.         1.         0.96153846 1.         0.96666667 1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 0.86666667 0.97222222 1.         1.         0.91666667 0.97058824 0.96875    1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.        ]
+----------------
+[0.86666667 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.91176471 1.         1.         1.         1.         1.         1.         1.         1.         0.96153846 1.         1.         1.         0.96428571
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96428571 1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         0.96666667 0.94117647 1.         0.93333333 1.         1.         1.         1.         1.         1.
+ 1.         0.96428571 1.         1.         1.         1.         1.         0.96153846 1.         1.         1.         1.         1.         1.         1.         0.96428571 1.         1.         1.         1.         1.         0.96666667 0.97222222 1.         1.         1.         0.94117647 1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         0.91176471 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.        ]
+----------------
+[1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         0.91176471 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96875    1.         1.         0.97222222 1.         1.         1.         0.85       1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.94117647 0.94117647 1.         0.94444444 1.         0.94444444 0.96428571 1.         1.         0.97058824 0.97058824 0.94444444 1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.
+ 1.         1.         1.         0.97058824 1.         1.         1.         1.         0.91176471 1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.94444444 1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         0.93333333 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.        ]
+----------------
+[1.         0.94117647 1.         0.97058824 1.         1.         0.94117647 1.         1.         1.         0.93333333 1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         0.91666667 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96875    1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         0.96428571 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.95       1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         0.95833333 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.        ]
+----------------
+[1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         0.97058824 1.         1.         1.         0.97222222 1.         1.         0.93333333 1.         1.         1.         1.         1.         1.         0.94117647 1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96666667 1.         1.         1.         1.         1.         1.
+ 1.         0.96153846 1.         1.         0.97222222 1.         1.         1.         0.96666667 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.86666667 1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.93333333 1.         0.97058824 0.91666667 1.         1.        ]
+----------------
+[1.         0.96666667 1.         1.         0.94117647 0.97058824 1.         1.         1.         1.         1.         0.94117647 1.         1.         1.         0.90909091 1.         1.         1.         1.         1.         1.         0.96428571 1.         1.         1.         0.96875    0.94444444 1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         0.97222222 1.         0.97058824 1.         0.94444444
+ 1.         1.         0.97222222 1.         1.         0.96428571 1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         0.97058824 0.9375     1.         1.         1.         1.         1.         0.96428571 1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         0.9375     1.         1.         1.         1.         1.         1.         1.         1.         1.         0.94117647 1.         1.         1.        ]
+----------------
+[1.         1.         1.         1.         1.         0.91176471 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96428571 1.         1.         1.         1.         0.97058824 1.         0.96875    1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.9
+ 1.         1.         1.         0.93333333 1.         1.         1.         1.         1.         1.         1.         1.         0.91666667 1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         0.95833333 1.         1.         1.         1.         0.91176471 1.         1.         0.97058824 1.         1.         0.96875    1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 0.85       1.         1.         1.         0.95454545 1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         0.875      1.         1.         1.         0.97222222 1.        ]
+----------------
+[0.97222222 1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         0.88235294 0.96875    1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96875    1.         1.         1.         0.9375     1.         0.94444444 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         0.78125
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.95       1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.        ]
+----------------
+[1.         1.         1.         1.         1.         1.         1.         1.         1.         0.94117647 1.         1.         1.         0.97058824 1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.
+ 0.97222222 1.         1.         0.97058824 1.         1.         1.         0.96875    1.         1.         0.97058824 0.97058824 1.         1.         0.97222222 1.         0.96666667 1.         1.         1.         1.         1.         0.96666667 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         0.96875    1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 0.96153846 1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         0.95833333 1.         1.         1.         1.         1.         1.        ]
+----------------
+[1.         1.         1.         0.9375     0.96153846 1.         1.         1.         1.         1.         1.         1.         1.         0.94117647 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         0.97058824 1.         1.         1.         1.         1.         0.97058824
+ 1.         1.         1.         1.         1.         1.         1.         0.91666667 1.         1.         0.96428571 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96428571 1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.91666667 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         0.96428571 1.         1.         0.97222222 1.         1.         1.         0.93333333
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.94117647 1.         1.         1.         1.         1.         1.         1.         1.        ]
+----------------
+[1.         1.         1.         1.         0.96875    1.         1.         0.96153846 1.         1.         1.         1.         1.         1.         0.96875    1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         0.97058824 1.
+ 1.         1.         0.97222222 0.96875    1.         1.         1.         0.96875    1.         1.         1.         1.         1.         0.96428571 1.         1.         0.97222222 1.         1.         1.         0.96875    1.         0.94444444 1.         1.         1.         1.         1.         0.91176471 1.         1.         0.94117647 1.         1.         0.97058824 1.
+ 1.         1.         1.         1.         0.91176471 1.         0.96666667 0.94444444 1.         1.         1.         1.         1.         1.         1.         1.         0.82142857 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         0.88888889 0.97222222 1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.94444444 1.         1.         0.94444444 1.         1.         1.         1.         1.        ]
+----------------
+[0.97222222 0.97222222 0.96875    1.         1.         1.         1.         1.         1.         0.91176471 1.         1.         1.         1.         1.         0.97058824 0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.
+ 0.96875    1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 0.96428571 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.88235294 1.         0.96875    1.         1.         1.         1.         1.         1.         0.96153846 1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         0.95454545 1.         1.         0.97222222 0.94444444 1.         1.         1.         0.90625    1.         1.         1.        ]
+----------------
+[1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96666667 1.         1.         1.         1.         0.94117647 1.         1.         1.         1.         1.         0.9375     1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 0.96428571 1.         1.         1.         0.97058824 0.93333333 0.97058824 1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.
+ 1.         0.94444444 1.         1.         0.96666667 1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         0.94117647 1.         1.         1.         0.94117647 1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.88235294 1.         1.         1.         0.89285714 1.         1.         0.94444444]
+----------------
+[1.         1.         0.90909091 1.         0.91666667 0.9        1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.93333333 1.         1.         0.96428571 1.         0.90625    1.         1.         0.88235294 1.         1.         1.         1.         0.96428571 1.         1.         1.         1.         1.
+ 1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96428571 0.96666667 1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         0.96666667 0.97058824 1.         1.         1.         1.         1.         1.         0.96428571 1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.94444444 1.         1.         1.         1.         1.         1.         0.83333333 1.         0.9375     1.         1.         0.96666667 1.         1.         1.
+ 1.         1.         0.95833333 0.95454545 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.94444444 1.         1.         1.         1.         1.         1.        ]
+----------------
+[1.         1.         1.         0.93333333 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.94444444 1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.
+ 1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         0.97222222 0.86111111 0.96875    1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96666667 1.         1.         0.92307692 1.         1.         0.96875    0.91176471 1.         1.
+ 1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96875    1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.
+ 0.97058824 1.         1.         1.         1.         0.97058824 1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         0.96875    1.         1.         1.        ]
+----------------
+[1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         0.96875    1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.73076923 1.         0.94444444
+ 1.         1.         1.         1.         1.         0.96875    1.         1.         1.         1.         1.         1.         0.93333333 1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         0.96875    1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         0.94444444 1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 0.96875    1.         1.         1.         1.         0.97058824 1.         1.         0.95454545 1.         1.         1.         1.         1.         1.         0.96875    1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.92857143 1.         1.         1.         1.         1.         1.         1.         1.        ]
+----------------
+[1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.95833333 0.92857143 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.94117647 1.         1.         0.97222222 1.         0.96875    1.         1.         1.         1.         1.         0.96666667 0.97058824 1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96666667 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         0.96875    1.         1.         1.         1.         1.         0.96428571
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         0.97222222 1.         1.         1.         1.         1.         1.        ]
+----------------
+[1.         1.         1.         1.         1.         1.         1.         1.         0.91666667 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.91176471 1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96666667 1.
+ 1.         1.         1.         1.         0.96666667 1.         1.         1.         1.         1.         1.         1.         1.         0.96666667 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         0.83333333 1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         0.94736842 1.         1.         1.         1.         1.         1.         0.94444444 0.97058824 1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         0.96153846 1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96875    1.         0.96153846 0.97222222 1.         0.97222222]
+----------------
+[1.         1.         1.         1.         1.         0.91666667 0.96666667 1.         1.         1.         1.         1.         1.         1.         1.         0.94117647 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96875    1.         1.         1.         1.         1.         1.         0.96666667
+ 1.         1.         1.         1.         0.96875    1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.94117647 1.         1.         0.92857143 1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         0.94117647 1.         1.         0.9375     1.         1.
+ 1.         1.         1.         1.         0.97222222 1.         1.         0.94117647 1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         0.96428571 1.         1.         1.         1.         0.96428571 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         0.94444444 1.         0.97222222 1.         0.96875    1.         1.         1.         1.         1.         1.         1.         1.         1.         1.        ]
+----------------
+[1.         1.         1.         0.97222222 1.         0.96875    1.         1.         0.97058824 1.         1.         0.9375     0.96875    1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         0.96875    1.         1.         1.         1.         0.96666667
+ 1.         1.         1.         1.         0.96666667 1.         1.         1.         0.88235294 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96666667
+ 1.         1.         1.         1.         0.97058824 1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.94444444 1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         0.96428571 1.         1.         1.         1.         1.        ]
+----------------
+[1.         1.         1.         1.         1.         1.         1.         1.         0.88888889 1.         1.         0.94444444 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.91666667 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         0.97222222 1.         1.         1.         0.93333333 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         0.94444444 1.         1.         0.94117647 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.92857143 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.94444444
+ 1.         1.         0.97222222 1.         0.97222222 1.         0.96666667 1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         0.97058824 1.         1.         1.        ]
+----------------
+[1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         0.9375     1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.88461538 1.         1.         0.94444444 1.         1.         1.
+ 1.         1.         1.         0.88888889 1.         1.         0.96875    1.         1.         1.         1.         1.         1.         0.97222222 0.97222222 1.         1.         1.         1.         1.         0.85294118 0.91176471 1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         0.91666667 1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 0.97222222 1.         0.96666667 0.96666667 1.         0.92857143 1.         1.         1.         0.97058824 1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97368421]
+----------------
+[1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.93333333 1.         0.96875    1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         0.97222222 1.         1.         0.93333333 1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.92857143 1.
+ 1.         1.         1.         1.         1.         0.94117647 0.94117647 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96666667 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96428571 0.94444444 1.         1.         1.         1.         1.         1.         1.         1.         1.        ]
+----------------
+[0.9375     1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         0.97058824 0.96666667 1.         1.         1.         1.         1.         0.97058824 0.97058824 1.         1.         1.         1.         1.         1.         0.94444444 1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         0.96875    0.94444444 1.         1.         1.         1.         0.91666667 1.         0.84375    1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         0.97222222 1.         0.96153846 0.96666667 1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         0.94444444 1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         0.96875    0.94117647 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.        ]
+----------------
+[1.         0.94444444 1.         0.88235294 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.9375     0.96875    0.94444444 0.97222222 0.94117647 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 0.92857143 1.         1.         1.         1.         1.         1.         1.         1.         0.875      1.         0.94444444 1.         1.         1.         1.         1.         1.         0.96875    1.         1.         1.         1.         1.         1.         1.         1.         0.93333333 1.         0.96875    1.         0.96666667 1.         1.         1.         1.
+ 1.         1.         1.         0.82352941 1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         0.9        1.         1.         0.9375     1.         0.96428571 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.        ]
+----------------
+[1.         1.         1.         1.         0.96428571 1.         1.         0.93333333 1.         1.         1.         1.         0.96666667 1.         1.         0.96428571 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.94444444 1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96666667 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96875    1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         0.94117647 1.         0.9375     1.         1.         1.         1.         1.         1.         1.         1.         0.96666667 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         0.96428571 1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         0.96428571
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.        ]
+----------------
+[1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.92307692 1.         1.         0.96153846 1.         1.         0.91666667 1.         0.88461538 1.         1.         1.         1.         1.         1.         0.96153846 1.         1.         0.96875    1.         1.         1.         1.         1.         1.         1.
+ 0.97058824 1.         0.96428571 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.94117647 1.         0.97222222 0.97058824 1.         1.         1.         1.         1.         0.92857143 1.         1.         1.         1.         0.95454545 1.         1.         1.         1.         1.         0.94444444 1.
+ 1.         1.         1.         0.94117647 1.         0.91176471 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         0.9375     1.         0.9375     1.         1.         1.         1.         1.         1.         1.         1.         0.93333333
+ 0.96666667 0.97058824 1.         1.         1.         1.         1.         1.         0.95833333 1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         0.96666667 1.        ]
+----------------
+[1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.94444444
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         0.92857143 0.88888889 1.         1.         0.95454545 1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         0.96666667 1.         1.         0.95       1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 0.97058824 1.         1.         0.96875    1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.
+ 0.91666667 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.95454545 1.         1.         1.         1.        ]
+----------------
+[1.         0.97222222 1.         1.         1.         0.90625    0.96666667 1.         0.96875    1.         1.         0.97058824 0.97222222 1.         0.94444444 0.97222222 1.         0.94444444 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         0.94117647 1.
+ 1.         0.9375     1.         1.         1.         1.         0.94444444 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.94444444 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         0.875      1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.94444444 1.         1.         1.         1.         1.         1.         0.97058824 1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.86666667 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.        ]
+----------------
+[1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         0.96666667 1.         0.97058824 1.         1.         1.         1.         1.         1.         0.97058824 0.97222222 0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96428571 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.94117647 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96666667 1.         1.         1.         1.         1.         1.         1.         1.         0.96666667 1.         1.         1.         1.         1.         1.         1.         1.         0.96875    1.         1.         0.94117647
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96428571 1.         1.         1.         1.         1.         1.         1.         1.         1.        ]
+----------------
+[1.         1.         0.96875    1.         0.97222222 1.         0.91176471 1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         0.93333333 0.96153846 1.         1.         1.         1.
+ 1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.875      1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.9375     1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         0.96875    1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         0.96875    1.         0.96153846 1.         1.         0.9        1.         1.         0.97222222 1.         1.         0.96428571 0.95833333 1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         0.96875    1.         1.         1.         1.        ]
+----------------
+[1.         1.         1.         1.         1.         1.         0.96875    1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.94444444 0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         0.96428571 1.         1.         1.         1.         1.         0.96875    1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         0.96428571 1.         1.         1.         0.9375     1.         1.         0.97222222 0.96875    1.         1.         1.
+ 1.         1.         1.         0.96666667 1.         1.         1.         1.         1.         1.         0.96428571 1.         1.         1.         1.         1.         1.         0.97058824 1.         0.94117647 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.        ]
+----------------
+[1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         0.96875    1.         1.         1.         1.         1.         0.96666667 1.         1.         0.97222222 1.         1.         1.         0.96875    1.         0.97058824 1.         1.         1.         0.97058824
+ 0.96875    1.         1.         1.         1.         0.9375     0.97058824 1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.94444444 1.         0.96153846 1.         0.97058824 1.         1.         1.         1.
+ 0.96428571 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         0.94444444 1.         0.97222222 1.         0.97058824 0.92857143 0.9375     1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.
+ 1.         1.         1.         0.96428571 1.         1.         1.         1.         1.         1.         1.         1.         0.96153846 1.         0.96875    1.         1.         1.         0.88235294 1.        ]
+----------------
+[1.         1.         1.         0.96666667 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96875    1.         1.         1.         1.         0.96428571 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         0.97058824 1.         0.91666667 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.89285714 1.         0.96666667 1.         1.         0.95454545 1.         1.
+ 1.         1.         1.         0.91176471 1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96875    1.         1.         1.         0.94444444 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.92857143 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.94117647]
+----------------
+[1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96666667 1.         1.         1.         0.97058824 1.         1.         1.         1.         0.97058824 1.         0.96875    1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.94117647 1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         0.94444444 1.         1.         1.         1.         1.         1.         0.97058824 1.         0.96666667 1.         1.         1.         0.96428571 0.97222222 1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         0.94117647 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.        ]
+----------------
+[0.9        1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96153846 1.         1.         0.97222222 1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96875    1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         0.97058824 0.94444444 1.         1.         0.96153846 1.         1.         0.97058824 1.         1.         1.         1.         0.96666667 1.         1.         0.92857143 1.         1.         0.96666667 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         0.95833333 1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         0.94117647 1.         0.94117647 1.         1.         1.         1.         0.97058824 0.9375     1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         0.97058824 1.         1.         0.94444444 1.         1.         1.        ]
+----------------
+[1.         1.         0.97058824 1.         1.         1.         0.93333333 1.         1.         0.97222222 0.97058824 1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         0.96153846 1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 0.97222222 1.         1.         0.96875    1.         1.         0.96875    1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         0.94444444 1.
+ 1.         1.         1.         1.         1.         1.         0.96875    1.         0.97222222 1.         1.         1.         0.93333333 1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         0.96666667 1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         0.96153846 1.         1.         1.         1.         1.         1.        ]
+----------------
+[1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         0.97222222 1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.93333333 1.         0.94117647 1.
+ 1.         1.         1.         1.         0.93333333 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.95833333 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.85294118 0.88235294
+ 1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.86111111 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96666667 1.
+ 1.         1.         1.         0.90625    1.         1.         1.         1.         1.         0.96875    1.         1.         1.         1.         0.94444444 1.         1.         1.         1.         1.        ]
+----------------
+[1.         1.         0.92857143 1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 0.94444444 1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97368421 1.
+ 1.         1.         1.         1.         0.97058824 1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         0.95       0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         0.96875    1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         0.94444444 0.96666667 0.96875    1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.83333333 0.96428571 1.         1.         1.         1.         1.         1.         1.         1.         0.92307692 1.         1.         1.         1.
+ 1.         1.         0.91666667 1.         1.         1.         0.96666667 0.92857143 1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.        ]
+----------------
+[1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 0.97058824 1.         1.         1.         0.96666667
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96153846 1.         1.         1.         1.         0.97222222 0.94444444 1.         1.         1.         0.91666667 0.96875    0.97058824 0.97058824 1.         1.         1.         1.         0.96875    0.97058824 1.         1.         1.         1.         1.         1.
+ 0.95833333 1.         1.         1.         0.97222222 0.94444444 0.97058824 1.         0.89285714 1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.        ]
+----------------
+[1.         0.91666667 0.97222222 1.         0.96875    1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.92105263 0.96875    0.91666667 1.         1.         1.         1.
+ 1.         0.96666667 1.         1.         0.96153846 0.94117647 1.         1.         1.         1.         1.         1.         0.94444444 1.         0.88235294 1.         1.         1.         0.94117647 1.         1.         1.         1.         1.         1.         1.         0.94444444 1.         0.96666667 1.         1.         1.         1.         1.         0.93333333 1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.86111111 0.97222222 1.         0.93333333 1.         1.         1.         0.95833333 1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.        ]
+----------------
+[0.97222222 0.97222222 1.         0.97222222 1.         1.         1.         0.97058824 1.         1.         0.875      1.         1.         1.         1.         1.         0.92857143 0.91176471 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         0.90625    1.         1.         1.         1.         1.         1.         1.         0.97058824 0.96875    1.         0.96666667 1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         0.96666667 1.         1.         1.
+ 1.         1.         0.97222222 1.         1.         0.90625    1.         1.         1.         1.         0.97222222 1.         0.96875    1.         1.         1.         1.         1.         1.         1.         0.96875    1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         0.96875    1.         1.         0.86363636 1.         1.
+ 1.         1.         1.         1.         1.         1.         0.94444444 1.         1.         1.         0.93333333 1.         0.94117647 1.         0.97058824 1.         0.97222222 1.         1.         0.96666667]
+----------------
+[1.         0.97058824 1.         1.         1.         1.         1.         0.96875    0.95833333 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96428571 1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         0.76470588 0.92857143 0.9375     1.         1.         1.
+ 1.         1.         1.         1.         1.         0.92857143 1.         1.         1.         1.         0.96428571 0.97222222 1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         0.97222222 0.96666667 1.         1.         1.         1.
+ 0.96428571 1.         1.         1.         0.97222222 1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.94444444 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.91666667 1.         1.         1.         1.         1.         1.         1.         0.97058824 0.97222222 1.        ]
+----------------
+[1.         0.96666667 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         0.96875    1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96428571 1.         0.97058824
+ 1.         1.         1.         0.94444444 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         0.96428571 1.         0.94444444 1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222
+ 0.97058824 1.         1.         1.         1.         1.         1.         0.97222222 1.         0.97222222 0.82142857 1.         1.         1.         0.93333333 1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         0.97058824 1.         0.97222222 1.         1.         1.         0.94117647 1.         1.         0.96875    1.         1.         1.         1.         1.         1.         1.        ]
+----------------
+[1.         0.96666667 1.         1.         1.         1.         1.         1.         0.94117647 1.         0.9        1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96666667 1.         1.         1.         1.         1.         1.         0.96428571 1.         0.97222222 1.         1.         1.         0.95833333 1.         0.97222222
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96875    1.         1.         1.         1.
+ 1.         1.         1.         1.         0.9375     1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         0.97222222 1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96153846 1.         1.         1.         1.         1.         1.        ]
+----------------
+[1.         1.         1.         0.85       1.         1.         1.         1.         0.95454545 0.95833333 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.94444444 1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96428571 1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         0.82142857 1.         0.96875    1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96875    1.         0.91666667 1.         0.9375     1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.92307692 1.         1.         1.         1.         1.        ]
+----------------
+[1.         0.94117647 1.         1.         1.         0.94444444 0.94444444 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         0.91176471 0.94117647 1.         1.         1.         1.
+ 1.         1.         1.         1.         0.96428571 1.         1.         0.91176471 1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.9375     1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         0.9375     1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         0.91666667 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.94117647]
+----------------
+[1.         1.         1.         1.         0.94117647 1.         1.         1.         1.         0.96875    1.         1.         1.         1.         1.         0.96428571 1.         1.         1.         1.         1.         1.         0.94117647 1.         0.92307692 1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 0.97222222 1.         1.         1.         1.         1.         1.         1.         0.91666667 1.         1.         1.         1.         1.         1.         1.         0.96666667 1.         1.         1.         1.         1.         1.         1.         0.97222222 1.
+ 0.97222222 1.         1.         1.         1.         1.         1.         0.91666667 1.         0.94117647 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.94117647 1.         1.         1.         1.         1.
+ 0.90625    1.         0.91176471 1.         1.         1.         0.94117647 1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.        ]
+----------------
+[1.         1.         1.         1.         0.97222222 1.         1.         1.         0.91176471 0.96666667 1.         0.95833333 1.         1.         1.         1.         1.         1.         0.94117647 1.         1.         1.         1.         0.96666667 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.9
+ 1.         0.97222222 0.97222222 1.         1.         1.         1.         1.         1.         1.         0.90625    0.9375     1.         1.         1.         0.88888889 1.         1.         1.         0.96875    1.         1.         0.96153846 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96428571
+ 1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         0.97222222 1.         1.         0.875      0.96875    1.         1.         1.         1.         0.86666667
+ 1.         0.96666667 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.        ]
+----------------
+[1.         1.         1.         1.         1.         1.         1.         1.         1.         0.9        1.         0.94444444 1.         1.         1.         1.         1.         1.         1.         0.96428571 1.         0.96428571 1.         1.         0.97222222 0.94444444 1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         0.92857143 1.         1.         1.         1.         0.85714286 1.         1.         1.         1.         0.96875    1.         0.91666667 1.         0.90625    1.         1.         1.         0.96875    1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 0.85714286 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96666667 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         0.92857143 1.         0.97222222 0.96428571 1.         1.         1.         1.         1.         1.         1.         0.95833333 1.        ]
+----------------
+[1.         1.         1.         0.97222222 1.         0.97058824 1.         0.97058824 1.         1.         0.97058824 1.         0.85294118 1.         1.         1.         1.         1.         0.9        1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         0.96666667 0.97222222 1.         0.86666667 0.97222222 1.         1.         0.97058824 1.         0.93333333 1.         0.97222222 1.         1.         1.         1.         0.97222222
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.94117647 1.         1.         1.         1.         1.         1.         1.         0.85294118 1.         1.         1.         1.         0.9375     1.         1.         1.         0.90909091 1.         1.         1.         1.         1.         0.97222222
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.        ]
+----------------
+[1.         1.         0.96666667 1.         0.96666667 1.         1.         1.         0.93333333 1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         0.96666667 1.         0.96875    1.         1.         1.         0.94444444 1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96666667 1.         1.         0.94117647 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         0.875      1.         1.         1.         1.         0.97222222 1.         1.         1.         0.93333333 1.         0.96666667 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         0.96666667 1.         1.         1.         1.         1.         1.         1.
+ 1.         0.90625    0.97058824 1.         1.         1.         0.92307692 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.        ]
+----------------
+[1.         1.         1.         1.         1.         1.         1.         1.         0.96666667 0.97058824 1.         0.95833333 0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96875    1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         0.97222222 1.         0.97222222 1.         1.         0.91176471 1.         1.         0.97222222 1.         1.         1.         1.         1.         0.91666667 1.         1.         0.97222222 1.         1.         1.         1.         0.97058824 0.97222222 1.         0.94444444 1.         1.         1.         1.         1.         1.         0.97058824
+ 1.         1.         0.97222222 1.         1.         1.         1.         0.94444444 0.97222222 1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         0.97058824 1.         1.         0.96875    1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.        ]
+----------------
+[0.97222222 1.         1.         1.         0.91666667 1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96666667 1.         1.         1.         0.94444444 1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96428571 1.         0.90625    1.         0.94444444 0.97222222 1.         1.         0.97222222 0.97058824 1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96875    1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96666667 1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.9375     1.         1.         0.96153846 0.97222222 1.         1.         0.97058824 1.         1.         1.        ]
+----------------
+[1.         1.         1.         0.95454545 1.         1.         1.         0.93333333 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.94444444 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         0.97058824 1.         0.96666667 1.         1.         1.         1.         0.96666667 1.         1.         1.         1.
+ 0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96875    1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.
+ 0.97058824 1.         1.         0.96875    1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.        ]
+----------------
+[0.9375     0.97222222 1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         0.97058824 0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.88235294 1.         1.         1.         1.         1.         1.         0.93333333 1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96875    1.         0.96153846 0.9375     1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.91176471 1.         1.         1.         1.         1.         1.         1.         1.        ]
+----------------
+[1.         1.         1.         1.         1.         0.88888889 0.97222222 1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         0.91176471 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.94444444 1.         1.         1.         1.
+ 1.         1.         1.         1.         0.97222222 0.97058824 1.         0.94117647 1.         1.         0.96875    0.97222222 0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         0.96666667 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         0.95833333 0.94117647 1.         1.         1.         1.         1.         0.97222222 1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.94444444 1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         0.97222222 1.         0.94117647 1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.        ]
+----------------
+[1.         1.         1.         1.         0.96875    1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.
+ 1.         1.         0.96875    1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         0.9375     1.         1.         1.         1.         1.         1.         1.         0.9375     1.         1.         1.         0.94444444 0.94444444 1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96153846 1.         1.         1.         1.         1.         1.         0.96153846 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         0.97058824 0.96428571 1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         0.97222222 1.         0.96153846 1.        ]
+----------------
+[1.         1.         1.         1.         0.96153846 1.         1.         1.         1.         0.90625    1.         1.         0.97058824 1.         1.         0.96875    0.97222222 1.         1.         1.         0.97222222 1.         0.96875    0.94117647 1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 0.97058824 1.         1.
+ 0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 0.91666667 0.97058824 1.         1.         1.         1.         1.         0.96666667 1.         1.         0.94444444 0.91176471 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         0.8        1.         1.         0.94444444 1.         1.         1.         1.         1.         0.96428571 1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         0.92857143 1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.        ]
+----------------
+[1.         1.         0.97058824 0.91176471 1.         1.         1.         1.         1.         0.85294118 1.         0.96666667 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.94117647 0.97222222 1.         0.96666667 1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         0.9375     0.97222222 1.         1.         1.         1.         1.         0.93333333 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         0.97222222 0.96875    1.         1.         1.         1.         0.96428571 1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.95       1.         0.9375     1.         1.         1.         1.         1.         1.
+ 0.97058824 1.         0.97058824 1.         1.         1.         1.         1.         1.         0.9375     1.         1.         1.         1.         1.         1.         1.         1.         1.         1.        ]
+----------------
+[1.         1.         1.         1.         1.         0.96875    1.         1.         1.         1.         1.         1.         0.96875    1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 0.97058824 1.         0.9375     1.         1.         1.         0.96875    1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96153846 1.         1.         0.96666667 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.88461538 1.         1.         1.         0.97222222 1.
+ 1.         1.         0.95833333 1.         1.         1.         1.         1.         1.         0.9375     1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         0.9375     0.97222222 1.         1.         1.         1.         1.         0.97222222 1.         0.96666667 1.         1.         1.         1.         1.
+ 1.         0.91176471 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96666667 0.94444444 1.         1.         0.96875   ]
+----------------
+[1.         0.97058824 0.96666667 1.         1.         1.         1.         1.         1.         1.         1.         0.94444444 1.         1.         0.88888889 1.         1.         0.88235294 1.         1.         1.         1.         1.         1.         1.         0.94444444 1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.
+ 1.         1.         1.         1.         1.         1.         0.94444444 1.         1.         0.94444444 1.         1.         1.         1.         1.         0.94444444 1.         1.         0.97222222 1.         1.         0.94117647 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         0.9375     1.         1.         1.         1.         1.         0.97058824 1.         1.         0.97222222 1.         1.         1.         1.
+ 1.         0.94444444 1.         1.         1.         0.96875    1.         1.         1.         1.         0.96666667 1.         1.         1.         1.         1.         1.         0.97222222 0.96428571 1.        ]
+----------------
+[1.         0.96666667 1.         1.         1.         1.         1.         1.         1.         0.95833333 1.         1.         1.         1.         0.91176471 1.         1.         1.         1.         1.         1.         1.         0.96666667 1.         1.         0.94117647 1.         1.         1.         1.         1.         1.         1.         0.77272727 0.97222222 1.
+ 1.         0.91666667 1.         1.         1.         1.         1.         0.96666667 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         0.97058824 1.         1.         1.         1.         0.95454545 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         0.92857143 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96666667 1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         0.96666667 1.        ]
+----------------
+[1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         0.9375     1.         1.         1.         1.         1.         1.         1.         1.
+ 0.96666667 1.         1.         0.94444444 1.         1.         1.         0.93333333 1.         0.96153846 1.         1.         1.         1.         1.         0.97058824 1.         1.         0.93333333 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 0.96428571 1.         0.82352941 1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         0.96153846 1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         0.875      0.97222222 0.97058824 0.90909091 1.         1.         1.         1.         0.92857143 0.97222222 1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         0.97222222
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96875    1.         1.         1.         1.        ]
+----------------
+[1.         1.         1.         1.         0.94117647 1.         1.         1.         1.         1.         1.         1.         1.         0.96875    1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         0.91176471 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.9        0.97058824 0.92857143 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.9        1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         0.91666667 1.         1.         1.         1.        ]
+----------------
+[1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.
+ 0.97222222 1.         1.         1.         1.         0.96428571 1.         1.         0.96428571 1.         1.         0.97222222 1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         0.96875    1.         1.         1.         0.97058824 1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         0.88461538 1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.        ]
+----------------
+[1.         1.         1.         1.         1.         1.         1.         1.         1.         0.94117647 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.
+ 0.88888889 1.         1.         1.         1.         0.96666667 1.         1.         0.94117647 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.
+ 0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 0.92307692 1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         0.94117647 1.         1.         1.         1.         1.         1.         1.         0.96153846 1.         1.        ]
+----------------
+[1.         0.94444444 1.         1.         0.94444444 1.         0.90625    1.         1.         1.         1.         1.         1.         0.92307692 1.         1.         0.97058824 0.9375     1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         0.94117647 1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         0.88235294 1.         0.97058824 0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.
+ 0.96875    1.         1.         0.96666667 0.97058824 1.         1.         1.         1.         1.         1.         1.         0.94117647 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.92857143 1.         1.         0.97222222
+ 1.         1.         1.         1.         1.         1.         0.95       1.         0.9375     1.         1.         1.         1.         1.         1.         1.         1.         1.         0.89473684 1.        ]
+----------------
+[1.         1.         1.         1.         0.96875    1.         1.         0.97222222 1.         1.         1.         1.         1.         0.96875    1.         0.97222222 1.         1.         1.         1.         1.         0.96428571 1.         1.         1.         1.         1.         0.94444444 1.         1.         1.         1.         0.97058824 1.         0.86111111 0.97222222
+ 1.         1.         1.         1.         1.         1.         1.         0.96875    1.         1.         1.         0.94444444 1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 0.97222222 1.         1.         1.         0.94117647 1.         0.875      0.96875    1.         1.         0.92307692 1.         1.         1.         0.9375     1.         0.9375     1.         1.         0.91176471 1.         0.97222222 0.9375     0.97058824 0.91666667 1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         0.97222222
+ 1.         0.94117647 1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.        ]
+----------------
+[1.         1.         1.         0.94117647 1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 0.94444444 1.         1.         1.         1.         1.         0.94444444 1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         0.94444444 0.97222222 1.         0.96666667 0.96875    1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.
+ 1.         0.91176471 1.         0.96428571 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.9375     1.         1.         0.94117647 1.         1.         1.         1.         1.         0.88235294 1.         0.9375     0.97058824 0.95833333 1.         1.         0.92857143 0.96875    1.         1.         1.         1.         1.
+ 1.         0.97222222 0.97058824 1.         1.         0.90625    1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.85714286 1.         1.         1.        ]
+----------------
+[1.         1.         1.         1.         1.         1.         1.         1.         0.94444444 1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.94117647 1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96666667 1.         0.93333333 1.         1.         1.
+ 0.96875    1.         1.         1.         1.         1.         1.         1.         1.         0.96153846 1.         1.         1.         1.         1.         1.         0.88235294 1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         0.9        1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.        ]
+----------------
+[1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.94444444 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96153846
+ 0.97058824 1.         1.         1.         0.93333333 1.         0.92857143 1.         1.         0.96875    1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         0.96875    1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         0.97222222 0.97058824 1.         0.97058824 1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         1.         1.         0.96153846
+ 1.         1.         0.9375     1.         1.         1.         1.         1.         1.         0.96666667 1.         0.96153846 1.         1.         1.         1.         1.         1.         1.         1.        ]
+----------------
+[1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         0.96875    1.         1.         1.         1.         1.         1.         0.93333333 0.97222222 1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         0.94444444 1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         0.93333333 1.         1.         1.         1.         1.         1.         1.         1.         0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.
+ 1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         1.         0.97222222 1.         1.         1.         1.         1.         1.         1.         0.94117647 1.         1.         1.         1.         1.
+ 0.97058824 1.         1.         1.         1.         1.         1.         1.         1.         0.96875    1.         1.         1.         0.94117647 1.         1.         0.96153846 1.         1.         1.        ]
+----------------
+:)

@@ -1,16 +1,16 @@
 #!/bin/bash
-#SBATCH -n 2
+#SBATCH -c 2
 #SBATCH --job-name=insideness
 #SBATCH --mem=1GB
 #SBATCH -t 1:00:00
-#SBATCH --qos=cbmm
-#SBATCH --workdir=./log/
+#SBATCH --partition=cbmm
+#SBATCH -D ./log/
 
-cd /om/user/xboix/src/insideness/
+cd /om/user/shobhita/src/insideness/
 
-singularity exec -B /om:/om /om/user/xboix/singularity/xboix-tensorflow.simg \
-python /om/user/xboix/src/insideness/main.py \
+singularity exec -B /om:/om /om/user/xboix/singularity/xboix-tensorflow1.14.simg \
+python /om/user/shobhita/src/insideness/main.py \
 --experiment_index=0 \
---host_filesystem=om \
---network=lstm_init \
+--host_filesystem=om-shobhita \
+--network=multi_lstm_init \
 --run=get_train_errors

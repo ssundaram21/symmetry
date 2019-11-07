@@ -1,0 +1,5 @@
+tensor([[0.2209, 0.6588, 0.4328],
+        [0.6247, 0.9141, 0.8154]], device='cuda:0')
+[31mFATAL:  [0m failed to retrieved path for /om/user/shobhita/singularity/xboix-tensorflow1.14.simg: lstat /om/user/shobhita/singularity: no such file or directory
+[91mERROR  : Child exit with status 255
+[0m
