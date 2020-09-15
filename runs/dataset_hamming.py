@@ -2,7 +2,7 @@ import os.path
 import shutil
 import sys
 import numpy as np
-
+import pickle
 
 os.environ["CUDA_VISIBLE_DEVICES"]="3"
 
@@ -10,18 +10,25 @@ import tensorflow as tf
 
 from nets import nets
 
-def run(opt):
+def run(opt, output_path):
 
     ################################################################################################
     # Read experiment to run
     ################################################################################################
     print(opt.name)
+
     ################################################################################################
 
 
     ################################################################################################
     # Define training and validation datasets through Dataset API
     ################################################################################################
+
+    #Output path for average results
+    output_path = output_path + "dataset_hamming_results/"
+
+    #dividing factor - refers to the factor by which to reduce size of training data.
+    dividing_factors = [1, 10, 100]
 
     # Initialize dataset and creates TF records if they do not exist
 
@@ -69,25 +76,37 @@ def run(opt):
 
         # TEST SET
         corr = []
-        for num_iter in range(int(dataset.num_images_test / opt.hyper.batch_size) + 1):
-            test_img = sess.run(image, feed_dict={handle: test_handle,
-                    test_in: np.zeros((opt.hyper.batch_size, opt.dataset.image_size, opt.dataset.image_size))})
+        full_results = {}
+        for df in dividing_factors:
+            corr_iters = []
+            for num_iter in range(int(dataset.num_images_test / opt.hyper.batch_size)//df + 1):
+                test_img = sess.run(image, feed_dict={handle: test_handle,
+                        test_in: np.zeros((opt.hyper.batch_size, opt.dataset.image_size, opt.dataset.image_size))})
 
-            ones_iter = np.sum(np.sum(test_img, axis=1), axis=1).astype(float)
-            corr_iter = np.zeros(opt.hyper.batch_size).astype(float)
-            for _ in range(int(dataset.num_images_training / opt.hyper.batch_size) + 1):
+                ones_iter = np.sum(np.sum(test_img, axis=1), axis=1).astype(float)
+                corr_iter = np.zeros(opt.hyper.batch_size).astype(float)
+                for _ in range(int(dataset.num_images_training / opt.hyper.batch_size)//df + 1):
 
-                corr_tmp = sess.run([corr_out], feed_dict={handle: training_handle,
-                                                    test_in: test_img})
+                    corr_tmp = sess.run([corr_out], feed_dict={handle: training_handle,
+                                                        test_in: test_img})
 
-                corr_tmp = np.squeeze(np.amax(np.squeeze(corr_tmp), axis=1)).astype(float)
+                    corr_tmp = np.squeeze(np.amax(np.squeeze(corr_tmp), axis=1)).astype(float)
 
-                corr_iter = np.maximum(corr_iter, corr_tmp/ones_iter)
+                    corr_iter = np.maximum(corr_iter, corr_tmp/ones_iter)
 
-            print(corr_iter)
+                print(corr_iter)
+                corr_iters.append(np.mean(corr_iter))
 
-            print("----------------")
-            sys.stdout.flush()
+
+                print("----------------")
+                sys.stdout.flush()
+
+            #Mean of means
+            total_mean = np.mean(corr_iters)
+            results = {"corr_iters": corr_iters, "total_avg": total_mean}
+            full_results[df] = results
+
+        pickle.dump(full_results, open(output_path+"{}_RESULTS_1.p".format(dataset.opt.ID), "wb"))
 
         print(":)")
         sys.stdout.flush()

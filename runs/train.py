@@ -23,9 +23,9 @@ def run(opt):
     print(opt.name)
     ################################################################################################
 
-    if os.path.isfile(opt.log_dir_base + opt.name + '/results/intra_dataset_accuracy.pkl'):
-        print(":)")
-        quit()
+    # if os.path.isfile(opt.log_dir_base + opt.name + '/results/intra_dataset_accuracy.pkl'):
+    #     print(":)")
+    #     quit()
 
     #print(opt.hyper.complex_crossing)
     print(opt.hyper.init_factor)
@@ -33,6 +33,7 @@ def run(opt):
     print(opt.hyper.learning_rate)
     print(opt.hyper.alpha)
     print(opt.hyper.batch_size)
+    print("Iterations: {}".format(opt.dnn.n_t))
 
     #tf.logging.set_verbosity(tf.logging.INFO)
 
@@ -82,7 +83,7 @@ def run(opt):
     dropout_rate = tf.placeholder(tf.float32)
     to_call = getattr(nets, opt.dnn.name)
     y, parameters, activations = to_call(image, opt, dropout_rate, len(dataset.list_labels)*dataset.num_outputs)
-
+    print("USING NETWORK:", opt.dnn.name)
     # Loss function
     with tf.name_scope('loss'):
         weights_norm = tf.reduce_sum(
@@ -199,8 +200,8 @@ def run(opt):
             raw_grads = tf.gradients(total_loss, all_var)
             grads = list(zip(raw_grads, tf.trainable_variables()))
 
-            for g, v in grads:
-                summary.gradient_summaries(g, v, opt)
+            # for g, v in grads:
+                # summary.gradient_summaries(g, v, opt)
             ################################################################################################
 
 

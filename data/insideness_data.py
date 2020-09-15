@@ -2,6 +2,7 @@ from data import data
 from data import generate_shapes
 from data import spiral_data
 from data import square
+from data import small_images
 import numpy as np
 import random as rnd
 import sys
@@ -53,6 +54,21 @@ class InsidenessDataset(data.Dataset):
                 minimum_radius = [3, 8]
                 maximum_radius = [8, 14]
 
+            if complexity == 9:
+                #For small polar datasets -- IDs 54-56
+                #min/max radius get set later based on image size
+                num_points = [3, 5]
+                minimum_radius = 0
+                maximum_radius = 0
+
+            if complexity == 10:
+                #For small polar datasets -- IDs 57-58
+                #min/max radius get set later based on image size
+                num_points = [3, 10]
+                minimum_radius = 0
+                maximum_radius = 0
+
+
         else:
             if complexity == 0:
                 num_points = [3, 5]
@@ -79,13 +95,27 @@ class InsidenessDataset(data.Dataset):
                 minimum_radius = [3, 4]
                 maximum_radius = [13, 14]
 
+            if complexity == 9:
+                # For small polar datasets -- IDs 54-56
+                # min/max radius get set later based on image size
+                num_points = [3, 6]
+                minimum_radius = 0
+                maximum_radius = 0
+
+            if complexity == 10:
+                # For small polar datasets -- IDs 57-58
+                # min/max radius get set later based on image size
+                num_points = [3, 10]
+                minimum_radius = 0
+                maximum_radius = 0
+
         return num_points, maximum_radius, minimum_radius
 
 
     # Virtual functions:
     def get_data_trainval(self):
 
-        if self.opt.dataset.complexity < 5:
+        if self.opt.dataset.complexity < 5 or self.opt.dataset.complexity == 9 or self.opt.dataset.complexity == 10:
             #polygon
             num_points_range, maximum_radius_range, minimum_radius_range = \
                 self.get_parameters_complexity(self.opt.dataset.complexity, self.opt.dataset.complexity_strict)
@@ -96,7 +126,7 @@ class InsidenessDataset(data.Dataset):
         labels = []
         for i in range(int(self.opt.dataset.num_images_training)):
             if not i % 10:
-                print('Data: {}/{}'.format(i, int(self.opt.dataset.num_images_training)))
+                print('Data: {}/{}, Complexity: {}'.format(i, int(self.opt.dataset.num_images_training), self.opt.dataset.complexity))
                 sys.stdout.flush()
 
             if self.opt.dataset.complexity < 5 :
@@ -105,18 +135,37 @@ class InsidenessDataset(data.Dataset):
                 minimum_radius = rnd.randint(minimum_radius_range[0], minimum_radius_range[1])
                 maximum_radius = rnd.randint(maximum_radius_range[0], maximum_radius_range[1])
 
-                img, gt, img_raw = generate_shapes.generate_data(num_points, self.opt.dataset.image_size, self.opt.dataset.image_size,
+                img, gt, img_raw = generate_shapes.generate_data_with_check(num_points, self.opt.dataset.image_size, self.opt.dataset.image_size,
                                               maximum_radius, minimum_radius)
 
             elif self.opt.dataset.complexity==5:
                 #spiral:
-                img, gt = spiral_data.create_data_set()
+                img, gt = spiral_data.create_data_set_with_check(self.opt.dataset.image_size, self.opt.dataset.image_size)
                 img_raw = img
 
             elif self.opt.dataset.complexity == 7:
                 img = square.gen_square()
                 img_raw = img
                 gt = img
+
+            elif self.opt.dataset.complexity == 8:
+                img_tuple = small_images.make_small_images(
+                    im_size = (self.opt.dataset.image_size, self.opt.dataset.image_size),
+                    n_images=1
+                )
+                img = img_tuple[0].curve
+                gt = img_tuple[0].inside
+                img_raw = img
+
+            elif self.opt.dataset.complexity == 9 or self.opt.dataset.complexity == 10:
+                # polygon
+                num_points = rnd.randint(num_points_range[0], num_points_range[1])
+                minimum_radius = int(self.opt.dataset.image_size/3)
+                maximum_radius = self.opt.dataset.image_size
+
+                img, gt, img_raw = generate_shapes.generate_data_with_check(num_points, self.opt.dataset.image_size,
+                                                                            self.opt.dataset.image_size,
+                                                                            maximum_radius, minimum_radius)
 
             X.append(np.uint8(img))
 
@@ -149,8 +198,8 @@ class InsidenessDataset(data.Dataset):
 
 
     def get_data_test(self):
-
-        if self.opt.dataset.complexity < 5:
+        #If necessary, set num_points_range to image_size/2
+        if self.opt.dataset.complexity < 5 or self.opt.dataset.complexity == 9 or self.opt.dataset.complexity == 10:
             num_points_range, maximum_radius_range, minimum_radius_range = \
                 self.get_parameters_complexity(self.opt.dataset.complexity, self.opt.dataset.complexity_strict)
 
@@ -168,18 +217,38 @@ class InsidenessDataset(data.Dataset):
                 minimum_radius = rnd.randint(minimum_radius_range[0], minimum_radius_range[1])
                 maximum_radius = rnd.randint(maximum_radius_range[0], maximum_radius_range[1])
 
-                img, gt, img_raw = generate_shapes.generate_data(num_points, self.opt.dataset.image_size, self.opt.dataset.image_size,
+                img, gt, img_raw = generate_shapes.generate_data_with_check(num_points, self.opt.dataset.image_size, self.opt.dataset.image_size,
                                               maximum_radius, minimum_radius)
 
             elif self.opt.dataset.complexity == 5:
                 #spiral:
-                img, gt = spiral_data.create_data_set()
+                img, gt = spiral_data.create_data_set(self.opt.dataset.image_size, self.opt.dataset.image_size)
                 img_raw = img
 
             elif self.opt.dataset.complexity == 7:
                 img = square.gen_square()
                 img_raw = img
                 gt = img
+
+            elif self.opt.dataset.complexity == 8:
+                img_tuple = small_images.make_small_images(
+                    im_size = (self.opt.dataset.image_size, self.opt.dataset.image_size),
+                    n_images=1
+                )
+                img = img_tuple[0].curve
+                gt = img_tuple[0].inside
+                img_raw = img
+
+            elif self.opt.dataset.complexity == 9 or self.opt.dataset.complexity == 10:
+                # polygon
+                num_points = rnd.randint(num_points_range[0], num_points_range[1])
+                minimum_radius = int(self.opt.dataset.image_size/3)
+                maximum_radius = self.opt.dataset.image_size
+
+                img, gt, img_raw = generate_shapes.generate_data_with_check(num_points, self.opt.dataset.image_size,
+                                                                            self.opt.dataset.image_size,
+                                                                            maximum_radius, minimum_radius)
+
 
             X.append(np.uint8(img))
             X_raw.append(np.uint8(img_raw))

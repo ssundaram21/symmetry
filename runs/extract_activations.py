@@ -125,9 +125,11 @@ def extract_activations_dataset(opt, opt_datasets, datasets, test_datasets, test
 
                 if name == 'test':
                     with open(opt.log_dir_base + opt.name + '/results/activations_DATA' + opt_dataset.log_name + '.pkl', 'wb') as f:
+                        print(opt.log_dir_base + opt.name + '/results/activations_DATA' + opt_dataset.log_name + '.pkl')
                         pickle.dump(total, f)
                 else:
                     with open(opt.log_dir_base + opt.name + '/results/activations_' + name + '_DATA' + opt_dataset.log_name + '.pkl', 'wb') as f:
+                        print(opt.log_dir_base + opt.name + '/results/activations_DATA' + opt_dataset.log_name + '.pkl')
                         pickle.dump(total, f)
 
         else:

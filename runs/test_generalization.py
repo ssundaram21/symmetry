@@ -181,7 +181,7 @@ def run(opt, opt_datasets):
     if not os.path.exists(opt.log_dir_base + opt.name + '/results'):
         os.makedirs(opt.log_dir_base + opt.name + '/results')
 
-    with open(opt.log_dir_base + opt.name + '/results/generalization_accuracy.pkl', 'wb') as f:
+    with open(opt.log_dir_base + opt.name + '/results/generalization_accuracy_60_full2.pkl', 'wb') as f:
         pickle.dump(acc, f)
 
     print(":)")

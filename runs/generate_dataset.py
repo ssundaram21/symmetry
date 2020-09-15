@@ -98,7 +98,8 @@ def run(opt):
                                                        dropout_rate: 1.0})
 
             # Use network to generate ground-truth
-            tmp_gt = np.reshape(net_out, [opt.hyper.batch_size, 42, 42])
+            # tmp_gt = np.reshape(net_out, [opt.hyper.batch_size, 42, 42])
+            tmp_gt = np.reshape(net_out, [opt.hyper.batch_size, opt.dataset.image_size, opt.dataset.image_size])
             ''' 
             if np.sum(np.int8(np.sum(np.sum(np.int8(tmp_img == 1), 1), 1) == 0)) > 0:
                 print("EMPTY")
@@ -154,7 +155,7 @@ def run(opt):
                                                        dropout_rate: 1.0})
 
             # Use network to generate ground-truth
-            tmp_gt = np.reshape(net_out, [opt.hyper.batch_size, 42, 42])
+            tmp_gt = np.reshape(net_out, [opt.hyper.batch_size, opt.dataset.image_size, opt.dataset.image_size])
 
             '''
             if np.sum(np.int8(np.sum(np.sum(np.int8(tmp_img == 1),1),1)==0))>0:
@@ -186,7 +187,7 @@ def run(opt):
                                                        dropout_rate: 1.0})
 
             # Use network to generate ground-truth
-            tmp_gt = np.reshape(net_out, [opt.hyper.batch_size, 42, 42])
+            tmp_gt = np.reshape(net_out, [opt.hyper.batch_size, opt.dataset.image_size, opt.dataset.image_size])
 
             '''
             if np.sum(np.int8(np.sum(np.sum(np.int8(tmp_img == 1),1),1)==0))>0:

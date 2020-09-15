@@ -19,7 +19,7 @@ class FillingCell(RNNCell):
 
     """
 
-    def __init__(self, input_shape, optimal=True, n_hidden=2, weight_std=1.0, range_coloring = 3 ):
+    def __init__(self, input_shape, optimal=True, n_hidden=2, weight_std=1.0, range_coloring = 3):
         super().__init__()
         self._input_shape = input_shape
         self._state_size = tensor_shape.TensorShape(
@@ -29,36 +29,45 @@ class FillingCell(RNNCell):
         self._weight_std = weight_std
         self._n_hidden = n_hidden
 
-        full_kernel = np.zeros((3, 3, 1, 1))
-        a_kernel = np.array([[-1, -1, -1],
-                             [-1, 0, -1],
-                             [-1, -1, -1]])
-        full_kernel[:, :, 0, 0] = a_kernel
+        # full_kernel = np.zeros((3, 3, 1, 1))
+        # a_kernel = np.array([[-1, -1, -1],
+        #                      [-1, 0, -1],
+        #                      [-1, -1, -1]])
+        # full_kernel[:, :, 0, 0] = a_kernel
 
-        if self._optimal:
-            self._kernel = tf.constant(full_kernel, dtype=tf.float32)
-            self._bias_i = tf.constant(1., dtype=tf.float32)
-            self._w1 = tf.constant(-1., dtype=tf.float32)
-            self._w2 = tf.constant(-1., dtype=tf.float32)
-            self._bias_s = tf.constant(1., dtype=tf.float32)
+        # if self._optimal or not self._optimal:
+        # self._kernel = tf.constant(full_kernel, dtype=tf.float32)
 
-        else:
-            # we are learning a network perturbed from optimal
-            self._kernel_var = tf.Variable(tf.truncated_normal((range_coloring, range_coloring, 1, 1),
-                                                               dtype=tf.float32,
-                                                               stddev=self._weight_std,
-                                                               name="w_kern"
-                                                               ))
-            self._kernel = self._kernel_var
-            self._deviations = tf.Variable(
-                tf.truncated_normal([4], dtype=tf.float32,
-                                    stddev=self._weight_std,
-                                    name="w_kern"), name="devs",
-                dtype=tf.float32)
-            self._bias_i = tf.Variable(tf.constant(10.0)) #self._deviations[0]
-            self._w1 = self._deviations[1]
-            self._w2 = self._deviations[2]
-            self._bias_s = tf.Variable(tf.constant(10.0))# self._deviations[2]
+
+        # self._kernel_i_var = tf.Variable(tf.keras.initializers.RandomNormal((range_coloring, range_coloring, 1, n_hidden), stddev = self._weight_std),
+        #                                  # stddev=self._weight_std,
+        #                                  name="w_kern1"
+        #                                  )
+
+        self._kernel_i_var = tf.get_variable(
+                                    "w_kern1",
+                                    shape=(range_coloring, range_coloring, 1, n_hidden),
+                                    initializer = tf.keras.initializers.RandomNormal(stddev = self._weight_std)
+                            )
+
+        self._kernel_h_var = tf.get_variable(
+                                    "w_kern3",
+                                    shape=(range_coloring, range_coloring, 2, n_hidden),
+                                    initializer=tf.keras.initializers.RandomNormal(stddev=self._weight_std)
+                                )
+
+        self._kernel_o_var = tf.get_variable(
+                                    "w_kern2",
+                                    shape=(1, 1, n_hidden, 2),
+                                    initializer=tf.keras.initializers.RandomNormal(stddev=self._weight_std)
+                                )
+
+        self._kernel_i = self._kernel_i_var
+        self._kernel_o = self._kernel_o_var
+        self._kernel_h = self._kernel_h_var
+        self._bias_i = tf.Variable(tf.zeros([1]))
+        self._bias_s = tf.Variable(tf.zeros([1]))
+
 
     @property
     def output_size(self):
@@ -71,18 +80,28 @@ class FillingCell(RNNCell):
     def get_params(self):
         if self._optimal:
             return []
-        return [self._kernel_var, self._deviations]
+        return [self._kernel_i_var, self._kernel_h_var, self._kernel_o_var]
+        # return [self._kernel_var, self._deviations]
 
     def call(self, border, state):
-        intermediate = tf.nn.relu(
-            nn_ops.conv2d(state, self._kernel, [1, 1, 1, 1], padding="SAME")
-            +
-            self._bias_i
+        # hidden, *_ = state
+        hidden = state
+        f1 = tf.nn.conv2d(
+            input=border, filters=self._kernel_i, strides=1, padding="SAME"
+        )
+        f2 = tf.nn.conv2d(
+            input=hidden, filters=self._kernel_h, strides=1, padding="SAME"
+        )
+        intermediate=tf.math.sigmoid(f1 + f2 + self._bias_i)
+
+        output = tf.math.sigmoid(
+            tf.nn.conv2d(
+                input=intermediate, filters=self._kernel_o, strides=1, padding="SAME"
+            )
+            + self._bias_s
         )
 
-        state = tf.nn.relu(
-            self._bias_s + self._w1 * border + self._w2 * intermediate)
-        return 1 - state, state
+        return output, output
 
 
 def Coloring(data, opt, dropout_rate, labels_id):
@@ -100,7 +119,6 @@ def Coloring(data, opt, dropout_rate, labels_id):
     :param labels_id:
     :return:
     """
-
     optimal = getattr(opt, "skip_train", True)
     fc = FillingCell(input_shape=data.shape,
                      optimal=optimal,
@@ -119,23 +137,32 @@ def Coloring(data, opt, dropout_rate, labels_id):
 
     activations = []
 
-    initial_state = np.zeros(data.shape[1:3])
-    initial_state[0, :] = 1
-    initial_state[data.shape[1] - 1, :] = 1
-    initial_state[:, 0] = 1
-    initial_state[:, data.shape[2] - 1] = 1
-    state = tf.constant(initial_state[None, :, :, None], dtype=np.float32)
+    initial_state1 = np.zeros(data.shape[1:3])
+    initial_state1[0, :] = 1
+    initial_state1[data.shape[1] - 1, :] = 1
+    initial_state1[:, 0] = 1
+    initial_state1[:, data.shape[2] - 1] = 1
 
+    initial_state2 = np.ones(data.shape[1:3])
+    initial_state2[0, :] = 0
+    initial_state2[data.shape[1]-1, :] = 0
+    initial_state2[:, 0] = 0
+    initial_state2[:, data.shape[2] - 1] = 0
+
+    initial_state = np.stack((initial_state1, initial_state2), axis=-1)
+
+    state = tf.constant(initial_state[None, :, :, :], dtype=np.float32)
     with tf.variable_scope("FilledCell") as scope:
-        out = []
+        # out = []
         for i in range(n_t):
             if i > 0:
                 scope.reuse_variables()
             t_output, state = fc(data, state)
             activations.append(state)
-            out.append(tf.concat([state, t_output], 3))
+            out = t_output
+            # out.append(tf.concat([state, t_output], 3))
 
     if opt.dnn.train_per_step:
         return out, parameters, activations
     else:
-        return out[-1], parameters, activations
+        return out, parameters, activations

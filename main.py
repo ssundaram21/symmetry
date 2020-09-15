@@ -1,7 +1,6 @@
 import os
 #os.environ['CUDA_VISIBLE_DEVICES'] = "0"
 
-
 import argparse
 import datasets
 import experiments
@@ -13,18 +12,19 @@ parser.add_argument('--host_filesystem', type=str, required=True)
 parser.add_argument('--run', type=str, required=True)
 parser.add_argument('--network', type=str, required=True)
 parser.add_argument('--error_correction', action='store_true')
+
 FLAGS = parser.parse_args()
 
 
 code_path = {
     'xavier': '/Users/xboix/src/insideness/',
     'om': '/om/user/xboix/src/insideness/',
-    'om-shobhita': '/om/user/shobhita/insideness'}[FLAGS.host_filesystem]
+    'om-shobhita': '/om/user/shobhita/src/insideness/'}[FLAGS.host_filesystem]
 
 output_path = {
     'xavier': '/Users/xboix/src/insideness/log/',
     'om': '/om/user/xboix/share/insideness/',
-    'om-shobhita': '/om/user/shobhita/insideness'}[FLAGS.host_filesystem]
+    'om-shobhita': '/om/user/shobhita/src/insideness/'}[FLAGS.host_filesystem]
 
 
 if FLAGS.network == "crossing":
@@ -92,7 +92,7 @@ def run_dataset_hamming(id):
     from runs import dataset_hamming
     opt_data = datasets.get_datasets(output_path)[id]
     run_opt = experiment.generate_experiments_dataset(opt_data)
-    dataset_hamming.run(run_opt)
+    dataset_hamming.run(run_opt, output_path)
 
 
 def run_cross_dataset_hamming(id):
@@ -112,7 +112,9 @@ def get_dataset_as_numpy(id):
 def run_train(id):
     from runs import train
     run_opt = experiment.get_experiments(output_path)[id]
+    print("\nTRAINING")
     train.run(run_opt)
+    print("\nDONE.")
 
 
 def get_train_errors(id):
@@ -137,16 +139,17 @@ def run_train_selected(id):
 
 def run_evaluate_generalization(id):
     opt_data = datasets.get_datasets(output_path)
-    run_opt = experiment.get_best_of_the_family(output_path)[id]
-
+    # run_opt = experiment.get_best_of_the_family(output_path)[id]
+    run_opt = experiment.get_experiments(output_path)[id]
     from runs import test_generalization
     test_generalization.run(run_opt, opt_data)
 
 
 def run_extract_activations(id):
+    print("Getting ID:", id)
     opt_data = datasets.get_datasets(output_path)
-    run_opt = experiment.get_best_of_the_family(output_path)[id]
-
+    # run_opt = experiment.get_best_of_the_family(output_path)[id]
+    run_opt = experiment.get_best_of_the_family(output_path, id)
     from runs import extract_activations
     extract_activations.run(run_opt, opt_data)
 

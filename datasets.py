@@ -109,6 +109,262 @@ def get_datasets(output_path):
                 opt += [copy.deepcopy(opt_handle)]
                 idx += 1
 
+
+    #54 - Polar size 10
+    for k, num_data in enumerate([1e5]):
+        for complexity in [9]:
+            for complexity_strict in [True]:
+                #Create base for TF records
+                opt_handle = Dataset(idx, "C" + str(complexity) + '_' + "D" + str(k), output_path)
+                opt_handle.num_images_training = num_data
+                opt_handle.num_images_testing = 1e4
+                opt_handle.image_size = 10
+                opt_handle.complexity = complexity
+                opt_handle.complexity_strict = complexity_strict
+
+                opt += [copy.deepcopy(opt_handle)]
+                idx += 1
+    
+    #55 - Polar size 12
+    for k, num_data in enumerate([1e5]):
+        for complexity in [9]:
+            for complexity_strict in [True]:
+                #Create base for TF records
+                opt_handle = Dataset(idx, "C" + str(complexity) + '_' + "D" + str(k), output_path)
+                opt_handle.num_images_training = num_data
+                opt_handle.num_images_testing = 1e4
+                opt_handle.image_size = 12
+                opt_handle.complexity = complexity
+                opt_handle.complexity_strict = complexity_strict
+
+                opt += [copy.deepcopy(opt_handle)]
+                idx += 1
+
+    #56 - Polar size 14
+    for k, num_data in enumerate([1e5]):
+        for complexity in [10]:
+            for complexity_strict in [True]:
+                #Create base for TF records
+                opt_handle = Dataset(idx, "C" + str(complexity) + '_' + "D" + str(k), output_path)
+                opt_handle.num_images_training = num_data
+                opt_handle.num_images_testing = 1e4
+                opt_handle.image_size = 14
+                opt_handle.complexity = complexity
+                opt_handle.complexity_strict = complexity_strict
+
+                opt += [copy.deepcopy(opt_handle)]
+                idx += 1
+
+    #57 - Polar size 18
+    for k, num_data in enumerate([1e5]):
+        for complexity in [10]:
+            for complexity_strict in [True]:
+                #Create base for TF records
+                opt_handle = Dataset(idx, "C" + str(complexity) + '_' + "D" + str(k), output_path)
+                opt_handle.num_images_training = num_data
+                opt_handle.num_images_testing = 1e4
+                opt_handle.image_size = 18
+                opt_handle.complexity = complexity
+                opt_handle.complexity_strict = complexity_strict
+
+                opt += [copy.deepcopy(opt_handle)]
+                idx += 1
+
+    #58 - Polar size 24
+    for k, num_data in enumerate([1e5]):
+        for complexity in [10]:
+            for complexity_strict in [True]:
+                #Create base for TF records
+                opt_handle = Dataset(idx, "C" + str(complexity) + '_' + "D" + str(k), output_path)
+                opt_handle.num_images_training = num_data
+                opt_handle.num_images_testing = 1e4
+                opt_handle.image_size = 24
+                opt_handle.complexity = complexity
+                opt_handle.complexity_strict = complexity_strict
+
+                opt += [copy.deepcopy(opt_handle)]
+                idx += 1
+
+    #59 - Spiral size 10
+    for k, num_data in enumerate([1e5]):
+        for complexity in [5]:
+            for complexity_strict in [True]:
+                #Create base for TF records
+                opt_handle = Dataset(idx, "C" + str(complexity) + '_' + "D" + str(k), output_path)
+                opt_handle.num_images_training = num_data
+                opt_handle.num_images_testing = 1e4
+                opt_handle.image_size = 10
+                opt_handle.complexity = complexity
+                opt_handle.complexity_strict = complexity_strict
+
+                opt += [copy.deepcopy(opt_handle)]
+                idx += 1
+
+    #60 - Spiral size 12
+    for k, num_data in enumerate([1e5]):
+        for complexity in [5]:
+            for complexity_strict in [True]:
+                #Create base for TF records
+                opt_handle = Dataset(idx, "C" + str(complexity) + '_' + "D" + str(k), output_path)
+                opt_handle.num_images_training = num_data
+                opt_handle.num_images_testing = 1e4
+                opt_handle.image_size = 12
+                opt_handle.complexity = complexity
+                opt_handle.complexity_strict = complexity_strict
+
+                opt += [copy.deepcopy(opt_handle)]
+                idx += 1
+
+    #61 - Spiral size 14
+    for k, num_data in enumerate([1e5]):
+        for complexity in [5]:
+            for complexity_strict in [True]:
+                #Create base for TF records
+                opt_handle = Dataset(idx, "C" + str(complexity) + '_' + "D" + str(k), output_path)
+                opt_handle.num_images_training = num_data
+                opt_handle.num_images_testing = 1e4
+                opt_handle.image_size = 14
+                opt_handle.complexity = complexity
+                opt_handle.complexity_strict = complexity_strict
+
+                opt += [copy.deepcopy(opt_handle)]
+                idx += 1
+
+    #62 - Spiral size 18
+    for k, num_data in enumerate([1e5]):
+        for complexity in [5]:
+            for complexity_strict in [True]:
+                #Create base for TF records
+                opt_handle = Dataset(idx, "C" + str(complexity) + '_' + "D" + str(k), output_path)
+                opt_handle.num_images_training = num_data
+                opt_handle.num_images_testing = 1e4
+                opt_handle.image_size = 18
+                opt_handle.complexity = complexity
+                opt_handle.complexity_strict = complexity_strict
+
+                opt += [copy.deepcopy(opt_handle)]
+                idx += 1
+
+    #63 - Spiral size 24
+    for k, num_data in enumerate([1e5]):
+        for complexity in [5]:
+            for complexity_strict in [True]:
+                #Create base for TF records
+                opt_handle = Dataset(idx, "C" + str(complexity) + '_' + "D" + str(k), output_path)
+                opt_handle.num_images_training = num_data
+                opt_handle.num_images_testing = 1e4
+                opt_handle.image_size = 24
+                opt_handle.complexity = complexity
+                opt_handle.complexity_strict = complexity_strict
+
+                opt += [copy.deepcopy(opt_handle)]
+                idx += 1
+
+    #64 - Villim data size 8
+    for k, num_data in enumerate([1e5]):
+        for complexity in [8]:
+            for complexity_strict in [True]:
+                #Create base for TF records
+                opt_handle = Dataset(idx, "C" + str(complexity) + '_' + "D" + str(k), output_path)
+                opt_handle.num_images_training = num_data
+                opt_handle.num_images_testing = 1e4
+                opt_handle.image_size = 8
+                opt_handle.complexity = complexity
+                opt_handle.complexity_strict = complexity_strict
+
+                opt += [copy.deepcopy(opt_handle)]
+                idx += 1
+
+    #65 - Villim data size 10
+    for k, num_data in enumerate([1e5]):
+        for complexity in [8]:
+            for complexity_strict in [True]:
+                #Create base for TF records
+                opt_handle = Dataset(idx, "C" + str(complexity) + '_' + "D" + str(k), output_path)
+                opt_handle.num_images_training = num_data
+                opt_handle.num_images_testing = 1e4
+                opt_handle.image_size = 10
+                opt_handle.complexity = complexity
+                opt_handle.complexity_strict = complexity_strict
+
+                opt += [copy.deepcopy(opt_handle)]
+                idx += 1
+
+    #66 - Villim data size 12
+    for k, num_data in enumerate([1e5]):
+        for complexity in [8]:
+            for complexity_strict in [True]:
+                #Create base for TF records
+                opt_handle = Dataset(idx, "C" + str(complexity) + '_' + "D" + str(k), output_path)
+                opt_handle.num_images_training = num_data
+                opt_handle.num_images_testing = 1e4
+                opt_handle.image_size = 12
+                opt_handle.complexity = complexity
+                opt_handle.complexity_strict = complexity_strict
+
+                opt += [copy.deepcopy(opt_handle)]
+                idx += 1
+
+    #67 - Villim data size 14
+    for k, num_data in enumerate([1e5]):
+        for complexity in [8]:
+            for complexity_strict in [True]:
+                #Create base for TF records
+                opt_handle = Dataset(idx, "C" + str(complexity) + '_' + "D" + str(k), output_path)
+                opt_handle.num_images_training = num_data
+                opt_handle.num_images_testing = 1e4
+                opt_handle.image_size = 14
+                opt_handle.complexity = complexity
+                opt_handle.complexity_strict = complexity_strict
+
+                opt += [copy.deepcopy(opt_handle)]
+                idx += 1
+
+    #68 - Villim data size 18
+    for k, num_data in enumerate([1e5]):
+        for complexity in [8]:
+            for complexity_strict in [True]:
+                #Create base for TF records
+                opt_handle = Dataset(idx, "C" + str(complexity) + '_' + "D" + str(k), output_path)
+                opt_handle.num_images_training = num_data
+                opt_handle.num_images_testing = 1e4
+                opt_handle.image_size = 18
+                opt_handle.complexity = complexity
+                opt_handle.complexity_strict = complexity_strict
+
+                opt += [copy.deepcopy(opt_handle)]
+                idx += 1
+
+    #69 - Villim data size 24
+    for k, num_data in enumerate([1e5]):
+        for complexity in [8]:
+            for complexity_strict in [True]:
+                #Create base for TF records
+                opt_handle = Dataset(idx, "C" + str(complexity) + '_' + "D" + str(k), output_path)
+                opt_handle.num_images_training = num_data
+                opt_handle.num_images_testing = 1e4
+                opt_handle.image_size = 24
+                opt_handle.complexity = complexity
+                opt_handle.complexity_strict = complexity_strict
+
+                opt += [copy.deepcopy(opt_handle)]
+                idx += 1
+
+    #70 - Villim data size 42
+    for k, num_data in enumerate([1e5]):
+        for complexity in [8]:
+            for complexity_strict in [True]:
+                #Create base for TF records
+                opt_handle = Dataset(idx, "C" + str(complexity) + '_' + "D" + str(k), output_path)
+                opt_handle.num_images_training = num_data
+                opt_handle.num_images_testing = 1e4
+                opt_handle.image_size = 42
+                opt_handle.complexity = complexity
+                opt_handle.complexity_strict = complexity_strict
+
+                opt += [copy.deepcopy(opt_handle)]
+                idx += 1
+
     ''' 
     opt_handle = Dataset(idx, "vanila", output_path)
     opt_handle.num_images_training = 1000
@@ -122,3 +378,26 @@ def get_datasets(output_path):
 
     return opt
 
+
+
+datasets = get_datasets("/om/user/shobhita/insideness/get_datasets_result/")
+for dataset in datasets:
+    print(
+        """
+        \n
+        id: {},
+        name: {},
+        dataset_path: {},
+        num_images_training: {},
+        num_images_testing: {},
+        complexity: {},
+        """
+        .format(
+            dataset.ID,
+            dataset.name,
+            dataset.dataset_path,
+            dataset.num_images_training,
+            dataset.num_images_testing,
+            dataset.complexity
+            )
+        )

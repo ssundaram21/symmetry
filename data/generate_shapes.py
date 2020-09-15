@@ -1,5 +1,5 @@
 import numpy as np
-
+import pickle
 #import matplotlib
 #from matplotlib import pyplot as plt
 
@@ -21,6 +21,8 @@ DIRECTION = {'north': (-1, 0), 'south': (1, 0), 'east': (0, 1), 'west': (0, -1),
              'northeast': (-1, 1), 'northwest': (-1, -1), 'southeast': (1, 1), 'southwest': (1, -1)}
 
 #test
+
+#Bug in position function?
 
 #return new coordinates of a point when moved one unit in direction 'direction'
 def move(start_position, direction):
@@ -167,6 +169,7 @@ def generate_curve(points):
 
 
 def visit(image, position, visited, not_visited, directions, depth=0):
+    print(position)
     move_dict = {}
     move_dict['north'] = move(position, DIRECTION['north'])
     move_dict['south'] = move(position, DIRECTION['south'])
@@ -300,22 +303,113 @@ def generate_data(num_points, image_width, image_height, max_radius, min_radius)
 
     return img, img_filled_original, img_raw
 
-##img = generate_data(50, 100, 100, 100, 100)
-##find_ground_truth(img, (49,49))
-##find_ground_truth(img, (20,20))
-##
-##plt.imshow(img)
-##plt.show()
+def generate_data_with_check(num_points, image_width, image_height, max_radius, min_radius):
+    count = 0
+    while count < 100:
+        img, img_filled_original, img_raw = generate_data(
+            num_points,
+            image_width,
+            image_height,
+            max_radius,
+            min_radius
+        )
+        if check_image1(img) and check_image2(img):
+            return img, img_filled_original, img_raw
+        count += 1
 
-##img, img_filled_original, img_raw = generate_data(num_points=7,
-##                                                  image_width=100,
-##                                                  image_height=100,
-##                                                  max_radius=41,
-##                                                  min_radius=17)
+    print("------------------FAILED----------------")
+
+def check_image1(image):
+    for row in image:
+        if 1 in row:
+            return True
+    return False
+
+def check_image2(image):
+    if 0 in image[0] or 0 in image[-1]:
+        return True
+    for row in image:
+        if row[0] == 0 or row[-1] == 0:
+            return True
+    return False
+
+def generate_to_view(num_images, num_points, image_width, image_height, min_radius, max_radius):
+    datasets = []
+    ground_truths = []
+    image_count = 0
+    while image_count < num_images:
+        image = generate_data(num_points, image_width, image_height, max_radius, min_radius)
+        if not check_image(image[0]):
+            print("\n\n\n\n\n\n")
+            print("---------------------------------------FAILED --------------------------------------")
+            print("\n\n\n\n\n\n")
+            continue
+        datasets.append(image[0])
+        ground_truths.append(image[1])
+        image_count += 1   
+
+    for image in datasets:
+        for row in image:
+            print(row)
+        print()
 
 
-##plt.imshow(img)
-##plt.show()
-##plt.imshow(img_filled_original)
-##plt.show()
+def generate_to_save(num_images, image_width, image_height):
+    datasets = []
+    ground_truths = []
+    image_count = 0
+    while image_count < num_images:
+        image = generate_data(image_width//2, image_width, image_height, image_height-2, image_height-2)
+        if not check_image(image[0]):
+            print("\n\n\n\n\n\n")
+            print("---------------------------------------FAILED --------------------------------------")
+            print("\n\n\n\n\n\n")
+            continue
+        datasets.append(image[0])
+        ground_truths.append(image[1])
+        image_count += 1   
+
+    with open("polar_dataset_{}".format(image_height), "wb") as file:
+        pickle.dump(datasets, file)
+
+    with open("polar_ground_truth_{}".format(image_height), "wb") as file:
+        pickle.dump(ground_truths, file)
+
+# generate_to_save(300, image_width, image_height)
+
+# with open("polar_dataset_{}".format(image_height), "rb") as file:
+#     images = pickle.load(file)
+#     print(len(images))
+#     for row in images[0]:
+#         print(row)
+#     print()
+#     for row in images[1]:
+#         print(row)
+#     print()
+#     for row in images[-1]:
+#         print(row)
+
+
+
+# img = generate_data(50, 100, 100, 100, 100)
+# generate_data(num_points, image_width, image_height, max_radius, min_radius)
+# img = generate_data(5, 10, 10, 10, 10)
+
+# find_ground_truth(img, (49,49))
+# find_ground_truth(img, (20,20))
+
+# plt.imshow(img)
+# plt.show()
+
+# img, img_filled_original, img_raw = generate_data(num_points=7,
+#                                                  image_width=100,
+#                                                  image_height=100,
+#                                                  max_radius=41,
+#                                                  min_radius=17)
+
+
+# plt.imshow(img)
+# plt.show()
+# plt.imshow(img_filled_original)
+# plt.show()
 
