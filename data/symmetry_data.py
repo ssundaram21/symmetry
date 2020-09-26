@@ -114,7 +114,7 @@ class SymmetryDataset(data.Dataset):
 
     # Virtual functions:
     def get_data_trainval(self):
-
+        # Complexities for each of the 4 train categories, then one for all of them mixed in.
         if self.opt.dataset.complexity < 5 or self.opt.dataset.complexity == 9 or self.opt.dataset.complexity == 10:
             #polygon
             num_points_range, maximum_radius_range, minimum_radius_range = \

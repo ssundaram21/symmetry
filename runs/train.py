@@ -84,7 +84,7 @@ def run(opt):
     to_call = getattr(nets, opt.dnn.name)
     y, parameters, activations = to_call(image, opt, dropout_rate, len(dataset.list_labels)*dataset.num_outputs)
     print("USING NETWORK:", opt.dnn.name)
-    # Loss function
+    # Loss function - evaluating every single pixel - just need 110
     with tf.name_scope('loss'):
         weights_norm = tf.reduce_sum(
             input_tensor=opt.hyper.weight_decay * tf.stack(
@@ -93,12 +93,14 @@ def run(opt):
             name='weights_norm')
         tf.summary.scalar('weight_decay', weights_norm)
 
-        flat_y_ = tf.reshape(tensor=y_, shape=[-1, opt.dataset.image_size ** 2])
-        flat_image = tf.reshape(tensor=tf.cast(image, tf.int64), shape=[-1, opt.dataset.image_size ** 2])
-        im = tf.cast((flat_image), tf.float32)
-        cl = tf.cast(flat_y_, tf.float32)
+        # flat_y_ = tf.reshape(tensor=y_, shape=[-1, opt.dataset.image_size ** 2])
+        # flat_image = tf.reshape(tensor=tf.cast(image, tf.int64), shape=[-1, opt.dataset.image_size ** 2])
+        # im = tf.cast((flat_image), tf.float32)
+        # cl = tf.cast(flat_y_, tf.float32)
 
         flag_loss_per_step = False
+
+        #loops bc of per pixel -- just need the per pixel.
         if hasattr(opt.dnn, 'train_per_step'):
             if opt.dnn.train_per_step:
                 flag_loss_per_step = True
@@ -107,7 +109,11 @@ def run(opt):
                 cross_list = []
                 for yy in y:
                     flat_y = tf.reshape(tensor=yy, shape=[-1, opt.dataset.image_size ** 2, len(dataset.list_labels)])
+
+                    # labels = labels, logits = output of network. labels is batch_sizex1, logits = batchsizex2
                     cross_tmp = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=flat_y_, logits=flat_y)
+                    ####
+
                     cross_list.append(tf.reduce_mean( \
                         (1 - opt.hyper.alpha) * tf.reduce_sum(((1 - im) * cl) * cross_tmp, 1) / tf.reduce_sum(
                             (1 - im) * cl, 1) + \
@@ -117,15 +123,15 @@ def run(opt):
                 cross_entropy_sum = tf.add_n(cross_list)
 
         #If loss is for the last state
-        if not flag_loss_per_step:
-            print("TRAIN AT END")
-            sys.stdout.flush()
-            flat_y = tf.reshape(tensor=y, shape=[-1, opt.dataset.image_size ** 2, len(dataset.list_labels)])
-            cross = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=flat_y_, logits=flat_y)
-            cross_entropy_sum = tf.reduce_mean( \
-                (1 - opt.hyper.alpha) * tf.reduce_sum(((1 - im) * cl) * cross, 1) / tf.reduce_sum((1 - im) * cl, 1) + \
-                (opt.hyper.alpha) * tf.reduce_sum(((1 - im) * (1 - cl)) * cross, 1) / tf.reduce_sum((1 - im) * (1 - cl),
-                                                                                                    1))
+        # if not flag_loss_per_step:
+        #     print("TRAIN AT END")
+        #     sys.stdout.flush()
+        #     flat_y = tf.reshape(tensor=y, shape=[-1, opt.dataset.image_size ** 2, len(dataset.list_labels)])
+        #     cross = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=flat_y_, logits=flat_y)
+        #     cross_entropy_sum = tf.reduce_mean( \
+        #         (1 - opt.hyper.alpha) * tf.reduce_sum(((1 - im) * cl) * cross, 1) / tf.reduce_sum((1 - im) * cl, 1) + \
+        #         (opt.hyper.alpha) * tf.reduce_sum(((1 - im) * (1 - cl)) * cross, 1) / tf.reduce_sum((1 - im) * (1 - cl),
+        #                                                                                             1))
 
         tf.summary.scalar('cross_entropy', cross_entropy_sum)
 
@@ -151,7 +157,7 @@ def run(opt):
     tf.summary.scalar('learning_rate', lr)
     tf.summary.scalar('weight_decay', opt.hyper.weight_decay)
 
-    # Accuracy
+    # Accuracy - just need standard classification accuracy. ex. look at MNIST accuracy - can just be one line of code
     with tf.name_scope('accuracy'):
         flat_output = tf.argmax(flat_y, 2)
         correct_prediction = tf.equal(flat_output * (1 - flat_image), flat_y_ * (1 - flat_image))

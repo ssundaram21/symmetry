@@ -11,6 +11,8 @@ from nets import nets
 
 def run(opt):
 
+    # Get some images and save as pkl file to pull out and check in jupyter notebook
+
     ################################################################################################
     # Read experiment to run
     ################################################################################################

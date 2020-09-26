@@ -14,7 +14,7 @@ class Dataset(object):
         self.proportion_training_set = 0.95
         self.shuffle_data = True
 
-        self.dataset_name = "insideness"
+        self.dataset_name = "symmetry"
         self.complexity = 0
         self.complexity_strict = False
         self.image_size = 32
@@ -359,6 +359,22 @@ def get_datasets(output_path):
                 opt_handle.num_images_training = num_data
                 opt_handle.num_images_testing = 1e4
                 opt_handle.image_size = 42
+                opt_handle.complexity = complexity
+                opt_handle.complexity_strict = complexity_strict
+
+                opt += [copy.deepcopy(opt_handle)]
+                idx += 1
+
+    # 71 -- Symmetry 25/S0 (trial folder)
+    # Complexity 9 = S0
+    for k, num_data in enumerate([1e5]):
+        for complexity in [12]:
+            for complexity_strict in [True]:
+                #Create base for TF records
+                opt_handle = Dataset(idx, "C" + str(complexity) + '_' + "D" + str(k), output_path)
+                opt_handle.num_images_training = 25
+                opt_handle.num_images_testing = 1e4
+                opt_handle.image_size = 20
                 opt_handle.complexity = complexity
                 opt_handle.complexity_strict = complexity_strict
 
