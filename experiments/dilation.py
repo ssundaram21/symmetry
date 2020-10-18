@@ -96,9 +96,10 @@ def get_experiments(output_path):
 
 
     idx_family = 1
-    for idx_dataset in range(40, 50):
+    for idx_dataset in range(0, 30):
         for c in [2, 4, 8]:
             for l in [5, 6, 7]:
+                # remove alpha
                 for alpha in [0.1, 0.2, 0.4]:
                     for batch in [32, 256, 2048]:
                         for lr in [1e0, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5]:

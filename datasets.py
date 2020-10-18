@@ -42,10 +42,23 @@ def get_datasets(output_path):
             opt_handle.num_images_training = num_data
             opt_handle.num_images_testing = 1e4
             opt_handle.image_size = 20
-            opt_handle.type = img_type
+            opt_handle.type = [img_type]
 
             opt += [copy.deepcopy(opt_handle)]
             idx += 1
+
+    # ID 30-32
+    for k, num_data in enumerate([1e3, 1e4, 1e5]):
+        # Create base for TF records:
+        img_type = "Train"
+        opt_handle = Dataset(idx, "Cat" + str(img_type) + '_' + "D" + str(k), output_path)
+        opt_handle.num_images_training = num_data
+        opt_handle.num_images_testing = 1e4
+        opt_handle.image_size = 20
+        opt_handle.type = ["NS0", "NS4", "S0", "S4"]
+
+        opt += [copy.deepcopy(opt_handle)]
+        idx += 1
 
     return opt
 

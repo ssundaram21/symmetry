@@ -11,7 +11,7 @@ class SymmetryDataset(data.Dataset):
 
         self.num_threads = 8
 
-        self.num_outputs = self.opt.dataset.image_size**2
+        self.num_outputs = 1
         self.list_labels = range(0, 2)
         self.num_images_training = self.opt.dataset.num_images_training
         self.num_images_test = self.opt.dataset.num_images_testing
@@ -32,8 +32,12 @@ class SymmetryDataset(data.Dataset):
             if not i % 100:
                 print('Data: {}/{}, Category: {}'.format(i, int(self.opt.dataset.num_images_training), self.opt.dataset.type))
                 sys.stdout.flush()
-
-            img, label = generate_symmetry_images.make_images(self.opt.dataset.type)
+            print("IMAGE TYPE")
+            print(self.opt.dataset.type, len(self.opt.dataset.type))
+            if len(self.opt.dataset.type) == 1:
+                img, label = generate_symmetry_images.make_images(self.opt.dataset.type[0])
+            else:
+                img, label = generate_symmetry_images.make_random(self.opt.dataset.type)
 
             X.append(np.uint8(img))
             labels.append(np.uint8(label))
@@ -62,7 +66,10 @@ class SymmetryDataset(data.Dataset):
                 print('Data: {}/{}'.format(i, int(self.opt.dataset.num_images_testing)))
                 sys.stdout.flush()
 
-            img, label = generate_symmetry_images.make_images(self.opt.dataset.type)
+            if len(self.opt.dataset.type) == 1:
+                img, label = generate_symmetry_images.make_images(self.opt.dataset.type[0])
+            else:
+                img, label = generate_symmetry_images.make_random(self.opt.dataset.type)
 
             X.append(np.uint8(img))
             labels.append(np.uint8(label))
@@ -72,5 +79,5 @@ class SymmetryDataset(data.Dataset):
 
     def preprocess_image(self, augmentation, standarization, image, label):
         image.set_shape([self.opt.dataset.image_size, self.opt.dataset.image_size])
-        label.set_shape([self.opt.dataset.image_size, self.opt.dataset.image_size])
+        # label.set_shape([self.opt.dataset.image_size, self.opt.dataset.image_size])
         return image, label

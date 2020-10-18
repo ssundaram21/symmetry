@@ -20,7 +20,7 @@ code_path = {
     'om-shobhita': '/om/user/shobhita/src/symmetry/'}[FLAGS.host_filesystem]
 
 output_path = {
-    'om-shobhita': '/om/user/shobhita/src/symmetry/'}[FLAGS.host_filesystem]
+    'om-shobhita': '/om/user/shobhita/data/symmetry/'}[FLAGS.host_filesystem]
 
 
 if FLAGS.network == "crossing":

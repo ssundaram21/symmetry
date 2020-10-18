@@ -33,7 +33,7 @@ def run(opt):
     print(opt.hyper.learning_rate)
     print(opt.hyper.alpha)
     print(opt.hyper.batch_size)
-    print("Iterations: {}".format(opt.dnn.n_t))
+    # print("Iterations: {}".format(opt.dnn.n_t))
 
     #tf.logging.set_verbosity(tf.logging.INFO)
 
@@ -43,9 +43,9 @@ def run(opt):
 
     # Initialize dataset and creates TF records if they do not exist
 
-    if opt.dataset.dataset_name == 'insideness':
-        from data import insideness_data
-        dataset = insideness_data.InsidenessDataset(opt)
+    if opt.dataset.dataset_name == 'symmetry':
+        from data import symmetry_data
+        dataset = symmetry_data.SymmetryDataset(opt)
     else:
         print("Error: no valid dataset specified")
 
@@ -78,12 +78,21 @@ def run(opt):
 
     # Get data from dataset dataset
     image, y_ = iterator.get_next()
+    print("\n\nLABEL", y_)
+    print(y_.shape)
+    y_ = tf.reshape(tensor=y_, shape=[32])
+    print("RESHAPED LABEL:")
+    print(y_)
+    print(y_.shape)
 
     # Call DNN
     dropout_rate = tf.placeholder(tf.float32)
     to_call = getattr(nets, opt.dnn.name)
     y, parameters, activations = to_call(image, opt, dropout_rate, len(dataset.list_labels)*dataset.num_outputs)
-    print("USING NETWORK:", opt.dnn.name)
+    print("\n\nUSING NETWORK:", opt.dnn.name)
+    print("PREDICTION", y)
+    print(y.shape)
+
     # Loss function - evaluating every single pixel - just need 110
     with tf.name_scope('loss'):
         weights_norm = tf.reduce_sum(
@@ -93,41 +102,23 @@ def run(opt):
             name='weights_norm')
         tf.summary.scalar('weight_decay', weights_norm)
 
+
+
         # flat_y_ = tf.reshape(tensor=y_, shape=[-1, opt.dataset.image_size ** 2])
-        # flat_image = tf.reshape(tensor=tf.cast(image, tf.int64), shape=[-1, opt.dataset.image_size ** 2])
+        flat_image = tf.reshape(tensor=tf.cast(image, tf.int64), shape=[-1, opt.dataset.image_size ** 2])
         # im = tf.cast((flat_image), tf.float32)
         # cl = tf.cast(flat_y_, tf.float32)
 
         flag_loss_per_step = False
 
-        #loops bc of per pixel -- just need the per pixel.
-        if hasattr(opt.dnn, 'train_per_step'):
-            if opt.dnn.train_per_step:
-                flag_loss_per_step = True
-                print("TRAIN PER STEP")
-                sys.stdout.flush()
-                cross_list = []
-                for yy in y:
-                    flat_y = tf.reshape(tensor=yy, shape=[-1, opt.dataset.image_size ** 2, len(dataset.list_labels)])
-
-                    # labels = labels, logits = output of network. labels is batch_sizex1, logits = batchsizex2
-                    cross_tmp = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=flat_y_, logits=flat_y)
-                    ####
-
-                    cross_list.append(tf.reduce_mean( \
-                        (1 - opt.hyper.alpha) * tf.reduce_sum(((1 - im) * cl) * cross_tmp, 1) / tf.reduce_sum(
-                            (1 - im) * cl, 1) + \
-                        (opt.hyper.alpha) * tf.reduce_sum(((1 - im) * (1 - cl)) * cross_tmp, 1) / tf.reduce_sum(
-                            (1 - im) * (1 - cl), 1)))
-
-                cross_entropy_sum = tf.add_n(cross_list)
-
         #If loss is for the last state
+        print(y_.shape)
+        cross_entropy = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=y_, logits=y)
+        cross_entropy_sum = tf.reduce_mean(tf.reduce_sum(cross_entropy))
         # if not flag_loss_per_step:
         #     print("TRAIN AT END")
         #     sys.stdout.flush()
         #     flat_y = tf.reshape(tensor=y, shape=[-1, opt.dataset.image_size ** 2, len(dataset.list_labels)])
-        #     cross = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=flat_y_, logits=flat_y)
         #     cross_entropy_sum = tf.reduce_mean( \
         #         (1 - opt.hyper.alpha) * tf.reduce_sum(((1 - im) * cl) * cross, 1) / tf.reduce_sum((1 - im) * cl, 1) + \
         #         (opt.hyper.alpha) * tf.reduce_sum(((1 - im) * (1 - cl)) * cross, 1) / tf.reduce_sum((1 - im) * (1 - cl),
@@ -158,35 +149,37 @@ def run(opt):
     tf.summary.scalar('weight_decay', opt.hyper.weight_decay)
 
     # Accuracy - just need standard classification accuracy. ex. look at MNIST accuracy - can just be one line of code
+    preds = tf.cast(tf.nn.softmax(y), tf.int64)
+
     with tf.name_scope('accuracy'):
-        flat_output = tf.argmax(flat_y, 2)
-        correct_prediction = tf.equal(flat_output * (1 - flat_image), flat_y_ * (1 - flat_image))
-        correct_prediction = tf.cast(correct_prediction, tf.float32)
-
-        error_images = tf.reduce_min(correct_prediction, 1)
-        accuracy = tf.reduce_mean(error_images)
-
-        accuracy_loose = tf.reduce_mean(
-            0.5*tf.reduce_sum(((1 - im) * cl) * correct_prediction, 1) / tf.reduce_sum((1 - im) * cl, 1) + \
-            0.5*tf.reduce_sum(((1 - im) * (1 - cl)) * correct_prediction, 1) / tf.reduce_sum((1 - im) * (1 - cl), 1))
+        correct_prediction = tf.equal(tf.argmax(preds, 1), y_)
+        accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+        # correct_prediction = tf.equal(flat_output * (1 - flat_image), flat_y_ * (1 - flat_image))
+        # correct_prediction = tf.cast(correct_prediction, tf.float32)
+        #
+        # error_images = tf.reduce_min(correct_prediction, 1)
+        # accuracy = tf.reduce_mean(error_images)
+        #
+        # accuracy_loose = tf.reduce_mean(
+        #     0.5*tf.reduce_sum(((1 - im) * cl) * correct_prediction, 1) / tf.reduce_sum((1 - im) * cl, 1) + \
+        #     0.5*tf.reduce_sum(((1 - im) * (1 - cl)) * correct_prediction, 1) / tf.reduce_sum((1 - im) * (1 - cl), 1))
 
         tf.summary.scalar('accuracy', accuracy)
-        tf.summary.scalar('accuracy_loose', accuracy_loose)
+        # tf.summary.scalar('accuracy_loose', accuracy_loose)
 
     if opt.extense_summary:
         tf.summary.image('input', tf.expand_dims(
             tf.reshape(tf.cast(flat_image, tf.float32), [-1, opt.dataset.image_size, opt.dataset.image_size]), 3))
             #image, 3))
-        tf.summary.image('output', tf.expand_dims(
-            tf.reshape(tf.cast(flat_output, tf.float32), [-1, opt.dataset.image_size, opt.dataset.image_size]), 3))
-        tf.summary.image('output1', tf.expand_dims(
-            tf.reshape(tf.cast(flat_y[:,:,0], tf.float32), [-1, opt.dataset.image_size, opt.dataset.image_size]), 3))
-        tf.summary.image('output2', tf.expand_dims(
-            tf.reshape(tf.cast(flat_y[:,:,1], tf.float32), [-1, opt.dataset.image_size, opt.dataset.image_size]), 3))
-        tf.summary.image('gt', tf.expand_dims(
-            tf.reshape(tf.cast(flat_y_, tf.float32), [-1, opt.dataset.image_size, opt.dataset.image_size]), 3))
-        tf.summary.image('correctness', tf.expand_dims(
-            tf.reshape(tf.cast(correct_prediction, tf.float32), [-1, opt.dataset.image_size, opt.dataset.image_size]), 3))
+        # tf.summary.image('output', y)
+        # tf.summary.image('output1', tf.expand_dims(
+        #     tf.reshape(tf.cast(flat_y[:,:,0], tf.float32), [-1, opt.dataset.image_size, opt.dataset.image_size]), 3))
+        # tf.summary.image('output2', tf.expand_dims(
+        #     tf.reshape(tf.cast(flat_y[:,:,1], tf.float32), [-1, opt.dataset.image_size, opt.dataset.image_size]), 3))
+        # tf.summary.image('gt', tf.expand_dims(
+        #     tf.reshape(tf.cast(flat_y_, tf.float32), [-1, opt.dataset.image_size, opt.dataset.image_size]), 3))
+        # tf.summary.image('correctness', tf.expand_dims(
+        #     tf.reshape(tf.cast(correct_prediction, tf.float32), [-1, opt.dataset.image_size, opt.dataset.image_size]), 3))
 
     ################################################################################################
 
@@ -274,20 +267,18 @@ def run(opt):
                     if iStep == 0:
                         # !train_step
                         print("* epoch: " + str(float(k) / float(dataset.num_images_epoch)))
-                        summ, acc_train, acc_loo, tl = sess.run([merged, accuracy, accuracy_loose, total_loss],
+                        summ, acc_train, tl = sess.run([merged, accuracy, total_loss],
                                                         feed_dict={handle: training_handle,
                                                                    dropout_rate: opt.hyper.drop_train})
                         train_writer.add_summary(summ, k)
                         print("train acc: " + str(acc_train))
-                        print("train acc loose: " + str(acc_loo))
                         print("train loss: " + str(tl))
                         sys.stdout.flush()
 
-                        summ, acc_val, acc_loo, tl = sess.run([merged, accuracy, accuracy_loose,  total_loss], feed_dict={handle: validation_handle,
+                        summ, acc_val, tl = sess.run([merged, accuracy, total_loss], feed_dict={handle: validation_handle,
                                                                                 dropout_rate: opt.hyper.drop_test})
                         val_writer.add_summary(summ, k)
                         print("val acc: " + str(acc_val))
-                        print("val acc loose: " + str(acc_loo))
                         print("val loss: " + str(tl))
                         sys.stdout.flush()
 
@@ -330,8 +321,8 @@ def run(opt):
             acc_tmp_loo = 0.0
             total = 0
             for num_iter in range(int(dataset.num_images_epoch/opt.hyper.batch_size)+1):
-                acc_val, acc_loo, a, b, err, imm = sess.run(
-                    [accuracy, accuracy_loose, flat_output, y_, error_images, image],
+                acc_val, a, b, err, imm = sess.run(
+                    [accuracy, flat_output, y_, error_images, image],
                     feed_dict={handle: data_handle, dropout_rate: opt.hyper.drop_test})
 
                 ''' 
@@ -349,12 +340,10 @@ def run(opt):
                     imga.save('testrgb1.png')
                 '''
 
-                acc_tmp_loo += acc_loo * len(a)
                 acc_tmp += acc_val*len(a)
                 total += len(a)
 
             acc[name] = acc_tmp / float(total)
-            acc[name + 'loose'] = acc_tmp_loo / float(total)
             print("Total " + name + " = " + str(float(total)))
             print("Full " + name + " = " + str(acc[name]))
             print("Full " + name + " loose = " + str(acc[name + 'loose']))

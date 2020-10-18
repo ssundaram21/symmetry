@@ -98,38 +98,36 @@ def get_experiments(output_path):
     max_epochs = [100]
 
     idx_base = 0
-    opt_handle = Experiments(id=idx_base, name="Coloring", dataset=opt_data[53], output_path=output_path,
+    opt_handle = Experiments(id=idx_base, name="Coloring", dataset=opt_data[0], output_path=output_path,
                              family_id=0, family_name="Coloring_Optimal")
     opt_handle.skip_train = True
-    opt_handle.dnn.name = "optimalLSTM"
+    opt_handle.dnn.name = "MultiLSTMInit"
     opt_handle.dnn.n_t = 100
     #opt_handle.skip = True
     opt += [copy.deepcopy(opt_handle)]
     idx_base += 1
 
     idx_family = 1
-    for idx_dataset in range(0, 31):
-        for alpha in [0.1, 0.2, 0.4]:
-            for init in [0.25, 0.5, 2]:
-                for batch in [32]:
-                    for lr in [1e0, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5]:
-                        for iterations in [5, 10, 30]:
-                            opt_handle = Experiments(id=idx_base, name="MultiLSTMInit_D" + str(idx_dataset),
-                                            dataset=opt_data[idx_dataset], output_path=output_path,
-                                            family_id=idx_family, family_name="Multi_LSTM_Init_D" + str(idx_dataset))
-                            opt_handle.dnn.name = "MultiLSTMInit"
-                            # opt_handle.dnn.n_t = iterations
-                            opt_handle.dnn.n_t = 60
-                            opt_handle.loop_count = 1
-                            opt_handle.dnn.n_t_train = iterations
-                            opt_handle.dnn.train_per_step = False
-                            opt_handle.hyper.init_factor = init
-                            opt_handle.hyper.max_num_epochs = 10
-                            opt_handle.hyper.learning_rate = lr
-                            opt_handle.hyper.alpha = alpha
-                            opt_handle.hyper.batch_size = batch
-                            opt += [copy.deepcopy(opt_handle)]
-                            idx_base += 1
+    for idx_dataset in range(0, 30):
+        for init in [0.25, 0.5, 2]:
+            for batch in [32]:
+                for lr in [1e0, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5]:
+                    for iterations in [5, 10, 30]:
+                        opt_handle = Experiments(id=idx_base, name="MultiLSTMInit_D" + str(idx_dataset),
+                                        dataset=opt_data[idx_dataset], output_path=output_path,
+                                        family_id=idx_family, family_name="Multi_LSTM_Init_D" + str(idx_dataset))
+                        opt_handle.dnn.name = "MultiLSTMInit"
+                        opt_handle.dnn.n_t = iterations
+                        # opt_handle.dnn.n_t = 60
+                        opt_handle.loop_count = 1
+                        opt_handle.dnn.n_t_train = iterations
+                        opt_handle.dnn.train_per_step = False
+                        opt_handle.hyper.init_factor = init
+                        opt_handle.hyper.max_num_epochs = 10
+                        opt_handle.hyper.learning_rate = lr
+                        opt_handle.hyper.batch_size = batch
+                        opt += [copy.deepcopy(opt_handle)]
+                        idx_base += 1
 
         idx_family += 1
 

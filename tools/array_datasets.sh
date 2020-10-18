@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH -c 2
-#SBATCH --array=0-30
+#SBATCH --array=0-32
 #SBATCH --job-name=insideness
 #SBATCH --mem=16GB
 #SBATCH -t 100:00:00

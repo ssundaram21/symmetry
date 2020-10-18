@@ -32,9 +32,9 @@ def run(opt, output_path):
 
     # Initialize dataset and creates TF records if they do not exist
 
-    if opt.dataset.dataset_name == 'insideness':
-        from data import insideness_data
-        dataset = insideness_data.InsidenessDataset(opt)
+    if opt.dataset.dataset_name == 'symmetry':
+        from data import symmetry_data
+        dataset = symmetry_data.SymmetryDataset(opt)
     else:
         print("Error: no valid dataset specified")
         sys.stdout.flush()
@@ -58,10 +58,14 @@ def run(opt, output_path):
     test_in = tf.placeholder(tf.int32, [opt.hyper.batch_size, opt.dataset.image_size, opt.dataset.image_size])
 
     image = tf.cast(image, tf.int32)
-    image_flat = tf.reshape(tf.cast(image, tf.int32), [opt.hyper.batch_size,  opt.dataset.image_size**2])
-    test_in_flat = tf.reshape(tf.cast(test_in, tf.int32), [opt.hyper.batch_size,  opt.dataset.image_size**2])
-
+    print("\n\n\nIMAGE:")
+    print(image.shape)
+    image_flat = tf.reshape(tf.cast(image, tf.float32), [opt.hyper.batch_size,  opt.dataset.image_size**2])
+    image_flat = tf.math.l2_normalize(image_flat, axis=1)
+    test_in_flat = tf.reshape(tf.cast(test_in, tf.float32), [opt.hyper.batch_size,  opt.dataset.image_size**2])
+    test_in_flat = tf.math.l2_normalize(test_in_flat, axis=1)
     corr_out = tf.matmul(test_in_flat, tf.transpose(image_flat))
+
 
     with tf.Session() as sess:
 
@@ -71,7 +75,7 @@ def run(opt, output_path):
         training_handle = sess.run(train_iterator.string_handle())
         test_handle = sess.run(test_iterator.string_handle())
         ################################################################################################
-
+        print("\n SESSION RUN HERE")
         sess.run(tf.global_variables_initializer())
 
         # TEST SET
@@ -79,11 +83,20 @@ def run(opt, output_path):
         full_results = {}
         for df in dividing_factors:
             corr_iters = []
+            corr_iters_max = []
+            corr_iters_min = []
+            corr_iters_std = []
+            print("BATCH SIZE: ", opt.hyper.batch_size)
             for num_iter in range(int(dataset.num_images_test / opt.hyper.batch_size)//df + 1):
                 test_img = sess.run(image, feed_dict={handle: test_handle,
                         test_in: np.zeros((opt.hyper.batch_size, opt.dataset.image_size, opt.dataset.image_size))})
 
-                ones_iter = np.sum(np.sum(test_img, axis=1), axis=1).astype(float)
+                # print(test_img)
+
+                sys.stdout.flush()
+
+                # ones_iter = np.sum(np.sum(test_img, axis=1), axis=1).astype(float)
+
                 corr_iter = np.zeros(opt.hyper.batch_size).astype(float)
                 for _ in range(int(dataset.num_images_training / opt.hyper.batch_size)//df + 1):
 
@@ -92,10 +105,14 @@ def run(opt, output_path):
 
                     corr_tmp = np.squeeze(np.amax(np.squeeze(corr_tmp), axis=1)).astype(float)
 
-                    corr_iter = np.maximum(corr_iter, corr_tmp/ones_iter)
+                    corr_iter = np.maximum(corr_iter, corr_tmp)
 
                 print(corr_iter)
+                # also look at other statistics -- max, min, sdev
                 corr_iters.append(np.mean(corr_iter))
+                corr_iters_max.append(np.max(corr_iter))
+                corr_iters_min.append(np.min(corr_iter))
+                corr_iters_std.append(np.std(corr_iter))
 
 
                 print("----------------")
@@ -103,12 +120,25 @@ def run(opt, output_path):
 
             #Mean of means
             total_mean = np.mean(corr_iters)
-            results = {"corr_iters": corr_iters, "total_avg": total_mean}
+            total_max = np.max(corr_iters_max)
+            total_min = np.min(corr_iters_min)
+            total_std = np.mean(corr_iters_std)
+            results = {
+                "corr_iters_mean": corr_iters,
+                "corr_iters_max": corr_iters_max,
+                "corr_iters_min": corr_iters_min,
+                "corr_iters_std": corr_iters_std,
+                "total_avg_mean": total_mean,
+                "total_avg_max": total_max,
+                "total_avg_min": total_min,
+                "total_avg_std": total_std
+
+            }
             full_results[df] = results
 
-        pickle.dump(full_results, open(output_path+"{}_RESULTS_1.p".format(dataset.opt.ID), "wb"))
+        pickle.dump(full_results, open(output_path+"{}_HAMMING_RESULTS.p".format(dataset.opt.ID), "wb"))
 
-        print(":)")
+        print("Done :)")
         sys.stdout.flush()
 
 

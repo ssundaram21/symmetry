@@ -82,3 +82,13 @@ def make_images(imtype, imsize = 20, n_images=1):
 
     return images, labels
 
+def make_random(imtypes, imsize=20, n_images=1):
+    images = []
+    labels = []
+    while len(images) < n_images:
+        imtype = imtypes[randint(0, len(imtypes)-1)]
+        image, label = IMAGE_TYPE[imtype](imsize)
+        images.append(image)
+        labels.append(label)
+    return images, labels
+
