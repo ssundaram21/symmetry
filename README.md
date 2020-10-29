@@ -1,4 +1,4 @@
-# insideness
+# symmetry
 
 experiments.py: defines the set of networks to train and evaluate
 
