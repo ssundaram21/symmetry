@@ -91,10 +91,10 @@ def MultiLSTM_init(data, opt, dropout_rate, labels_id):
         print("\n\nFLAT SHAPE:", flat.shape)
 
     with tf.variable_scope("fully_connected") as scope:
-        fc1_out = tf.contrib.layers.fully_connected(flat, num_outputs=512, activation_fn=tf.nn.relu)
+        fc1_out = tf.contrib.layers.fully_connected(flat, num_outputs=512, activation_fn=tf.nn.relu, scope=scope)
         print("\n\nFC1 OUTPUT SHAPE:", fc1_out.shape)
 
-        fc2_out = tf.contrib.layers.fully_connected(fc1_out, num_outputs=2, activation_fn=tf.nn.relu)
+        fc2_out = tf.contrib.layers.fully_connected(fc1_out, num_outputs=2, activation_fn=tf.nn.relu, scope=scope)
         print("\n\nFC2 OUTPUT SHAPE:", fc2_out.shape)
 
     if opt.dnn.train_per_step:

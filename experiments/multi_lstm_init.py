@@ -107,8 +107,9 @@ def get_experiments(output_path):
     opt += [copy.deepcopy(opt_handle)]
     idx_base += 1
 
+    # 162 experiments
     idx_family = 1
-    for idx_dataset in range(0, 30):
+    for idx_dataset in range(30, 33):
         for init in [0.25, 0.5, 2]:
             for batch in [32]:
                 for lr in [1e0, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5]:

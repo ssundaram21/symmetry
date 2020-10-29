@@ -78,20 +78,21 @@ def run(opt):
 
     # Get data from dataset dataset
     image, y_ = iterator.get_next()
-    print("\n\nLABEL", y_)
-    print(y_.shape)
-    y_ = tf.reshape(tensor=y_, shape=[32])
-    print("RESHAPED LABEL:")
-    print(y_)
-    print(y_.shape)
+    # print("\n\nLABEL", y_)
+    # print(y_.shape)
+    y_ = tf.reshape(tensor=y_, shape=[opt.hyper.batch_size])
+    # print("RESHAPED LABEL:")
+    # print(y_)
+    # print(y_.shape)
 
     # Call DNN
     dropout_rate = tf.placeholder(tf.float32)
     to_call = getattr(nets, opt.dnn.name)
     y, parameters, activations = to_call(image, opt, dropout_rate, len(dataset.list_labels)*dataset.num_outputs)
     print("\n\nUSING NETWORK:", opt.dnn.name)
-    print("PREDICTION", y)
-    print(y.shape)
+    print("\n\nUSING DATASET:", dataset.categories)
+    # print("PREDICTION", y)
+    # print(y.shape)
 
     # Loss function - evaluating every single pixel - just need 110
     with tf.name_scope('loss'):
@@ -321,8 +322,8 @@ def run(opt):
             acc_tmp_loo = 0.0
             total = 0
             for num_iter in range(int(dataset.num_images_epoch/opt.hyper.batch_size)+1):
-                acc_val, a, b, err, imm = sess.run(
-                    [accuracy, flat_output, y_, error_images, image],
+                acc_val, a, b, imm = sess.run(
+                    [accuracy, preds, y_, image],
                     feed_dict={handle: data_handle, dropout_rate: opt.hyper.drop_test})
 
                 ''' 
@@ -346,7 +347,7 @@ def run(opt):
             acc[name] = acc_tmp / float(total)
             print("Total " + name + " = " + str(float(total)))
             print("Full " + name + " = " + str(acc[name]))
-            print("Full " + name + " loose = " + str(acc[name + 'loose']))
+            # print("Full " + name + " loose = " + str(acc[name + 'loose']))
             sys.stdout.flush()
             return acc
 

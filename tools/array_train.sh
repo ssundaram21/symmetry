@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH -c 2
-#SBATCH --array=30-32
-#SBATCH --job-name=LSTM
+#SBATCH --array=0-162
+#SBATCH --job-name=MultiLSTMInit
 #SBATCH --mem=12GB
 #SBATCH --gres=gpu:titan-x:1
 #SBATCH -t 20:00:00

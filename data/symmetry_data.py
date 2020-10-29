@@ -19,6 +19,8 @@ class SymmetryDataset(data.Dataset):
         self.num_images_epoch = self.opt.dataset.proportion_training_set*self.num_images_training
         self.num_images_val = self.num_images_training - self.num_images_epoch
 
+        self.categories = self.opt.dataset.type
+
         if flag_creation:
             self.create_tfrecords()
 
