@@ -14,9 +14,8 @@ class Dataset(object):
         self.proportion_training_set = 0.95
         self.shuffle_data = True
 
-        self.dataset_name = "insideness"
-        self.complexity = 0
-        self.complexity_strict = False
+        self.dataset_name = "symmetry"
+        self.type = "NS0"
         self.image_size = 32
 
         self.name = "base"
@@ -35,90 +34,54 @@ def get_datasets(output_path):
     opt = []
     idx = 0
 
-    for k, num_data in enumerate([1e1, 1e2, 1e3, 1e4, 1e5]):
-        for complexity in range(5):
-            for complexity_strict in [False, True]:
-                # Create base for TF records:
-                opt_handle = Dataset(idx, "C" + str(complexity) + '_' + "D" + str(k), output_path)
-                opt_handle.num_images_training = num_data
-                opt_handle.num_images_testing = 1e4
-                opt_handle.image_size = 32
-                opt_handle.complexity = complexity
-                opt_handle.complexity_strict = complexity_strict
+    # 30 datasets
+    for k, num_data in enumerate([1e3, 1e4, 1e5]):
+        for img_type in ["NS0", "NS2", "NS4", "NS6", "NSd4", "S0", "S2", "S4", "S6", "Sd4"]:
+            # Create base for TF records:
+            opt_handle = Dataset(idx, "Cat" + str(img_type) + '_' + "D" + str(k), output_path)
+            opt_handle.num_images_training = num_data
+            opt_handle.num_images_testing = 1e4
+            opt_handle.image_size = 20
+            opt_handle.type = [img_type]
 
-                opt += [copy.deepcopy(opt_handle)]
-                idx += 1
+            opt += [copy.deepcopy(opt_handle)]
+            idx += 1
 
-    # ID 50
-    for k, num_data in enumerate([1e5]):
-        for complexity in [5]:
-            for complexity_strict in [True]:
-                # Create base for TF records:
-                opt_handle = Dataset(idx, "C" + str(complexity) + '_' + "D" + str(k), output_path)
-                opt_handle.num_images_training = num_data
-                opt_handle.num_images_testing = 1e4
-                opt_handle.image_size = 42
-                opt_handle.complexity = complexity
-                opt_handle.complexity_strict = complexity_strict
+    # ID 30-32
+    for k, num_data in enumerate([1e3, 1e4, 1e5]):
+        # Create base for TF records:
+        img_type = "Train"
+        opt_handle = Dataset(idx, "Cat" + str(img_type) + '_' + "D" + str(k), output_path)
+        opt_handle.num_images_training = num_data
+        opt_handle.num_images_testing = 1e4
+        opt_handle.image_size = 20
+        opt_handle.type = ["NS0", "NS4", "S0", "S4"]
 
-                opt += [copy.deepcopy(opt_handle)]
-                idx += 1
-
-    # ID 51
-    for k, num_data in enumerate([1e5]):
-        for complexity in [5]:
-            for complexity_strict in [True]:
-                # Create base for TF records:
-                opt_handle = Dataset(idx, "C" + str(complexity) + '_' + "D" + str(k), output_path)
-                opt_handle.num_images_training = num_data
-                opt_handle.num_images_testing = 1e4
-                opt_handle.image_size = 80
-                opt_handle.complexity = complexity
-                opt_handle.complexity_strict = complexity_strict
-
-                opt += [copy.deepcopy(opt_handle)]
-                idx += 1
-
-    # ID 52
-    for k, num_data in enumerate([2e5]):
-        for complexity in [6]:
-            for complexity_strict in [True]:
-                # Create base for TF records:
-                opt_handle = Dataset(idx, "C" + str(complexity) + '_' + "D" + str(k), output_path)
-                opt_handle.num_images_training = num_data
-                opt_handle.num_images_testing = 2e4
-                opt_handle.image_size = 42
-                opt_handle.complexity = complexity
-                opt_handle.complexity_strict = complexity_strict
-
-                opt += [copy.deepcopy(opt_handle)]
-                idx += 1
-
-    #ID 53
-    for k, num_data in enumerate([1e5]):
-        for complexity in [7]:
-            for complexity_strict in [True]:
-                # Create base for TF records:
-                opt_handle = Dataset(idx, "C" + str(complexity) + '_' + "D" + str(k), output_path)
-                opt_handle.num_images_training = num_data
-                opt_handle.num_images_testing = 1e4
-                opt_handle.image_size = 42
-                opt_handle.complexity = complexity
-                opt_handle.complexity_strict = complexity_strict
-
-                opt += [copy.deepcopy(opt_handle)]
-                idx += 1
-
-    ''' 
-    opt_handle = Dataset(idx, "vanila", output_path)
-    opt_handle.num_images_training = 1000
-    opt_handle.num_images_testing = 100
-    opt_handle.complexity = 4
-    opt_handle.complexity_strict = False
-
-    opt += [copy.deepcopy(opt_handle)]
-    idx += 1
-    '''
+        opt += [copy.deepcopy(opt_handle)]
+        idx += 1
 
     return opt
 
+
+
+datasets = get_datasets("/om/user/shobhita/symmetry/get_datasets_result/")
+for dataset in datasets:
+    print(
+        """
+        \n
+        id: {},
+        name: {},
+        dataset_path: {},
+        num_images_training: {},
+        num_images_testing: {},
+        type: {},
+        """
+        .format(
+            dataset.ID,
+            dataset.name,
+            dataset.dataset_path,
+            dataset.num_images_training,
+            dataset.num_images_testing,
+            dataset.type
+            )
+        )

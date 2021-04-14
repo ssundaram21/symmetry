@@ -32,7 +32,7 @@ def ColoringLSTM(data, opt, dropout_rate, labels_id):
     data = tf.reshape(data,
                       [-1, opt.dataset.image_size, opt.dataset.image_size, 1])
 
-    cell = Conv2DLSTMCell(input_shape=data.shape.dims[-3:],
+    cell = Conv2DRNNCell(input_shape=data.shape.dims[-3:],
                           kernel_shape=[3, 3],
                           output_channels=getattr(opt.dnn, "layers", 2))
 
@@ -43,5 +43,21 @@ def ColoringLSTM(data, opt, dropout_rate, labels_id):
             if i > 0:
                 scope.reuse_variables()
             t_output, state = cell(data, state)
+
+            # add an additional layer to pass t_output and state
+
+            output = tf.math.sigmoid(
+                tf.nn.conv2d(
+                    input=t_output,
+                    filters=self.add_weight(
+                                shape=(1, 1, self.n_filters, 1),
+                                name="kernel_o",
+                                initializer=get_init(kernel_o, self.init_scale),
+                            ),
+                    strides=1,
+                    padding="SAME"
+                )
+                + self.biases[self.n_filters]
+            )
 
     return t_output[:, :, :, :2], cell.weights, state
