@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH -c 2
-#SBATCH --array=0-32
-#SBATCH --job-name=insideness
+#SBATCH --array=119-138
+#SBATCH --job-name=NatSubsets
 #SBATCH --mem=16GB
 #SBATCH -t 100:00:00
 #SBATCH --gres=gpu:tesla-k80:1
@@ -17,6 +17,6 @@ python /om/user/shobhita/src/symmetry/main.py \
 --experiment_index=${SLURM_ARRAY_TASK_ID} \
 --host_filesystem=om-shobhita \
 --run=generate_dataset \
---network=multi_lstm_init
+--network=LSTM3
 
 

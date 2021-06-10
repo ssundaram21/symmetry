@@ -1,5 +1,6 @@
 from data import data
 from data import generate_symmetry_images
+from data import get_natural_images
 import numpy as np
 import random as rnd
 import sys
@@ -34,13 +35,20 @@ class SymmetryDataset(data.Dataset):
             if not i % 100:
                 print('Data: {}/{}, Category: {}'.format(i, int(self.opt.dataset.num_images_training), self.opt.dataset.type))
                 sys.stdout.flush()
-            print("IMAGE TYPE")
-            print(self.opt.dataset.type, len(self.opt.dataset.type))
-            if len(self.opt.dataset.type) == 1:
-                img, label = generate_symmetry_images.make_images(self.opt.dataset.type[0])
-            else:
-                img, label = generate_symmetry_images.make_random(self.opt.dataset.type)
 
+            if 92 < self.opt.dataset.ID < 96 or 112 < self.opt.dataset.ID < 119:
+                img, label = get_natural_images.get_natural_image(self.opt.dataset.type[0], i)
+            elif 119 <= self.opt.dataset.ID:
+                img, label = get_natural_images.get_natural_image_subset(self.opt.dataset.type[0], self.opt.dataset.subset_no, i)
+            else:
+                if len(self.opt.dataset.type) == 1:
+                    img, label = generate_symmetry_images.make_images(self.opt.dataset.type[0])
+                else:
+                    img, label = generate_symmetry_images.make_random(self.opt.dataset.type)
+            if i % (self.opt.dataset.num_images_training / 50) == 0:
+                print()
+                print(label)
+                print(str(img))
             X.append(np.uint8(img))
             labels.append(np.uint8(label))
 
@@ -65,13 +73,17 @@ class SymmetryDataset(data.Dataset):
         labels = []
         for i in range(int(self.opt.dataset.num_images_testing)):
             if not i % 100:
-                print('Data: {}/{}'.format(i, int(self.opt.dataset.num_images_testing)))
+                print('Data: {}/{}, Category: {}'.format(i, int(self.opt.dataset.num_images_testing), self.opt.dataset.type))
                 sys.stdout.flush()
-
-            if len(self.opt.dataset.type) == 1:
-                img, label = generate_symmetry_images.make_images(self.opt.dataset.type[0])
+            if 92 < self.opt.dataset.ID < 96 or 112 < self.opt.dataset.ID < 119:
+                img, label = get_natural_images.get_natural_image(self.opt.dataset.type[0], i)
+            elif 119 <= self.opt.dataset.ID:
+                img, label = get_natural_images.get_natural_image_subset(self.opt.dataset.type[0], self.opt.dataset.subset_no, i)
             else:
-                img, label = generate_symmetry_images.make_random(self.opt.dataset.type)
+                if len(self.opt.dataset.type) == 1:
+                    img, label = generate_symmetry_images.make_images(self.opt.dataset.type[0])
+                else:
+                    img, label = generate_symmetry_images.make_random(self.opt.dataset.type)
 
             X.append(np.uint8(img))
             labels.append(np.uint8(label))

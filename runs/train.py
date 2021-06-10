@@ -28,12 +28,13 @@ def run(opt):
     #     quit()
 
     #print(opt.hyper.complex_crossing)
-    print(opt.hyper.init_factor)
-    print(opt.hyper.max_num_epochs)
-    print(opt.hyper.learning_rate)
-    print(opt.hyper.alpha)
-    print(opt.hyper.batch_size)
+    print("INIT ", opt.hyper.init_factor)
+    print("Max epochs ", opt.hyper.max_num_epochs)
+    print("lr ", opt.hyper.learning_rate)
+    print("alpha ", opt.hyper.alpha)
+    print("batch size ", opt.hyper.batch_size)
     # print("Iterations: {}".format(opt.dnn.n_t))
+    print("Training: {}".format(opt.dataset.type))
 
     #tf.logging.set_verbosity(tf.logging.INFO)
 
@@ -78,17 +79,18 @@ def run(opt):
 
     # Get data from dataset dataset
     image, y_ = iterator.get_next()
-    # print("\n\nLABEL", y_)
-    # print(y_.shape)
     y_ = tf.reshape(tensor=y_, shape=[opt.hyper.batch_size])
-    # print("RESHAPED LABEL:")
-    # print(y_)
-    # print(y_.shape)
+    # if opt.train_with_noise:
+    #     print("\nTRAINING WITH NOISE {}".format(opt.hyper.noise_sdev))
+    #     noise = tf.random.normal(tf.shape(image), mean=0.0, stddev=opt.hyper.noise_sdev)
+    #     image = image + noise
 
     # Call DNN
     dropout_rate = tf.placeholder(tf.float32)
     to_call = getattr(nets, opt.dnn.name)
     y, parameters, activations = to_call(image, opt, dropout_rate, len(dataset.list_labels)*dataset.num_outputs)
+
+    print(y.shape)
     print("\n\nUSING NETWORK:", opt.dnn.name)
     print("\n\nUSING DATASET:", dataset.categories)
     # print("PREDICTION", y)
@@ -106,7 +108,7 @@ def run(opt):
 
 
         # flat_y_ = tf.reshape(tensor=y_, shape=[-1, opt.dataset.image_size ** 2])
-        flat_image = tf.reshape(tensor=tf.cast(image, tf.int64), shape=[-1, opt.dataset.image_size ** 2])
+        # flat_image = tf.reshape(tensor=tf.cast(image, tf.int64), shape=[-1, opt.dataset.image_size ** 2])
         # im = tf.cast((flat_image), tf.float32)
         # cl = tf.cast(flat_y_, tf.float32)
 
@@ -115,7 +117,8 @@ def run(opt):
         #If loss is for the last state
         print(y_.shape)
         cross_entropy = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=y_, logits=y)
-        cross_entropy_sum = tf.reduce_mean(tf.reduce_sum(cross_entropy))
+        # sum or mean??
+        cross_entropy_sum = tf.reduce_sum(cross_entropy)
         # if not flag_loss_per_step:
         #     print("TRAIN AT END")
         #     sys.stdout.flush()
@@ -150,37 +153,17 @@ def run(opt):
     tf.summary.scalar('weight_decay', opt.hyper.weight_decay)
 
     # Accuracy - just need standard classification accuracy. ex. look at MNIST accuracy - can just be one line of code
-    preds = tf.cast(tf.nn.softmax(y), tf.int64)
 
     with tf.name_scope('accuracy'):
-        correct_prediction = tf.equal(tf.argmax(preds, 1), y_)
+        probs = tf.nn.softmax(y)
+        preds = tf.argmax(probs, 1)
+        correct_prediction = tf.equal(preds, y_)
         accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
-        # correct_prediction = tf.equal(flat_output * (1 - flat_image), flat_y_ * (1 - flat_image))
-        # correct_prediction = tf.cast(correct_prediction, tf.float32)
-        #
-        # error_images = tf.reduce_min(correct_prediction, 1)
-        # accuracy = tf.reduce_mean(error_images)
-        #
-        # accuracy_loose = tf.reduce_mean(
-        #     0.5*tf.reduce_sum(((1 - im) * cl) * correct_prediction, 1) / tf.reduce_sum((1 - im) * cl, 1) + \
-        #     0.5*tf.reduce_sum(((1 - im) * (1 - cl)) * correct_prediction, 1) / tf.reduce_sum((1 - im) * (1 - cl), 1))
-
         tf.summary.scalar('accuracy', accuracy)
-        # tf.summary.scalar('accuracy_loose', accuracy_loose)
 
-    if opt.extense_summary:
-        tf.summary.image('input', tf.expand_dims(
-            tf.reshape(tf.cast(flat_image, tf.float32), [-1, opt.dataset.image_size, opt.dataset.image_size]), 3))
-            #image, 3))
-        # tf.summary.image('output', y)
-        # tf.summary.image('output1', tf.expand_dims(
-        #     tf.reshape(tf.cast(flat_y[:,:,0], tf.float32), [-1, opt.dataset.image_size, opt.dataset.image_size]), 3))
-        # tf.summary.image('output2', tf.expand_dims(
-        #     tf.reshape(tf.cast(flat_y[:,:,1], tf.float32), [-1, opt.dataset.image_size, opt.dataset.image_size]), 3))
-        # tf.summary.image('gt', tf.expand_dims(
-        #     tf.reshape(tf.cast(flat_y_, tf.float32), [-1, opt.dataset.image_size, opt.dataset.image_size]), 3))
-        # tf.summary.image('correctness', tf.expand_dims(
-        #     tf.reshape(tf.cast(correct_prediction, tf.float32), [-1, opt.dataset.image_size, opt.dataset.image_size]), 3))
+    # if opt.extense_summary:
+    #     tf.summary.image('input', tf.expand_dims(
+    #         tf.reshape(tf.cast(flat_image, tf.float32), [-1, opt.dataset.image_size, opt.dataset.image_size]), 3))
 
     ################################################################################################
 
@@ -193,7 +176,8 @@ def run(opt):
             # Set up Gradient Descent
             ################################################################################################
             all_var = tf.trainable_variables()
-
+            print("\n\n TRAINABLE VARIABLES")
+            print(tf.trainable_variables())
             train_step = tf.train.MomentumOptimizer(learning_rate=lr, momentum=opt.hyper.momentum).minimize(total_loss, var_list=all_var)
             inc_global_step = tf.assign_add(global_step, 1, name='increment')
 
@@ -212,8 +196,7 @@ def run(opt):
             saver = tf.train.Saver(max_to_keep=opt.max_to_keep_checkpoints)
 
             # Automatic restore model, or force train from scratch
-
-
+            # opt.restart = True
             # Set up directories and checkpoints
             if not os.path.isfile(opt.log_dir_base + opt.name + '/models/checkpoint'):
                 print("INIT")
@@ -268,10 +251,13 @@ def run(opt):
                     if iStep == 0:
                         # !train_step
                         print("* epoch: " + str(float(k) / float(dataset.num_images_epoch)))
-                        summ, acc_train, tl = sess.run([merged, accuracy, total_loss],
+                        logits, labels, summ, acc_train, tl = sess.run([y, y_, merged, accuracy, total_loss],
                                                         feed_dict={handle: training_handle,
                                                                    dropout_rate: opt.hyper.drop_train})
                         train_writer.add_summary(summ, k)
+                        # print(str(image[2]))
+                        print('logits: ' + str(logits))
+                        print('labels: ' + str(labels))
                         print("train acc: " + str(acc_train))
                         print("train loss: " + str(tl))
                         sys.stdout.flush()

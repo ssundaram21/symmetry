@@ -61,10 +61,10 @@ def MultiLSTM_init(data, opt, dropout_rate, labels_id):
     act_state2 = []
     out_1 = []
     out_2 = []
-    weights1 = tf.get_variable('W1', shape=(1, 64), initializer = tf.compat.v1.initializers.glorot_uniform())
-    bias1 = tf.get_variable('B1', shape=(64), initializer = tf.compat.v1.initializers.glorot_uniform())
-    weights2 = tf.get_variable('W2', shape=(1, 512), initializer=tf.compat.v1.initializers.glorot_uniform())
-    bias2 = tf.get_variable('B2', shape=(512), initializer=tf.compat.v1.initializers.glorot_uniform())
+    # weights1 = tf.get_variable('W1', shape=(1, 64), initializer = tf.compat.v1.initializers.glorot_uniform())
+    # bias1 = tf.get_variable('B1', shape=(64), initializer = tf.compat.v1.initializers.glorot_uniform())
+    # weights2 = tf.get_variable('W2', shape=(1, 512), initializer=tf.compat.v1.initializers.glorot_uniform())
+    # bias2 = tf.get_variable('B2', shape=(512), initializer=tf.compat.v1.initializers.glorot_uniform())
 
     with tf.variable_scope("scp") as scope:
         for i in range(n_t):
@@ -91,10 +91,10 @@ def MultiLSTM_init(data, opt, dropout_rate, labels_id):
         print("\n\nFLAT SHAPE:", flat.shape)
 
     with tf.variable_scope("fully_connected") as scope:
-        fc1_out = tf.contrib.layers.fully_connected(flat, num_outputs=512, activation_fn=tf.nn.relu, scope=scope)
+        fc1_out = tf.contrib.layers.fully_connected(flat, num_outputs=512, activation_fn=tf.nn.relu)
         print("\n\nFC1 OUTPUT SHAPE:", fc1_out.shape)
 
-        fc2_out = tf.contrib.layers.fully_connected(fc1_out, num_outputs=2, activation_fn=tf.nn.relu, scope=scope)
+        fc2_out = tf.contrib.layers.fully_connected(fc1_out, num_outputs=2, activation_fn=None)
         print("\n\nFC2 OUTPUT SHAPE:", fc2_out.shape)
 
     if opt.dnn.train_per_step:

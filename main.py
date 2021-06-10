@@ -62,6 +62,9 @@ elif FLAGS.network == "multi_lstm":
 elif FLAGS.network == "multi_lstm_init":
     from experiments import multi_lstm_init as experiment
     output_path = output_path + "multi_lstm_init/"
+elif FLAGS.network == "LSTM3":
+    from experiments import LSTM3 as experiment
+    output_path = output_path + "lstm3/"
 elif FLAGS.network == "unet":
     from experiments import unet as experiment
     output_path = output_path + "unet/"
@@ -97,6 +100,11 @@ def run_cross_dataset_hamming(id):
     run_opt = experiment.generate_experiments_dataset(opt_data[id])
     cross_dataset_hamming.run(run_opt, opt_data)
 
+def run_data_check(id):
+    from runs import data_check
+    opt_data = datasets.get_datasets(output_path)
+    run_opt = experiment.generate_experiments_dataset(opt_data[id])
+    data_check.run(run_opt, output_path)
 
 def get_dataset_as_numpy(id):
     from runs import get_dataset_as_numpy
@@ -163,6 +171,7 @@ switcher = {
     'generate_dataset_mix': run_generate_dataset_mix,
     'dataset_hamming': run_dataset_hamming,
     'cross_dataset_hamming': run_cross_dataset_hamming,
+    'data_check': run_data_check,
     'get_dataset_as_numpy': get_dataset_as_numpy,
     'train': run_train,
     'get_train_errors': get_train_errors,

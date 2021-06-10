@@ -1,11 +1,12 @@
 #!/bin/bash
 #SBATCH -c 2
-#SBATCH --array=0-162
-#SBATCH --job-name=MultiLSTMInit
+#SBATCH --array=385-475
+#SBATCH --job-name=lstm_train
 #SBATCH --mem=12GB
-#SBATCH --gres=gpu:titan-x:1
-#SBATCH -t 20:00:00
+#SBATCH --gres=gpu:1
+#SBATCH --constraint=any-gpu
 #SBATCH --partition=cbmm
+#SBATCH -t 20:00:00
 #SBATCH -D ./log/
 
 cd /om/user/shobhita/src/symmetry/
@@ -18,7 +19,7 @@ singularity exec -B /om:/om --nv /om/user/xboix/singularity/xboix-tensorflow1.14
 python /om/user/shobhita/src/symmetry/main.py \
 --experiment_index=${SLURM_ARRAY_TASK_ID} \
 --host_filesystem=om-shobhita \
---network=multi_lstm_init \
+--network=LSTM3 \
 --run=train
 
 

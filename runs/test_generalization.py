@@ -13,11 +13,11 @@ def get_dataset_handlers(opt, opt_datasets):
     datasets = []
     test_datasets = []
     test_iterators = []
-    if opt.dataset.dataset_name == 'insideness':
-        from data import insideness_data
+    if opt.dataset.dataset_name == 'symmetry':
+        from data import symmetry_data
         for opt_dataset in opt_datasets:
             opt.dataset = opt_dataset
-            datasets += [insideness_data.InsidenessDataset(opt)]
+            datasets += [symmetry_data.SymmetryDataset(opt)]
             test_datasets += [datasets[-1].create_dataset(augmentation=False, standarization=False, set_name='test',
                                                   repeat=True)]
             test_iterators += [test_datasets[-1].make_initializable_iterator()]
@@ -40,30 +40,19 @@ def test_generalization(opt, opt_datasets, datasets, test_datasets, test_iterato
     ################################################################################################
     # Get data from dataset dataset
     image, y_ = iterator.get_next()
+    y_ = tf.reshape(tensor=y_, shape=[opt.hyper.batch_size])
 
     # Call DNN
     dropout_rate = tf.placeholder(tf.float32)
     to_call = getattr(nets, opt.dnn.name)
     y, parameters, _ = to_call(image, opt, dropout_rate, len(datasets[0].list_labels)*datasets[0].num_outputs)
 
-    flat_y = tf.reshape(tensor=y, shape=[-1, opt.dataset.image_size ** 2, len(datasets[0].list_labels)])
-    flat_y_ = tf.reshape(tensor=y_, shape=[-1, opt.dataset.image_size ** 2])
-    flat_image = tf.reshape(tensor=tf.cast(image, tf.int64), shape=[-1, opt.dataset.image_size ** 2])
-
     with tf.name_scope('accuracy'):
-        flat_output = tf.argmax(flat_y, 2)
-        correct_prediction = tf.equal(flat_output * (1 - flat_image), flat_y_ * (1 - flat_image))
-        correct_prediction = tf.cast(correct_prediction, tf.float32)
-        error_images = tf.reduce_min(correct_prediction, 1)
-        accuracy = tf.reduce_mean(error_images)
+        probs = tf.nn.softmax(y)
+        preds = tf.argmax(probs, 1)
+        correct_prediction = tf.equal(preds, y_)
+        accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
         tf.summary.scalar('accuracy', accuracy)
-
-        cl = tf.cast(flat_y_, tf.float32)
-        im = tf.cast((flat_image), tf.float32)
-        accuracy_loose = tf.reduce_mean(
-            0.5*tf.reduce_sum(((1 - im) * cl) * correct_prediction, 1) / tf.reduce_sum((1 - im) * cl, 1) + \
-            0.5*tf.reduce_sum(((1 - im) * (1 - cl)) * correct_prediction, 1) / tf.reduce_sum((1 - im) * (1 - cl), 1))
-
 
     ################################################################################################
 
@@ -106,28 +95,35 @@ def test_generalization(opt, opt_datasets, datasets, test_datasets, test_iterato
         if flag_testable:
             acc = {}
             acc['test_accuracy'] = {}
-            acc['test_accuracy_loose'] = {}
+            # acc['test_probs'] = {}
+            # acc['labels'] = {}
+            # acc['images'] = {}
             for opt_dataset, dataset, test_handle, test_iterator in \
                     zip(opt_datasets, datasets, test_handles, test_iterators):
 
                 # Run one pass over a batch of the test dataset.
                 sess.run(test_iterator.initializer)
                 acc_tmp = 0.0
-                acc_tmp_loo = 0.0
+                # probs_tmp = []
+                # labels_tmp = []
+                # images_tmp = []
                 total = 0
                 for num_iter in range(int(dataset.num_images_test / opt.hyper.batch_size)+1):
 
-                    acc_val, acc_loo, a = sess.run([accuracy, accuracy_loose,  flat_output], feed_dict={handle: test_handle,
-                                                              dropout_rate: opt.hyper.drop_test})
-                    acc_tmp += acc_val * len(a)
-                    acc_tmp_loo += acc_loo * len(a)
-                    total += len(a)
+                    image_val, label_val, prob_val, acc_val = sess.run([image, y_, probs, accuracy], feed_dict={handle: test_handle, dropout_rate: opt.hyper.drop_test})
+                    acc_tmp += acc_val
+                    # probs_tmp.append(prob_val)
+                    # labels_tmp.append(label_val)
+                    # images_tmp.append(image_val)
+                    total += 1
 
                 print(total)
                 acc['test_accuracy'][opt_dataset.ID] = acc_tmp / float(total)
-                acc['test_accuracy_loose'][opt_dataset.ID] = acc_tmp_loo / float(total)
+                # acc['test_probs'][opt_dataset.ID] = probs_tmp
+                # acc['labels'][opt_dataset.ID] = labels_tmp
+                # acc['images'][opt_dataset.ID] = images_tmp
+                print("\nFor dataset {}: ".format(opt_dataset.ID, opt_dataset.type))
                 print("Full test acc: " + str(acc['test_accuracy'][opt_dataset.ID]))
-                print("Full test acc loose: " + str(acc['test_accuracy_loose'][opt_dataset.ID]))
                 sys.stdout.flush()
 
         else:
@@ -150,39 +146,76 @@ def run(opt, opt_datasets):
     print(opt.name)
     ################################################################################################
 
-
     ################################################################################################
     # Define training and validation datasets through Dataset API
     ################################################################################################
-
-    #TODO: write a loop that goes for groups of datasets with same image size
-    datasets, test_datasets, test_iterators = get_dataset_handlers(opt, opt_datasets[40:50])
-    acc_tmp1 = test_generalization(opt, opt_datasets[40:50], datasets, test_datasets, test_iterators)
+    indices = [(20, 30), (45, 51), (59, 63), (83, 93), (114, 116), (119, 139)]
+    # indices = [(114, 116)]
+    curr_datasets = opt_datasets[indices[0][0]:indices[0][1]]
+    datasets, test_datasets, test_iterators = get_dataset_handlers(opt, curr_datasets)
+    acc_tmp0 = test_generalization(opt, curr_datasets, datasets, test_datasets, test_iterators)
     tf.reset_default_graph()
 
-    datasets, test_datasets, test_iterators = get_dataset_handlers(opt, [opt_datasets[50]])
-    acc_tmp2 = test_generalization(opt, [opt_datasets[50]], datasets, test_datasets, test_iterators)
+    curr_datasets = opt_datasets[indices[1][0]:indices[1][1]]
+    datasets, test_datasets, test_iterators = get_dataset_handlers(opt, curr_datasets)
+    acc_tmp1 = test_generalization(opt, curr_datasets, datasets, test_datasets, test_iterators)
     tf.reset_default_graph()
 
-    datasets, test_datasets, test_iterators = get_dataset_handlers(opt, [opt_datasets[51]])
-    acc_tmp3 = test_generalization(opt, [opt_datasets[51]], datasets, test_datasets, test_iterators)
+    curr_datasets = opt_datasets[indices[2][0]:indices[2][1]]
+    datasets, test_datasets, test_iterators = get_dataset_handlers(opt, curr_datasets)
+    acc_tmp2 = test_generalization(opt, curr_datasets, datasets, test_datasets, test_iterators)
     tf.reset_default_graph()
 
-    datasets, test_datasets, test_iterators = get_dataset_handlers(opt, [opt_datasets[53]])
-    acc_tmp4 = test_generalization(opt, [opt_datasets[53]], datasets, test_datasets, test_iterators)
+    curr_datasets = opt_datasets[indices[3][0]:indices[3][1]]
+    datasets, test_datasets, test_iterators = get_dataset_handlers(opt, curr_datasets)
+    acc_tmp3 = test_generalization(opt, curr_datasets, datasets, test_datasets, test_iterators)
     tf.reset_default_graph()
 
-    acc={}
-    acc['test_accuracy'] = {**acc_tmp1['test_accuracy'], **acc_tmp2['test_accuracy'], **acc_tmp3['test_accuracy'], **acc_tmp4['test_accuracy']}
-    acc['test_accuracy_loose'] = {**acc_tmp1['test_accuracy_loose'], **acc_tmp2['test_accuracy_loose'], **acc_tmp3['test_accuracy_loose'], **acc_tmp4['test_accuracy_loose']}
+    curr_datasets = opt_datasets[indices[4][0]:indices[4][1]]
+    datasets, test_datasets, test_iterators = get_dataset_handlers(opt, curr_datasets)
+    acc_tmp4 = test_generalization(opt, curr_datasets, datasets, test_datasets, test_iterators)
+    tf.reset_default_graph()
 
+    curr_datasets = opt_datasets[indices[5][0]:indices[5][1]]
+    datasets, test_datasets, test_iterators = get_dataset_handlers(opt, curr_datasets)
+    acc_tmp5 = test_generalization(opt, curr_datasets, datasets, test_datasets, test_iterators)
+    tf.reset_default_graph()
+
+    # results = {**acc_tmp0['test_accuracy']}
+    results = {**acc_tmp0['test_accuracy'], **acc_tmp1['test_accuracy'], **acc_tmp2['test_accuracy'], **acc_tmp3['test_accuracy'], **acc_tmp4['test_accuracy'], **acc_tmp5['test_accuracy']}
+    # results = {**acc_tmp0['test_accuracy'], **acc_tmp1['test_accuracy'], **acc_tmp2['test_accuracy'], **acc_tmp3['test_accuracy'], **acc_tmp4['test_accuracy'], **acc_tmp5['test_accuracy']}
+    # results = {'acc': acc_tmp0['test_accuracy'], 'probs': acc_tmp0['test_probs'], 'labels': acc_tmp0['labels'], 'images': acc_tmp0['images']}
+
+
+    #     tf.reset_default_graph()
+    # #TODO: write a loop that goes for groups of datasets with same image size
+    # datasets, test_datasets, test_iterators = get_dataset_handlers(opt, opt_datasets[0:10])
+    # acc_tmp1 = test_generalization(opt, opt_datasets[40:50], datasets, test_datasets, test_iterators)
+    # tf.reset_default_graph()
+    #
+    # datasets, test_datasets, test_iterators = get_dataset_handlers(opt, [opt_datasets[50]])
+    # acc_tmp2 = test_generalization(opt, [opt_datasets[50]], datasets, test_datasets, test_iterators)
+    # tf.reset_default_graph()
+    #
+    # datasets, test_datasets, test_iterators = get_dataset_handlers(opt, [opt_datasets[51]])
+    # acc_tmp3 = test_generalization(opt, [opt_datasets[51]], datasets, test_datasets, test_iterators)
+    # tf.reset_default_graph()
+    #
+    # datasets, test_datasets, test_iterators = get_dataset_handlers(opt, [opt_datasets[53]])
+    # acc_tmp4 = test_generalization(opt, [opt_datasets[53]], datasets, test_datasets, test_iterators)
+    # tf.reset_default_graph()
+
+    # acc={}
+    # acc['test_accuracy'] = {**acc_tmp1['test_accuracy'], **acc_tmp2['test_accuracy'], **acc_tmp3['test_accuracy'], **acc_tmp4['test_accuracy']}
+    # acc['test_accuracy_loose'] = {**acc_tmp1['test_accuracy_loose'], **acc_tmp2['test_accuracy_loose'], **acc_tmp3['test_accuracy_loose'], **acc_tmp4['test_accuracy_loose']}
+    # acc['test_accuracy'] = {**acc_tmp1['test_accuracy']}
     import pickle
 
     if not os.path.exists(opt.log_dir_base + opt.name + '/results'):
         os.makedirs(opt.log_dir_base + opt.name + '/results')
 
-    with open(opt.log_dir_base + opt.name + '/results/generalization_accuracy_60_full2.pkl', 'wb') as f:
-        pickle.dump(acc, f)
+    with open(opt.log_dir_base + opt.name + '/results/generalization_accuracy_generalization_test_4_16.pkl', 'wb') as f:
+        pickle.dump(results, f)
 
     print(":)")
 

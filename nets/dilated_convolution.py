@@ -53,7 +53,20 @@ def model(incoming, channels, dilations, name="model", wd=0.0):
             h = relu(h, name='relu_{}'.format(i+1))
             act.append(h)
 
-    return h, act
+
+        ##### # Fix the hardcoded channel numbers!
+        flat = tf.reshape(h, [-1, 64*400])
+
+        fc1_out = tf.contrib.layers.fully_connected(flat, num_outputs=512, activation_fn=tf.nn.relu)
+        act.append(fc1_out)
+        print("\n\nFC1 OUTPUT SHAPE:", fc1_out.shape)
+
+        fc2_out = tf.contrib.layers.fully_connected(fc1_out, num_outputs=2, activation_fn=None)
+        act.append(fc2_out)
+        print("\n\nFC2 OUTPUT SHAPE:", fc2_out.shape)
+
+
+    return fc2_out, act
 
 
 def Dilated_convolution(data, opt, dropout_rate, labels_id):
@@ -67,9 +80,9 @@ def Dilated_convolution(data, opt, dropout_rate, labels_id):
 
     if num_layers>9:
         import numpy as np
-        channels = [2*channel_rate] + [np.minimum((2**i) * channel_rate, 256) for i in range(1, num_layers-1)] + [2]
+        channels = [2*channel_rate] + [np.minimum((2**i) * channel_rate, 256) for i in range(1, num_layers-1)] + [64]
     else:
-        channels = [2*channel_rate] + [(2**i) * channel_rate for i in range(1, num_layers-1)] + [2]
+        channels = [2*channel_rate] + [(2**i) * channel_rate for i in range(1, num_layers-1)] + [64]
 
     if no_dilation:
         dilations = [1 for _ in range(num_layers)]
