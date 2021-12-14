@@ -90,4 +90,4 @@ def Dilated_convolution(data, opt, dropout_rate, labels_id):
         dilations = [1] + [(2**i) for i in range(num_layers-3)] + [1, 1]
 
     predictions, activations = model(data, channels, dilations, wd=opt.hyper.weight_decay)
-    return predictions, [], predictions#activations
+    return predictions, [], activations

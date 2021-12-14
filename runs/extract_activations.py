@@ -154,11 +154,11 @@ def run(opt, opt_datasets):
         extract_activations_dataset(opt, [opt_datasets[i]], datasets, test_datasets, test_iterators)
         tf.reset_default_graph()
     #
-    # # Flank datasets
-    # for i in range(45, 51):
-    #     datasets, test_datasets, test_iterators = get_dataset_handlers(opt, [opt_datasets[i]])
-    #     extract_activations_dataset(opt, [opt_datasets[i]], datasets, test_datasets, test_iterators)
-    #     tf.reset_default_graph()
+    # Flank datasets
+    for i in range(45, 51):
+        datasets, test_datasets, test_iterators = get_dataset_handlers(opt, [opt_datasets[i]])
+        extract_activations_dataset(opt, [opt_datasets[i]], datasets, test_datasets, test_iterators)
+        tf.reset_default_graph()
     #
     # # Diff datasets
     # for i in range(59, 63):

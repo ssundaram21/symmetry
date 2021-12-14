@@ -319,7 +319,7 @@ def get_datasets(output_path):
     # ID 119-128
     for k, num_data in enumerate([500]*10):
         # Create base for TF records:
-        img_type = f"natTestSubset"
+        img_type = "natTestSubset"
         opt_handle = Dataset(idx, "Cat" + str(img_type) + '_' + "D" + str(k), output_path)
         opt_handle.subset_no = k
         opt_handle.num_images_training = num_data
@@ -333,7 +333,7 @@ def get_datasets(output_path):
     # ID 129-138
     for k, num_data in enumerate([500]*10):
         # Create base for TF records:
-        img_type = f"natTestMirrorSubset"
+        img_type = "natTestMirrorSubset"
         opt_handle = Dataset(idx, "Cat" + str(img_type) + '_' + "D" + str(k), output_path)
         opt_handle.subset_no = k
         opt_handle.num_images_training = num_data

@@ -242,26 +242,30 @@ def get_experiments(output_path):
 
     return opt
 
-
-def get_best_of_the_family(output_path):
+def get_best_of_the_family(output_path, id=None):
 
     opt_pre_cossval = get_experiments(output_path)
 
-    with open(output_path + 'selected_models.pkl', 'rb') as f:
-        cross = pickle.load(f)
+    if id is None:
+        with open(output_path + 'selected_models.pkl', 'rb') as f:
+            cross = pickle.load(f)
 
-    opt =[]
+        print(cross)
 
-    for k in range(1, cross['num_families']+1):
-        if not k in cross:
-            continue
+        opt =[]
 
-        print(cross[k]['ID'])
-        opt_handle = opt_pre_cossval[int(cross[k]['ID'])]
-        opt += [copy.deepcopy(opt_handle)]
+        for k in range(0, cross['num_families']+1):
+            if not k in cross:
+                continue
+
+            print(cross[k]['ID'])
+            opt_handle = opt_pre_cossval[int(cross[k]['ID'])]
+            opt += [copy.deepcopy(opt_handle)]
+    else:
+        opt_handle = opt_pre_cossval[int(id)]
+        opt = copy.deepcopy(opt_handle)
 
     return opt
-
 
 def get_experiments_selected(output_path):
 
