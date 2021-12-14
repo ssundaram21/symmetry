@@ -1,8 +1,12 @@
-# symmetry
+# Symmetry with deep neural networks
 
-experiments.py: defines the set of networks to train and evaluate
+## Authors
+* Shobhita Sundaram (shobhita@mit.edu)
+* Darius Sinha
+* Matthew Groth
+* Tomotake Sasaki
+* Xavier Boix (xboix@mit.edu)
 
-train.py: trains the networks
 
 ## To launch a training of all the networks:
 
