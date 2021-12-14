@@ -13,6 +13,10 @@ Network training is implemented in Tensorflow 1.14. To guarante that things will
 ## Data
 All synthetic datasets can be created with the script `runs/generate_data.py`.
 
-## To launch a training of all the networks:
+## Experiment Set 1
+Instructions for running experiment set 1 from the command line and link to Colab.
 
-util/array_training.sh
+## Experiment Set 2
+Instructions for running experiment set 2 from the command line.
+
+
