@@ -10,7 +10,7 @@
 ## Object Recognition DNNs and Transformers
 
 ### Running experiments (ImageNet DNNs)
-To run a demo with six object recognition DNNs pretrained on ImageNet, run this Google Colab notebook: https://colab.research.google.com/drive/1KVWLFfWGodMnS5VZrJXFplOkQeBW6Cwq#scrollTo=5Ey_wN2gaMpw
+To run a demo with six object recognition DNNs pretrained on ImageNet, run [this Google Colab notebook] (https://colab.research.google.com/drive/1KVWLFfWGodMnS5VZrJXFplOkQeBW6Cwq#scrollTo=5Ey_wN2gaMpw).
 
 ### Running experiments (CLIP Transformer)
 To get synthetic and natural data for transfer-training and testing the CLIP transformer, run `Symmetry dataset.ipynb`.
