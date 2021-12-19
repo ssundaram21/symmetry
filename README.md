@@ -9,23 +9,12 @@
 
 ## Object Recognition DNNs and Transformers
 
-### Setup
-Network training is implemented in Tensorflow 2.5.0. To guarante that things will successfully run, use the docker image from https://hub.docker.com/r/xboixbosch/tf2.5.0.
-
-### Data
-Training and testing datasets can be downloaded from ___.
-
 ### Running experiments (ImageNet DNNs)
-To run the full experiments training/testing DNNs pretrained with ImageNet (with end-to-end finetining), run `run_full_experiment_set_1.py --idx={network-id}`. 
-
-To run the experiments without finetuning run `run_full_experiment_set_1_no_finetuning.py --idx={network-id}`
-
-Note that `network-id` specifies the identifier of a network-hyperparameter pairing as defined in the script. Make sure to update data, result, and model directories.
-
 To run a demo with six object recognition DNNs pretrained on ImageNet, run this Google Colab notebook: https://colab.research.google.com/drive/1KVWLFfWGodMnS5VZrJXFplOkQeBW6Cwq#scrollTo=5Ey_wN2gaMpw
 
 ### Running experiments (CLIP Transformer)
-
+To generate data for transfer-training and testing the CLIP transformer, run `Symmetry dataset.ipynb`
+To run the experiment, run `Symmetry_Interacting_with_CLIP.ipynb`
 
 ## Dilated Convolutional Neural Network and LSTM
 
