@@ -10,13 +10,29 @@
 ## Setup
 Network training is implemented in Tensorflow 1.14. To guarante that things will successfully run, use the docker image from https://hub.docker.com/r/xboixbosch/tf1.14.
 
+All networks are associated with Experiment objects. Each Experiment object has an unique identifier and defines the network, hyperparameters, and training dataset for that experiment. The Experiment objects for each network are defined in `experiments/{network name}.py`. 
+
+The entry point for generating data and running experiments is `main.py`, run as follows:
+```
+python /om/user/shobhita/src/symmetry/main.py \
+--experiment_index=${dataset_id} \
+--code_path={your-code-path} \
+--output_path={your-output-path}
+--run={script-name} \
+--network={network-name}
+```
+
 ## Data
-All synthetic datasets can be created with the script `runs/generate_data.py`.
+All synthetic datasets can be created with `script-name = generate_dataset`
+
+Note that the network is specified as the network that the dataset will be used for (one of `LSTM3`, `dilation`, or `multi_lstm_init`).
 
 ## Experiment Set 1
-Instructions for running experiment set 1 from the command line and link to Colab.
+
 
 ## Experiment Set 2
-Instructions for running experiment set 2 from the command line.
+The Dilated and LSTM networks can be trained with `script-name = train`.
+
+
 
 
