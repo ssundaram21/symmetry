@@ -13,8 +13,9 @@
 To run a demo with six object recognition DNNs pretrained on ImageNet, run this Google Colab notebook: https://colab.research.google.com/drive/1KVWLFfWGodMnS5VZrJXFplOkQeBW6Cwq#scrollTo=5Ey_wN2gaMpw
 
 ### Running experiments (CLIP Transformer)
-To generate data for transfer-training and testing the CLIP transformer, run `Symmetry dataset.ipynb`
-To run the experiment, run `Symmetry_Interacting_with_CLIP.ipynb`
+To generate data for transfer-training and testing the CLIP transformer, run `Symmetry dataset.ipynb`.
+
+To run the experiment, run `Symmetry_Interacting_with_CLIP.ipynb`.
 
 ## Dilated Convolutional Neural Network and LSTM
 
