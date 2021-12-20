@@ -26,7 +26,6 @@ def run(opt):
     print("lr ", opt.hyper.learning_rate)
     print("alpha ", opt.hyper.alpha)
     print("batch size ", opt.hyper.batch_size)
-    # print("Iterations: {}".format(opt.dnn.n_t))
     print("Training: {}".format(opt.dataset.type))
 
     ################################################################################################
