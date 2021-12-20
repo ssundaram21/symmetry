@@ -1,4 +1,4 @@
-NET = 'dilation'
+NET = 'lstm3'
 
 import sys
 import datasets
@@ -7,7 +7,17 @@ import os
 import copy
 import numpy as np
 import matplotlib.pyplot as plt
+import argparse
 from matplotlib.font_manager import FontProperties
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--network', type=str, required=True)
+parser.add_argument('--idx', type=int, required=True)
+
+FLAGS = parser.parse_args()
+
+NET = FLAGS.network
+network_id = FLAGS.idx
 
 if NET == 'dilation':
     import experiments.dilation as experiments
@@ -29,16 +39,15 @@ elif NET == 'FF':
     import experiments.FF as experiments
 elif NET == 'optimal_lstm':
     import experiments.optimal_lstm as experiments
-elif NET == 'lstm3':
+elif NET == 'LSTM3':
     import experiments.LSTM3 as experiments
 
-output_path = '/om/user/shobhita/data/symmetry/' + NET + '/'
-network_id = 54 #specific ID we want to get activations for
+output_path = '/om/user/shobhita/data/symmetry/' + NET.lower() + '/'
 run_opt = experiments.get_best_of_the_family(output_path, network_id)
 opt_datasets = datasets.get_datasets(output_path)
 
-SYMMETRIC_DATASETS = [opt_datasets[45], opt_datasets[47], opt_datasets[49]]
-NONSYMMETRIC_DATASETS = [opt_datasets[46], opt_datasets[48], opt_datasets[50]]
+SYMMETRIC_DATASETS = opt_datasets[25:30] + [opt_datasets[45], opt_datasets[47], opt_datasets[49]]
+NONSYMMETRIC_DATASETS = opt_datasets[20:25] + [opt_datasets[46], opt_datasets[48], opt_datasets[50]]
 
 full_results = []
 print("STARTING")
@@ -59,8 +68,11 @@ for datasets in [SYMMETRIC_DATASETS, NONSYMMETRIC_DATASETS]:
                 for j in range(batch_size):
                     if count == n:
                         break
-                    # new_dp = -data_point[i][0][-1][0][j]
-                    new_dp = data_point[i][0][-2][j]
+                    if NET == "LSTM3":
+                        new_dp = -data_point[i][0][-1][0][j]
+                    else:
+                        new_dp = data_point[i][0][-2][j]
+                    assert new_dp.shape[0] == 512
                     activations.append(new_dp)
                     count += 1
 
