@@ -18,6 +18,7 @@ hostname
 singularity exec -B /om:/om --nv /om/user/xboix/singularity/xboix-tensorflow1.14.simg \
 python /om/user/shobhita/src/symmetry/main.py \
 --experiment_index=${SLURM_ARRAY_TASK_ID} \
---host_filesystem=om-shobhita \
---network=dilation \
---run=extract_activations
+--code_path="/om/user/shobhita/src/symmetry/" \
+--output_path='om-shobhita': '/om/user/shobhita/data/symmetry/' \
+--run=extract_activations \
+--network=LSTM3

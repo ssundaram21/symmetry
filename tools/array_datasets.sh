@@ -15,7 +15,8 @@ cd /om/user/shobhita/src/symmetry/
 singularity exec -B /om:/om  --nv /om/user/xboix/singularity/xboix-tensorflow1.14.simg \
 python /om/user/shobhita/src/symmetry/main.py \
 --experiment_index=${SLURM_ARRAY_TASK_ID} \
---host_filesystem=om-shobhita \
+--code_path="/om/user/shobhita/src/symmetry/" \
+--output_path='om-shobhita': '/om/user/shobhita/data/symmetry/' \
 --run=generate_dataset \
 --network=LSTM3
 

@@ -8,67 +8,29 @@ from experiments import *
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--experiment_index', type=int, required=True)
-parser.add_argument('--host_filesystem', type=str, required=True)
+parser.add_argument('--code_path', type=str, required=True)
+parser.add_argument('--output_path', type=str, required=True)
 parser.add_argument('--run', type=str, required=True)
 parser.add_argument('--network', type=str, required=True)
 parser.add_argument('--error_correction', action='store_true')
 
 FLAGS = parser.parse_args()
 
+code_path = FLAGS.code_path
+output_path = FLAGS.output_path
 
-code_path = {
-    'om-shobhita': '/om/user/shobhita/src/symmetry/'}[FLAGS.host_filesystem]
-
-output_path = {
-    'om-shobhita': '/om/user/shobhita/data/symmetry/'}[FLAGS.host_filesystem]
-
-
-if FLAGS.network == "crossing":
-    from experiments import crossing as experiment
-    output_path = output_path + "crossing/"
-if FLAGS.network == "segnet":
-    from experiments import segnet as experiment
-    output_path = output_path + "segnet/"
-elif FLAGS.network == "coloring":
-    from experiments import coloring as experiment
-    output_path = output_path + "coloring/"
-elif FLAGS.network == "coloring_debug":
-    from experiments import coloring as experiment
-    output_path = output_path + "coloring_debug/"
-elif FLAGS.network == "coloring_step":
-    from experiments import coloring_step as experiment
-    output_path = output_path + "coloring_step/"
-elif FLAGS.network == "dilation":
+if FLAGS.network == "dilation":
     from experiments import dilation as experiment
     output_path = output_path + "dilation/"
 elif FLAGS.network == "FF":
     from experiments import FF as experiment
     output_path = output_path + "FF/"
-elif FLAGS.network == "lstm":
-    from experiments import lstm as experiment
-    output_path = output_path + "lstm/"
-elif FLAGS.network == "lstm_init":
-    from experiments import lstm_init as experiment
-    output_path = output_path + "lstm_init/"
-elif FLAGS.network == "lstm_step":
-    from experiments import lstm_step as experiment
-    output_path = output_path + "lstm_step/"
-elif FLAGS.network == "optimal_lstm":
-    from experiments import optimal_lstm as experiment
-    output_path = output_path + "optimal_lstm/"
-elif FLAGS.network == "multi_lstm":
-    from experiments import multi_lstm as experiment
-    output_path = output_path + "multi_lstm/"
 elif FLAGS.network == "multi_lstm_init":
     from experiments import multi_lstm_init as experiment
     output_path = output_path + "multi_lstm_init/"
 elif FLAGS.network == "LSTM3":
     from experiments import LSTM3 as experiment
     output_path = output_path + "lstm3/"
-elif FLAGS.network == "unet":
-    from experiments import unet as experiment
-    output_path = output_path + "unet/"
-
 
 def run_generate_dataset(id):
     from runs import generate_dataset
