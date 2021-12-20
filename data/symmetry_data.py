@@ -36,10 +36,8 @@ class SymmetryDataset(data.Dataset):
                 print('Data: {}/{}, Category: {}'.format(i, int(self.opt.dataset.num_images_training), self.opt.dataset.type))
                 sys.stdout.flush()
 
-            if 92 < self.opt.dataset.ID < 96 or 112 < self.opt.dataset.ID < 119:
+            if self.opt.dataset.ID > 80:
                 img, label = get_natural_images.get_natural_image(self.opt.dataset.type[0], i)
-            elif 119 <= self.opt.dataset.ID:
-                img, label = get_natural_images.get_natural_image_subset(self.opt.dataset.type[0], self.opt.dataset.subset_no, i)
             else:
                 if len(self.opt.dataset.type) == 1:
                     img, label = generate_symmetry_images.make_images(self.opt.dataset.type[0])
@@ -75,10 +73,8 @@ class SymmetryDataset(data.Dataset):
             if not i % 100:
                 print('Data: {}/{}, Category: {}'.format(i, int(self.opt.dataset.num_images_testing), self.opt.dataset.type))
                 sys.stdout.flush()
-            if 92 < self.opt.dataset.ID < 96 or 112 < self.opt.dataset.ID < 119:
+            if self.opt.dataset.ID > 80:
                 img, label = get_natural_images.get_natural_image(self.opt.dataset.type[0], i)
-            elif 119 <= self.opt.dataset.ID:
-                img, label = get_natural_images.get_natural_image_subset(self.opt.dataset.type[0], self.opt.dataset.subset_no, i)
             else:
                 if len(self.opt.dataset.type) == 1:
                     img, label = generate_symmetry_images.make_images(self.opt.dataset.type[0])
