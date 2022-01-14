@@ -7,6 +7,9 @@
 * Tomotake Sasaki
 * Xavier Boix (xboix@mit.edu)
 
+## Data
+Our datasets (synthetic and natural) are available at https://dataverse.harvard.edu/dataverse/symmetry.
+
 ## Object Recognition DNNs and Transformers
 
 ### Running experiments (ImageNet DNNs)
