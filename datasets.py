@@ -128,26 +128,3 @@ def get_datasets(output_path):
 
         opt += [copy.deepcopy(opt_handle)]
         idx += 1
-
-
-datasets = get_datasets("/om/user/shobhita/symmetry/get_datasets_result/")
-for dataset in datasets:
-    print(
-        """
-        \n
-        id: {},
-        name: {},
-        dataset_path: {},
-        num_images_training: {},
-        num_images_testing: {},
-        type: {},
-        """
-        .format(
-            dataset.ID,
-            dataset.name,
-            dataset.dataset_path,
-            dataset.num_images_training,
-            dataset.num_images_testing,
-            dataset.type
-            )
-        )
