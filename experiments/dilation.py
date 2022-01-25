@@ -86,15 +86,15 @@ def get_experiments(output_path):
     opt = []
 
     idx_base = 0
-    opt_handle = Experiments(id=idx_base, name="Coloring", dataset=opt_data[0], output_path=output_path,
-                             family_id=0, family_name="Coloring_Optimal")
+    opt_handle = Experiments(id=idx_base, name="Dilation_D", dataset=opt_data[0], output_path=output_path,
+                             family_id=0, family_name="Dilation_D")
     opt_handle.skip_train = True
     opt_handle.dnn.name = "Crossing"
     opt_handle.dnn.n_t = 30
     opt += [copy.deepcopy(opt_handle)]
     idx_base += 1
 
-    # 54 experiments
+    # Synthetic training
     idx_family = 1
     for idx_dataset in range(30, 33):
         for c in [4]:
@@ -124,47 +124,17 @@ def get_experiments(output_path):
 
         idx_family += 1
 
-    # ID 55-379
-    for idx_dataset in range(30, 33):
+    # Natural training
+    for idx_dataset in [81]:
         for c in [4]:
             for l in [7]:
-                for alpha in [0.1, 0.2, 0.4]:
-                    for batch in [32]:
-                        for lr in [1e0, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5]:
-                            for noise_std in [1, 5, 8, 10, 12, 15]:
-                                opt_handle = Experiments(id=idx_base, name="Dilation_D" + str(idx_dataset),
-                                                         dataset=opt_data[idx_dataset], output_path=output_path,
-                                                         family_id=idx_family, family_name="Dilation_D" + str(idx_dataset))
-                                opt_handle.dnn.name = "Dilation"
-
-                                if batch == 2048:
-                                    opt_handle.skip = True
-
-                                opt_handle.hyper.max_num_epochs = 25
-                                opt_handle.dnn.num_layers = l
-                                opt_handle.dnn.complex_dilation = c
-                                opt_handle.dnn.no_dilation = False
-                                opt_handle.hyper.learning_rate = lr
-                                opt_handle.hyper.alpha = alpha
-                                opt_handle.hyper.batch_size = batch
-                                opt_handle.hyper.weight_decay = 0.0
-                                opt_handle.train_with_noise = True
-                                opt_handle.hyper.noise_sdev = noise_std
-                                opt += [copy.deepcopy(opt_handle)]
-                                idx_base += 1
-        idx_family += 1
-
-    # ID 380-398
-    for idx_dataset in range(113, 114):
-        for c in [4]:
-            for l in [7]:
+                # remove alpha
                 for alpha in [0.1, 0.2, 0.4]:
                     for batch in [32]:
                         for lr in [1e0, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5]:
                             opt_handle = Experiments(id=idx_base, name="Dilation_D" + str(idx_dataset),
                                                      dataset=opt_data[idx_dataset], output_path=output_path,
-                                                     family_id=idx_family,
-                                                     family_name="Dilation_D" + str(idx_dataset))
+                                                     family_id=idx_family, family_name="Dilation_D" + str(idx_dataset))
                             opt_handle.dnn.name = "Dilation"
 
                             if batch == 2048:
@@ -180,63 +150,6 @@ def get_experiments(output_path):
                             opt_handle.hyper.weight_decay = 0.0
                             opt += [copy.deepcopy(opt_handle)]
                             idx_base += 1
-        idx_family += 1
-
-    # ID 399-402
-    idx_family = 1
-    for idx_dataset in range(112, 113):
-        for c in [4]:
-            for l in [7]:
-                # remove alpha
-                for batch in [32]:
-                    for lr in [1e0, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5]:
-                        opt_handle = Experiments(id=idx_base, name="Dilation_D" + str(idx_dataset),
-                                                 dataset=opt_data[idx_dataset], output_path=output_path,
-                                                 family_id=idx_family,
-                                                 family_name="Dilation_D" + str(idx_dataset))
-                        opt_handle.dnn.name = "Dilation"
-
-                        if batch == 2048:
-                            opt_handle.skip = True
-
-                        opt_handle.hyper.max_num_epochs = 25
-                        opt_handle.dnn.num_layers = l
-                        opt_handle.dnn.complex_dilation = c
-                        opt_handle.dnn.no_dilation = False
-                        opt_handle.hyper.learning_rate = lr
-                        opt_handle.hyper.batch_size = batch
-                        opt_handle.hyper.weight_decay = 0.0
-                        opt_handle.restart = True
-                        opt += [copy.deepcopy(opt_handle)]
-                        idx_base += 1
-
-    # ID 403-421
-    idx_family = 1
-    for idx_dataset in range(116, 119):
-        for c in [4]:
-            for l in [7]:
-                # remove alpha
-                for batch in [32]:
-                    for lr in [1e0, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5]:
-                        opt_handle = Experiments(id=idx_base, name="Dilation_D" + str(idx_dataset),
-                                                 dataset=opt_data[idx_dataset], output_path=output_path,
-                                                 family_id=idx_family,
-                                                 family_name="Dilation_D" + str(idx_dataset))
-                        opt_handle.dnn.name = "Dilation"
-
-                        if batch == 2048:
-                            opt_handle.skip = True
-
-                        opt_handle.hyper.max_num_epochs = 25
-                        opt_handle.dnn.num_layers = l
-                        opt_handle.dnn.complex_dilation = c
-                        opt_handle.dnn.no_dilation = False
-                        opt_handle.hyper.learning_rate = lr
-                        opt_handle.hyper.batch_size = batch
-                        opt_handle.hyper.weight_decay = 0.0
-                        opt_handle.restart = True
-                        opt += [copy.deepcopy(opt_handle)]
-                        idx_base += 1
 
         idx_family += 1
 

@@ -28,51 +28,8 @@ from nets.multiLSTM import MultiLSTM as net_MultiLSTM
 from nets.multiLSTM_init import MultiLSTM_init as net_MultiLSTM_init
 from nets.LSTM3 import LSTM3 as net_LSTM3
 
-
-
-def MLP1(x, opt, dropout_rate, labels_id):
-    return net_MLP1(x, opt, dropout_rate, labels_id)
-
-def Crossing(x, opt, dropout_rate, labels_id):
-    return net_Crossing(x, opt, dropout_rate, labels_id)
-
-def Crossing_Learning(x, opt, dropout_rate, labels_id):
-    return net_Crossing_Learning(x, opt, dropout_rate, labels_id)
-
-
-def Crossing_Perturbation(x, opt, delta, labels_id):
-    return net_Crossing_Pertubration(x, opt, delta, labels_id)
-
-def Crossing_Learning_Perturbation(x, opt, delta, labels_id):
-    return net_Crossing_Learning_Pertubration(x, opt, delta, labels_id)
-
-
-def Coloring(x, opt, dropout_rate, labels_id):
-    return net_Coloring(x, opt, dropout_rate, labels_id)
-
-def ColoringLSTM(x, opt, dropout_rate, labels_id):
-    return net_ColoringLSTM(x, opt, dropout_rate, labels_id)
-
-def ColoringLSTM_init(x, opt, dropout_rate, labels_id):
-    return net_ColoringLSTM_init(x, opt, dropout_rate, labels_id)
-
-def MultiLSTM(x, opt, dropout_rate, labels_id):
-    return net_MultiLSTM(x, opt, dropout_rate, labels_id)
-
-def MultiLSTMInit(x, opt, dropout_rate, labels_id):
-    return net_MultiLSTM_init(x, opt, dropout_rate, labels_id)
-
 def LSTM3(data, opt, dropout_rate, labels_id):
     return net_LSTM3(data, opt, dropout_rate, labels_id)
 
-def optimalLSTM(x, opt, dropout_rate, labels_id):
-    return net_optimalLSTM(x, opt, dropout_rate, labels_id)
-
 def Dilation(x, opt, dropout_rate, labels_id):
     return net_Dilated_convolution(x, opt, dropout_rate, labels_id)
-
-def U_net(x, opt, dropout_rate, labels_id):
-    return net_U_net(x, opt, dropout_rate, labels_id)
-
-def Segnet(x, opt, dropout_rate, labels_id):
-    return net_Segnet(x, opt, dropout_rate, labels_id)

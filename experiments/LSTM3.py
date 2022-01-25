@@ -102,8 +102,8 @@ def get_experiments(output_path):
     max_epochs = [100]
 
     idx_base = 0
-    opt_handle = Experiments(id=idx_base, name="Coloring", dataset=opt_data[0], output_path=output_path,
-                             family_id=0, family_name="Coloring_Optimal")
+    opt_handle = Experiments(id=idx_base, name="LSTM3_D", dataset=opt_data[0], output_path=output_path,
+                             family_id=0, family_name="LSTM3_D")
     opt_handle.skip_train = True
     opt_handle.dnn.name = "Crossing"
     opt_handle.dnn.n_t = 100
@@ -111,7 +111,7 @@ def get_experiments(output_path):
     opt += [copy.deepcopy(opt_handle)]
     idx_base += 1
 
-    # 90 experiments
+    # Synthetic training
     idx_family = 1
     for idx_dataset in range(30, 33):
         for batch in [32]:
@@ -134,190 +134,9 @@ def get_experiments(output_path):
 
         idx_family += 1
 
-    # ID 91-120
-    for idx_dataset in range(107, 108):
-        for batch in [32]:
-            for lr in [1e0, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5]:
-                for iterations in [5, 10, 20, 30, 50]:
-                    opt_handle = Experiments(id=idx_base, name="LSTM3_D" + str(idx_dataset),
-                                             dataset=opt_data[idx_dataset], output_path=output_path,
-                                             family_id=idx_family, family_name="LSTM3_D" + str(idx_dataset))
-                    opt_handle.dnn.name = "LSTM3"
-                    opt_handle.dnn.n_t = iterations
-                    # opt_handle.dnn.n_t = 50
-                    opt_handle.loop_count = 1
-                    opt_handle.dnn.n_t_train = iterations
-                    opt_handle.dnn.train_per_step = False
-                    opt_handle.hyper.max_num_epochs = 10
-                    opt_handle.hyper.learning_rate = lr
-                    opt_handle.hyper.batch_size = batch
-                    opt += [copy.deepcopy(opt_handle)]
-                    idx_base += 1
-
-        idx_family += 1
-
-    # ID 121-124
-    for idx_dataset in range(108, 109):
-        for batch in [32]:
-            for lr in [1e-4, 1e-5]:
-                for iterations in [40, 50]:
-                    opt_handle = Experiments(id=idx_base, name="LSTM3_D" + str(idx_dataset),
-                                             dataset=opt_data[idx_dataset], output_path=output_path,
-                                             family_id=idx_family, family_name="LSTM3_D" + str(idx_dataset))
-                    opt_handle.dnn.name = "LSTM3"
-                    opt_handle.dnn.n_t = iterations
-                    # opt_handle.dnn.n_t = 50
-                    opt_handle.loop_count = 1
-                    opt_handle.dnn.n_t_train = iterations
-                    opt_handle.dnn.train_per_step = False
-                    opt_handle.hyper.max_num_epochs = 10
-                    opt_handle.hyper.learning_rate = lr
-                    opt_handle.hyper.batch_size = batch
-                    opt += [copy.deepcopy(opt_handle)]
-                    idx_base += 1
-
-        idx_family += 1
-
-    # ID 125-154
-    for idx_dataset in range(109, 110):
-        for batch in [32]:
-            for lr in [1e0, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5]:
-                for iterations in [5, 10, 20, 30, 50]:
-                    opt_handle = Experiments(id=idx_base, name="LSTM3_D" + str(idx_dataset),
-                                             dataset=opt_data[idx_dataset], output_path=output_path,
-                                             family_id=idx_family, family_name="LSTM3_D" + str(idx_dataset))
-                    opt_handle.dnn.name = "LSTM3"
-                    opt_handle.dnn.n_t = iterations
-                    # opt_handle.dnn.n_t = 50
-                    opt_handle.loop_count = 1
-                    opt_handle.dnn.n_t_train = iterations
-                    opt_handle.dnn.train_per_step = False
-                    opt_handle.hyper.max_num_epochs = 10
-                    opt_handle.hyper.learning_rate = lr
-                    opt_handle.hyper.batch_size = batch
-                    opt += [copy.deepcopy(opt_handle)]
-                    idx_base += 1
-
-        idx_family += 1
-
-    # ID 155-184
-    for idx_dataset in range(110, 111):
-        for batch in [32]:
-            for lr in [1e0, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5]:
-                for iterations in [5, 10, 20, 30, 50]:
-                    opt_handle = Experiments(id=idx_base, name="LSTM3_D" + str(idx_dataset),
-                                             dataset=opt_data[idx_dataset], output_path=output_path,
-                                             family_id=idx_family, family_name="LSTM3_D" + str(idx_dataset))
-                    opt_handle.dnn.name = "LSTM3"
-                    opt_handle.dnn.n_t = iterations
-                    # opt_handle.dnn.n_t = 50
-                    opt_handle.loop_count = 1
-                    opt_handle.dnn.n_t_train = iterations
-                    opt_handle.dnn.train_per_step = False
-                    opt_handle.hyper.max_num_epochs = 10
-                    opt_handle.hyper.learning_rate = lr
-                    opt_handle.hyper.batch_size = batch
-                    opt += [copy.deepcopy(opt_handle)]
-                    idx_base += 1
-
-        idx_family += 1
-
-    # ID 185-214
-    for idx_dataset in range(111, 112):
-        for batch in [32]:
-            for lr in [1e0, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5]:
-                for iterations in [5, 10, 20, 30, 50]:
-                    opt_handle = Experiments(id=idx_base, name="LSTM3_D" + str(idx_dataset),
-                                             dataset=opt_data[idx_dataset], output_path=output_path,
-                                             family_id=idx_family, family_name="LSTM3_D" + str(idx_dataset))
-                    opt_handle.dnn.name = "LSTM3"
-                    opt_handle.dnn.n_t = iterations
-                    # opt_handle.dnn.n_t = 50
-                    opt_handle.loop_count = 1
-                    opt_handle.dnn.n_t_train = iterations
-                    opt_handle.dnn.train_per_step = False
-                    opt_handle.hyper.max_num_epochs = 10
-                    opt_handle.hyper.learning_rate = lr
-                    opt_handle.hyper.batch_size = batch
-                    opt += [copy.deepcopy(opt_handle)]
-                    idx_base += 1
-
-        idx_family += 1
-
-    # ID 215-322
-    for idx_dataset in range(30, 33):
-        for batch in [32]:
-            for lr in [1e-4, 1e-5]:
-                for iterations in [40, 50, 60]:
-                    for noise_std in [1, 5, 8, 10, 12, 15]:
-                        opt_handle = Experiments(id=idx_base, name="LSTM3_D" + str(idx_dataset),
-                                        dataset=opt_data[idx_dataset], output_path=output_path,
-                                        family_id=idx_family, family_name="LSTM3_D" + str(idx_dataset))
-                        opt_handle.dnn.name = "LSTM3"
-                        opt_handle.dnn.n_t = iterations
-                        # opt_handle.dnn.n_t = 50
-                        opt_handle.loop_count = 1
-                        opt_handle.dnn.n_t_train = iterations
-                        opt_handle.dnn.train_per_step = False
-                        opt_handle.hyper.max_num_epochs = 10
-                        opt_handle.hyper.learning_rate = lr
-                        opt_handle.hyper.batch_size = batch
-                        # opt_handle.train_with_noise = True
-                        # opt_handle.hyper.noise_sdev = noise_std
-                        opt += [copy.deepcopy(opt_handle)]
-                        idx_base += 1
-
-        idx_family += 1
-
-
-    # ID 323-353
-    for idx_dataset in range(112, 113):
-        for batch in [32]:
-            for lr in [1e0, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5]:
-                for iterations in [5, 10, 20, 30, 50]:
-                    opt_handle = Experiments(id=idx_base, name="LSTM3_D" + str(idx_dataset),
-                                             dataset=opt_data[idx_dataset], output_path=output_path,
-                                             family_id=idx_family, family_name="LSTM3_D" + str(idx_dataset))
-                    opt_handle.dnn.name = "LSTM3"
-                    opt_handle.dnn.n_t = iterations
-                    # opt_handle.dnn.n_t = 50
-                    opt_handle.loop_count = 1
-                    opt_handle.dnn.n_t_train = iterations
-                    opt_handle.dnn.train_per_step = False
-                    opt_handle.hyper.max_num_epochs = 10
-                    opt_handle.hyper.learning_rate = lr
-                    opt_handle.hyper.batch_size = batch
-                    opt += [copy.deepcopy(opt_handle)]
-                    idx_base += 1
-
-        idx_family += 1
-
-    # ID 354-384
-    # 373 had the best validation accuracy
-    for idx_dataset in range(113, 114):
-        for batch in [32]:
-            for lr in [1e0, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5]:
-                for iterations in [5, 10, 20, 30, 50]:
-                    opt_handle = Experiments(id=idx_base, name="LSTM3_D" + str(idx_dataset),
-                                             dataset=opt_data[idx_dataset], output_path=output_path,
-                                             family_id=idx_family, family_name="LSTM3_D" + str(idx_dataset))
-                    opt_handle.dnn.name = "LSTM3"
-                    opt_handle.dnn.n_t = iterations
-                    # opt_handle.dnn.n_t = 50
-                    opt_handle.loop_count = 1
-                    opt_handle.dnn.n_t_train = iterations
-                    opt_handle.dnn.train_per_step = False
-                    opt_handle.hyper.max_num_epochs = 10
-                    opt_handle.hyper.learning_rate = lr
-                    opt_handle.hyper.batch_size = batch
-                    opt += [copy.deepcopy(opt_handle)]
-                    idx_base += 1
-
-        idx_family += 1
-
-    # ID 385-475
-    # 373 had the best validation accuracy
-    for idx_dataset in range(116, 119):
+    # Natural training
+    idx_family = 1
+    for idx_dataset in [81]:
         for batch in [32]:
             for lr in [1e0, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5]:
                 for iterations in [5, 10, 20, 30, 50]:
