@@ -12,24 +12,6 @@ from matplotlib.font_manager import FontProperties
 
 if NET == 'dilation':
     import experiments.dilation as experiments
-if NET == 'segnet':
-    import experiments.segnet as experiments
-elif NET == 'lstm':
-    import experiments.lstm as experiments
-elif NET == 'coloring':
-    import experiments.coloring as experiments
-elif NET == 'crossing':
-    import experiments.crossing as experiments
-elif NET == 'unet':
-    import experiments.unet as experiments
-elif NET == 'multi_lstm':
-    import experiments.multi_lstm as experiments
-elif NET == 'multi_lstm_init':
-    import experiments.multi_lstm_init as experiments
-elif NET == 'FF':
-    import experiments.FF as experiments
-elif NET == 'optimal_lstm':
-    import experiments.optimal_lstm as experiments
 elif NET == 'lstm3':
     import experiments.LSTM3 as experiments
 

@@ -26,8 +26,8 @@ def run(opt):
 
     # Initialize dataset and creates TF records if they do not exist
 
-    if opt.dataset.dataset_name == 'insideness':
-        from data import insideness_data
+    if opt.dataset.dataset_name == 'symmetry':
+        from data import symmetry_data
         dataset = insideness_data.InsidenessDataset(opt)
     else:
         print("Error: no valid dataset specified")
@@ -98,7 +98,7 @@ def run(opt):
         insideness['test_gt'] = [tmp for tmp in np.concatenate(insideness['test_gt'])[:int(dataset.num_images_test), :, :]]
 
         # Write Ground truth
-        print("WRITTING GROUNDTRUTH")
+        print("WRITING GROUNDTRUTH")
         sys.stdout.flush()
 
         print(opt.log_dir_base + opt.name + '/' + opt.name + '_dataset.pkl')

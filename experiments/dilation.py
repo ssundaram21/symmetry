@@ -89,7 +89,7 @@ def get_experiments(output_path):
     opt_handle = Experiments(id=idx_base, name="Dilation_D", dataset=opt_data[0], output_path=output_path,
                              family_id=0, family_name="Dilation_D")
     opt_handle.skip_train = True
-    opt_handle.dnn.name = "Crossing"
+    opt_handle.dnn.name = "Dilation_D"
     opt_handle.dnn.n_t = 30
     opt += [copy.deepcopy(opt_handle)]
     idx_base += 1

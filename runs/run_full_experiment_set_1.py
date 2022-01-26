@@ -9,9 +9,16 @@ import argparse
 print(tf.config.list_physical_devices('GPU'))
 sys.stdout.flush()
 
-DATA_DIR = "/om/user/shobhita/src/symmetry/experiment_set_1/data/"
-RESULT_DIR = "/om/user/shobhita/src/symmetry/experiment_set_1/results_band18_training/"
-MODEL_DIR = "/om/user/shobhita/src/symmetry/experiment_set_1/models_band18_training/"
+parser = argparse.ArgumentParser()
+parser.add_argument('--data_path', type=int, required=True)
+parser.add_argument('--result_path', type=str, required=True)
+parser.add_argument('--model_path', type=str, required=True)
+args = parser.parse_args()
+
+DATA_DIR = args.data_path
+RESULT_DIR = args.result_path
+MODEL_DIR = args.model_path
+
 BATCH_SIZE = 32
 IMG_SIZE = (80, 80)
 IMG_SHAPE = IMG_SIZE + (3,)

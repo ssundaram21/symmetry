@@ -159,57 +159,17 @@ def run(opt, opt_datasets):
         datasets, test_datasets, test_iterators = get_dataset_handlers(opt, [opt_datasets[i]])
         extract_activations_dataset(opt, [opt_datasets[i]], datasets, test_datasets, test_iterators)
         tf.reset_default_graph()
-    #
-    # # Diff datasets
-    # for i in range(59, 63):
-    #     datasets, test_datasets, test_iterators = get_dataset_handlers(opt, [opt_datasets[i]])
-    #     extract_activations_dataset(opt, [opt_datasets[i]], datasets, test_datasets, test_iterators)
-    #     tf.reset_default_graph()
-    #
+
     # Stripe datasets
-    # for i in range(83, 93):
-    #     datasets, test_datasets, test_iterators = get_dataset_handlers(opt, [opt_datasets[i]])
-    #     extract_activations_dataset(opt, [opt_datasets[i]], datasets, test_datasets, test_iterators)
-    #     tf.reset_default_graph()
+    for i in range(70, 81):
+        datasets, test_datasets, test_iterators = get_dataset_handlers(opt, [opt_datasets[i]])
+        extract_activations_dataset(opt, [opt_datasets[i]], datasets, test_datasets, test_iterators)
+        tf.reset_default_graph()
 
-
-    # datasets, test_datasets, test_iterators = get_dataset_handlers(opt, [opt_datasets[52]])
-    # extract_activations_dataset(opt, [opt_datasets[52]], datasets, test_datasets, test_iterators)
-    # tf.reset_default_graph()
-    #
-    # datasets, test_datasets, test_iterators = get_dataset_handlers(opt, [opt_datasets[49]])
-    # extract_activations_dataset(opt, [opt_datasets[49]], datasets, test_datasets, test_iterators)
-    # tf.reset_default_graph()
-    #
-    # datasets, test_datasets, test_iterators = get_dataset_handlers(opt, [opt_datasets[50]])
-    # extract_activations_dataset(opt, [opt_datasets[50]], datasets, test_datasets, test_iterators)
-    # tf.reset_default_graph()
-    #
-    #
-    #
-    # datasets, test_datasets, test_iterators = get_dataset_handlers(opt, [opt_datasets[45]])
-    # extract_activations_dataset(opt, [opt_datasets[45]], datasets, test_datasets, test_iterators)
-    # tf.reset_default_graph()
-    #
-    # datasets, test_datasets, test_iterators = get_dataset_handlers(opt, [opt_datasets[41]])
-    # extract_activations_dataset(opt, [opt_datasets[41]], datasets, test_datasets, test_iterators)
-    # tf.reset_default_graph()
-    #
-    # datasets, test_datasets, test_iterators = get_dataset_handlers(opt, [opt_datasets[49]], 'train')
-    # extract_activations_dataset(opt, [opt_datasets[49]], datasets, test_datasets, test_iterators, 'train')
-    # tf.reset_default_graph()
-    #
-    # datasets, test_datasets, test_iterators = get_dataset_handlers(opt, [opt_datasets[50]], 'train')
-    # extract_activations_dataset(opt, [opt_datasets[50]], datasets, test_datasets, test_iterators, 'train')
-    # tf.reset_default_graph()
-    #
-    # datasets, test_datasets, test_iterators = get_dataset_handlers(opt, [opt_datasets[53]], 'train')
-    # extract_activations_dataset(opt, [opt_datasets[53]], datasets, test_datasets, test_iterators, 'train')
-    # tf.reset_default_graph()
-    #
-    # datasets, test_datasets, test_iterators = get_dataset_handlers(opt, [opt_datasets[52]], 'train')
-    # extract_activations_dataset(opt, [opt_datasets[52]], datasets, test_datasets, test_iterators, 'train')
-    # tf.reset_default_graph()
-
+    # Natural & Natural Mirrored datasets
+    for i in range(81, 84):
+        datasets, test_datasets, test_iterators = get_dataset_handlers(opt, [opt_datasets[i]])
+        extract_activations_dataset(opt, [opt_datasets[i]], datasets, test_datasets, test_iterators)
+        tf.reset_default_graph()
 
     print("Done :)")

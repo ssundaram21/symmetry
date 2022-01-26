@@ -9,6 +9,7 @@ class Dataset(object):
         # # #
         # Dataset general
         self.dataset_path = ""
+        self.nat_data_path = ""
         self.num_images_training = 1
         self.num_images_testing = 1
         self.proportion_training_set = 0.95

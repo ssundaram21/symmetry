@@ -9,9 +9,17 @@ import argparse
 print(tf.config.list_physical_devices('GPU'))
 sys.stdout.flush()
 
-DATA_DIR = "/om/user/shobhita/src/symmetry/experiment_set_1/data/"
-RESULT_DIR = "/om/user/shobhita/src/symmetry/experiment_set_1/results_no_finetuning/"
-MODEL_DIR = "/om/user/shobhita/src/symmetry/experiment_set_1/models_no_finetuning/"
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--data_path', type=int, required=True)
+parser.add_argument('--result_path', type=str, required=True)
+parser.add_argument('--model_path', type=str, required=True)
+args = parser.parse_args()
+
+DATA_DIR = args.data_path
+RESULT_DIR = args.result_path
+MODEL_DIR = args.model_path
+
 BATCH_SIZE = 32
 IMG_SIZE = (80, 80)
 IMG_SHAPE = IMG_SIZE + (3,)
@@ -137,6 +145,7 @@ history = model.fit(train_dataset,
 history.history["model"] = base_model.name
 
 model.save(MODEL_DIR + f"{base_model.name}_{idx}_model")
+
 ## TEST MODEL
 test_accs = {}
 for test_cat in test_datasets:

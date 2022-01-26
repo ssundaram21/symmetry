@@ -105,7 +105,7 @@ def get_experiments(output_path):
     opt_handle = Experiments(id=idx_base, name="LSTM3_D", dataset=opt_data[0], output_path=output_path,
                              family_id=0, family_name="LSTM3_D")
     opt_handle.skip_train = True
-    opt_handle.dnn.name = "Crossing"
+    opt_handle.dnn.name = "LSTM3_D"
     opt_handle.dnn.n_t = 100
     #opt_handle.skip = True
     opt += [copy.deepcopy(opt_handle)]

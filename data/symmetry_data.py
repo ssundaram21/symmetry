@@ -37,7 +37,7 @@ class SymmetryDataset(data.Dataset):
                 sys.stdout.flush()
 
             if self.opt.dataset.ID > 80:
-                img, label = get_natural_images.get_natural_image(self.opt.dataset.type[0], i)
+                img, label = get_natural_images.get_natural_image(self.opt.dataset.type[0], i, self.opt.dataset.nat_data_path)
             else:
                 if len(self.opt.dataset.type) == 1:
                     img, label = generate_symmetry_images.make_images(self.opt.dataset.type[0])

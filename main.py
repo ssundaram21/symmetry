@@ -12,7 +12,7 @@ parser.add_argument('--code_path', type=str, required=True)
 parser.add_argument('--output_path', type=str, required=True)
 parser.add_argument('--run', type=str, required=True)
 parser.add_argument('--network', type=str, required=True)
-parser.add_argument('--error_correction', action='store_true')
+parser.add_argument('--raw_natural_data_path', type=str)
 
 FLAGS = parser.parse_args()
 
@@ -22,12 +22,6 @@ output_path = FLAGS.output_path
 if FLAGS.network == "dilation":
     from experiments import dilation as experiment
     output_path = output_path + "dilation/"
-elif FLAGS.network == "FF":
-    from experiments import FF as experiment
-    output_path = output_path + "FF/"
-elif FLAGS.network == "multi_lstm_init":
-    from experiments import multi_lstm_init as experiment
-    output_path = output_path + "multi_lstm_init/"
 elif FLAGS.network == "LSTM3":
     from experiments import LSTM3 as experiment
     output_path = output_path + "lstm3/"
@@ -35,38 +29,14 @@ elif FLAGS.network == "LSTM3":
 def run_generate_dataset(id):
     from runs import generate_dataset
     opt_data = datasets.get_datasets(output_path)[id]
+
+    if "nat" in opt_data.name:
+        if not FLAGS.raw_natural_data_path:
+            raise ValueError("Path to raw natural data not specified.")
+        opt_data.nat_data_path = FLAGS.raw_natural_data_path
+
     run_opt = experiment.generate_experiments_dataset(opt_data)
     generate_dataset.run(run_opt)
-
-
-def run_generate_dataset_mix(id):
-    from runs import generate_dataset_mix
-    opt_data = datasets.get_datasets(output_path)
-    run_opt = experiment.generate_experiments_dataset(opt_data[id])
-    run_opt1 = experiment.generate_experiments_dataset(opt_data[49])
-    run_opt2 = experiment.generate_experiments_dataset(opt_data[50])
-
-    generate_dataset_mix.run(run_opt, run_opt1, run_opt2)
-
-
-def run_dataset_hamming(id):
-    from runs import dataset_hamming
-    opt_data = datasets.get_datasets(output_path)[id]
-    run_opt = experiment.generate_experiments_dataset(opt_data)
-    dataset_hamming.run(run_opt, output_path)
-
-
-def run_cross_dataset_hamming(id):
-    from runs import cross_dataset_hamming
-    opt_data = datasets.get_datasets(output_path)
-    run_opt = experiment.generate_experiments_dataset(opt_data[id])
-    cross_dataset_hamming.run(run_opt, opt_data)
-
-def run_data_check(id):
-    from runs import data_check
-    opt_data = datasets.get_datasets(output_path)
-    run_opt = experiment.generate_experiments_dataset(opt_data[id])
-    data_check.run(run_opt, output_path)
 
 def get_dataset_as_numpy(id):
     from runs import get_dataset_as_numpy
@@ -78,28 +48,6 @@ def get_dataset_as_numpy(id):
 def run_train(id):
     from runs import train
     run_opt = experiment.get_experiments(output_path)[id]
-    print("\nTRAINING")
-    train.run(run_opt)
-    print("\nDONE.")
-
-
-def get_train_errors(id):
-    # id is ignored
-    from runs import get_train_errors
-    run_opt = experiment.get_experiments(output_path)
-    get_train_errors.run(run_opt, FLAGS.network)
-
-
-def run_crossval_select(id):
-    #id is ignored
-    from runs import crossval_select
-    run_opt = experiment.get_experiments(output_path)
-    crossval_select.run(run_opt, output_path)
-
-
-def run_train_selected(id):
-    from runs import train
-    run_opt = experiment.get_experiments_selected(output_path)[id]
     train.run(run_opt)
 
 
@@ -120,14 +68,6 @@ def run_extract_activations(id):
     extract_activations.run(run_opt, opt_data)
 
 
-def run_evaluate_perturbation(id):
-    from runs import test_perturbation
-    opt_data = datasets.get_datasets(output_path)
-    run_opt = crossing.get_best_of_the_family(output_path)[id]
-    test_perturbation.run(run_opt, opt_data)
-
-
-
 switcher = {
     'generate_dataset': run_generate_dataset,
     'generate_dataset_mix': run_generate_dataset_mix,
@@ -145,13 +85,4 @@ switcher = {
 }
 
 
-if FLAGS.error_correction:
-    text_file = open('error_ids_' + FLAGS.network, "r")
-    lines = text_file.readlines()
-    id_errors = [int(l) for l in lines]
-    text_file.close()
-
-    switcher[FLAGS.run](id_errors[FLAGS.experiment_index])
-
-else:
-    switcher[FLAGS.run](FLAGS.experiment_index)
+switcher[FLAGS.run](FLAGS.experiment_index)
