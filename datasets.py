@@ -129,3 +129,5 @@ def get_datasets(output_path):
 
         opt += [copy.deepcopy(opt_handle)]
         idx += 1
+
+    return opt
