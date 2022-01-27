@@ -1,8 +1,8 @@
 #!/bin/bash
 #SBATCH -c 2
-#SBATCH --array=54
-#SBATCH --job-name=DIL_54_act
-#SBATCH --mem=160GB
+#SBATCH --array=1-54
+#SBATCH --job-name=Dilated
+#SBATCH --mem=60GB
 #SBATCH --gres=gpu:1
 #SBATCH --constraint=any-gpu
 #SBATCH --partition=normal
@@ -19,6 +19,6 @@ singularity exec -B /om:/om --nv /om/user/xboix/singularity/xboix-tensorflow1.14
 python /om/user/shobhita/src/symmetry/main.py \
 --experiment_index=${SLURM_ARRAY_TASK_ID} \
 --code_path="/om/user/shobhita/src/symmetry/" \
---output_path='om-shobhita': '/om/user/shobhita/data/symmetry/' \
+--output_path='/om/user/shobhita/data/symmetry/' \
 --run=extract_activations \
 --network=LSTM3

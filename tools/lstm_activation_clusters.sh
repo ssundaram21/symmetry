@@ -14,4 +14,6 @@ hostname
 
 
 singularity exec -B /om:/om /om/user/xboix/singularity/xboix-tf_fujitsu3.simg \
-python /om/user/shobhita/src/symmetry/activation_clustering.py
+python /om/user/shobhita/src/symmetry/activation_clustering.py \
+--model_id=90 \
+--output_path='/om/user/shobhita/data/symmetry/'

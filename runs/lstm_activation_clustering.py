@@ -10,50 +10,31 @@ import copy
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+import experiments.LSTM3 as experiments
 from sklearn.cluster import KMeans
 from sklearn.metrics import pairwise_distances_argmin_min
 from matplotlib.font_manager import FontProperties
 
-if NET == 'dilation':
-    import experiments.dilation as experiments
-if NET == 'segnet':
-    import experiments.segnet as experiments
-elif NET == 'lstm':
-    import experiments.lstm as experiments
-elif NET == 'coloring':
-    import experiments.coloring as experiments
-elif NET == 'crossing':
-    import experiments.crossing as experiments
-elif NET == 'unet':
-    import experiments.unet as experiments
-elif NET == 'multi_lstm':
-    import experiments.multi_lstm as experiments
-elif NET == 'multi_lstm_init':
-    import experiments.multi_lstm_init as experiments
-elif NET == 'FF':
-    import experiments.FF as experiments
-elif NET == 'optimal_lstm':
-    import experiments.optimal_lstm as experiments
-elif NET == 'lstm3':
-    import experiments.LSTM3 as experiments
+parser = argparse.ArgumentParser()
+parser.add_argument('--model_id', type=int, required=True)
+parser.add_argument('--output_path', type=str, required=True)
+args = parser.parse_args()
 
-output_path = '/om/user/shobhita/data/symmetry/' + NET + '/'
-network_id = 90 #specific ID we want to get activations for
+output_path = args.data_path
+network_id = args.model_id
+
+output_path = output_path + NET + '/'
 run_opt = experiments.get_best_of_the_family(output_path, network_id)
 opt_datasets = datasets.get_datasets(output_path)
 
-# SYMMETRIC_DATASETS = opt_datasets[25:30] + [opt_datasets[45]] + [opt_datasets[47]] + [opt_datasets[49]]
-# ASYMMETRIC_DATASETS = opt_datasets[20:25] + [opt_datasets[46]] + [opt_datasets[48]] + [opt_datasets[50]]
-
-SYMMETRIC_DATASETS = [opt_datasets[83]]
-ASYMMETRIC_DATASETS = [opt_datasets[88]]
-
+SYMMETRIC_DATASETS = opt_datasets[25:30] + [opt_datasets[45]] + [opt_datasets[47]] + [opt_datasets[49]]
+ASYMMETRIC_DATASETS = opt_datasets[20:25] + [opt_datasets[46]] + [opt_datasets[48]] + [opt_datasets[50]]
 
 results = {}
 print("STARTING")
 sys.stdout.flush()
 
-for datasets in SYMMETRIC_DATASETS, ASYMMETRIC_DATASETS:
+for datasets in [SYMMETRIC_DATASETS, ASYMMETRIC_DATASETS]:
     data_points = {ts: [] for ts in [9, 19, 29, 39, 49]}
     for opt_data in datasets:
         with open(run_opt.log_dir_base + run_opt.name + '/results/activations_DATA' + opt_data.log_name + '.pkl', 'rb') as f:

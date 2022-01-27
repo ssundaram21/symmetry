@@ -13,5 +13,10 @@ cd /om/user/shobhita/src/symmetry/
 hostname
 
 
-singularity exec -B /om:/om /om/user/xboix/singularity/xboix-tensorflow1.14.simg \
-python /om/user/shobhita/src/symmetry/activations_for_rsa.py
+singularity exec -B /om:/om --nv /om/user/xboix/singularity/xboix-tensorflow1.14.simg \
+python /om/user/shobhita/src/symmetry/main.py \
+--experiment_index=${SLURM_ARRAY_TASK_ID} \
+--code_path="/om/user/shobhita/src/symmetry/" \
+--output_path='/om/user/shobhita/data/symmetry/' \
+--run=train \
+--network=LSTM3

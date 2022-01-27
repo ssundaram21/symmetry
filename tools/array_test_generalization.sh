@@ -1,8 +1,8 @@
 #!/bin/bash
 #SBATCH -c 2
 #SBATCH -n 1
-#SBATCH --array=403-421
-#SBATCH --job-name=dilation_gen
+#SBATCH --array=1-90
+#SBATCH --job-name=LSTM
 #SBATCH --mem=12GB
 #SBATCH --gres=gpu:1
 #SBATCH --constraint=any-gpu
@@ -18,6 +18,6 @@ singularity exec -B /om:/om --nv /om/user/xboix/singularity/xboix-tensorflow1.14
 python /om/user/shobhita/src/symmetry/main.py \
 --experiment_index=${SLURM_ARRAY_TASK_ID} \
 --code_path="/om/user/shobhita/src/symmetry/" \
---output_path='om-shobhita': '/om/user/shobhita/data/symmetry/' \
+--output_path='/om/user/shobhita/data/symmetry/' \
 --run=evaluate_generalization \
 --network=LSTM3

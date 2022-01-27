@@ -157,5 +157,3 @@ with open(RESULT_DIR + f"model_{idx}_training.pkl", "wb") as handle:
 
 with open(RESULT_DIR + f"model_{idx}_testing.pkl", "wb") as handle:
     pickle.dump(test_accs, handle)
-
-

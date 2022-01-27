@@ -67,21 +67,18 @@ def run_extract_activations(id):
     from runs import extract_activations
     extract_activations.run(run_opt, opt_data)
 
+def run_rsa_activations(id):
+    from runs import activations_for_rsa
+    run_opt = experiment.get_experiments(output_path)[id]
+    activations_for_rsa.run(run_opt)
 
 switcher = {
     'generate_dataset': run_generate_dataset,
-    'generate_dataset_mix': run_generate_dataset_mix,
-    'dataset_hamming': run_dataset_hamming,
-    'cross_dataset_hamming': run_cross_dataset_hamming,
-    'data_check': run_data_check,
     'get_dataset_as_numpy': get_dataset_as_numpy,
     'train': run_train,
-    'get_train_errors': get_train_errors,
-    'crossval_select': run_crossval_select,
-    'train_selected': run_train_selected,
     'evaluate_generalization': run_evaluate_generalization,
     'extract_activations': run_extract_activations,
-    'evaluate_perturbation': run_evaluate_perturbation
+    'rsa_activations': run_rsa_activations()
 }
 
 

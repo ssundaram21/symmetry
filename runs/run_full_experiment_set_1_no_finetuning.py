@@ -9,7 +9,6 @@ import argparse
 print(tf.config.list_physical_devices('GPU'))
 sys.stdout.flush()
 
-
 parser = argparse.ArgumentParser()
 parser.add_argument('--data_path', type=int, required=True)
 parser.add_argument('--result_path', type=str, required=True)

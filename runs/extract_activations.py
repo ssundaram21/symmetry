@@ -10,8 +10,6 @@ import tensorflow as tf
 from nets import nets
 
 
-
-
 def get_dataset_handlers(opt, opt_datasets, name='test'):
 
     ################################################################################################

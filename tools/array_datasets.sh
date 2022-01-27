@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH -c 2
-#SBATCH --array=119-138
-#SBATCH --job-name=NatSubsets
+#SBATCH --array=1-90
+#SBATCH --job-name=LSTMTrain
 #SBATCH --mem=16GB
 #SBATCH -t 100:00:00
 #SBATCH --gres=gpu:tesla-k80:1
@@ -16,7 +16,7 @@ singularity exec -B /om:/om  --nv /om/user/xboix/singularity/xboix-tensorflow1.1
 python /om/user/shobhita/src/symmetry/main.py \
 --experiment_index=${SLURM_ARRAY_TASK_ID} \
 --code_path="/om/user/shobhita/src/symmetry/" \
---output_path='om-shobhita': '/om/user/shobhita/data/symmetry/' \
+--output_path='/om/user/shobhita/data/symmetry/' \
 --run=generate_dataset \
 --network=LSTM3
 

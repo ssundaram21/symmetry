@@ -1,5 +1,3 @@
-NET = 'lstm3'
-
 import sys
 import tensorflow as tf
 import datasets
@@ -9,14 +7,17 @@ import copy
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.font_manager import FontProperties
+import experiments.LSTM3 as experiments
 
-if NET == 'dilation':
-    import experiments.dilation as experiments
-elif NET == 'lstm3':
-    import experiments.LSTM3 as experiments
+parser = argparse.ArgumentParser()
+parser.add_argument('--model_id', type=int, required=True)
+parser.add_argument('--output_path', type=str, required=True)
+args = parser.parse_args()
 
-output_path = '/om/user/shobhita/data/symmetry/' + NET + '/'
-network_id = 90 #specific ID we want to get activations for
+output_path = args.data_path
+network_id = args.model_id
+
+output_path = output_path + 'lstm3/'
 run_opt = experiments.get_best_of_the_family(output_path, network_id)
 opt_datasets = datasets.get_datasets(output_path)
 

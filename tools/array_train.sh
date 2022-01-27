@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH -c 2
-#SBATCH --array=385-475
+#SBATCH --array=90
 #SBATCH --job-name=lstm_train
 #SBATCH --mem=12GB
 #SBATCH --gres=gpu:1
@@ -17,10 +17,10 @@ hostname
 
 singularity exec -B /om:/om --nv /om/user/xboix/singularity/xboix-tensorflow1.14.simg \
 python /om/user/shobhita/src/symmetry/main.py \
---experiment_index=${SLURM_ARRAY_TASK_ID} \
+--experiment_index=90 \
 --code_path="/om/user/shobhita/src/symmetry/" \
---output_path='om-shobhita': '/om/user/shobhita/data/symmetry/' \
---run=train \
+--output_path='/om/user/shobhita/data/symmetry/' \
+--run=rsa_activations \
 --network=LSTM3
 
 

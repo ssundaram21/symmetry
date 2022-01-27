@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH -c 2
-#SBATCH --job-name=get_nat_images
+#SBATCH --job-name=activation_mean
 #SBATCH --mem=50GB
 #SBATCH -t 10:00:00
 #SBATCH --gres=gpu:1
@@ -14,4 +14,6 @@ hostname
 
 
 singularity exec -B /om:/om /om/user/xboix/singularity/xboix-tensorflow1.14.simg \
-python /om/user/shobhita/src/symmetry/get_nat_images_as_pickle.py
+python /om/user/shobhita/src/symmetry/activation_analysis.py \
+--model_id=90 \
+--output_path='/om/user/shobhita/data/symmetry/'
