@@ -41,6 +41,8 @@ python main.py \
 ```
 Note that the network is specified as the network that the dataset will be used for (one of `LSTM3`, `dilation`, or `multi_lstm_init`).
 
+To build the natural data datasets from the raw pickle files in DataVerse, specify the additional argument `--raw_natural_data_path` with the path to the pickle files.
+
 ### Running experiments for Dilated and LSTM
 The Dilated and LSTM networks can be trained as follows:
 ```
