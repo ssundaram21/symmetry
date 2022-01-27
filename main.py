@@ -78,7 +78,7 @@ switcher = {
     'train': run_train,
     'evaluate_generalization': run_evaluate_generalization,
     'extract_activations': run_extract_activations,
-    'rsa_activations': run_rsa_activations()
+    'rsa_activations': run_rsa_activations
 }
 
 

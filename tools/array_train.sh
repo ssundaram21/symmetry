@@ -20,7 +20,7 @@ python /om/user/shobhita/src/symmetry/main.py \
 --experiment_index=90 \
 --code_path="/om/user/shobhita/src/symmetry/" \
 --output_path='/om/user/shobhita/data/symmetry/' \
---run=rsa_activations \
+--run=train \
 --network=LSTM3
 
 

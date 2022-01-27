@@ -1,6 +1,3 @@
-
-from util import summary as summ
-
 from nets.dilated_convolution import Dilated_convolution as net_Dilated_convolution
 from nets.LSTM3 import LSTM3 as net_LSTM3
 
