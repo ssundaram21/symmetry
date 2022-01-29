@@ -1,11 +1,13 @@
-# Symmetry with deep neural networks
+# Symmetry perception by deep networks
+
+This is the code to reproduce the results in our paper titled ["Symmetry perception by deep networks: Inadequacy of feed-forward architectures and improvements with recurrent connections"](https://arxiv.org/pdf/2112.04162.pdf)
 
 ## Authors
-* Shobhita Sundaram (shobhita@mit.edu)
+* [Shobhita Sundaram](https://ssundaram21.github.io/) (shobhita@mit.edu)
 * Darius Sinha
 * Matthew Groth
 * Tomotake Sasaki
-* Xavier Boix (xboix@mit.edu)
+* [Xavier Boix](https://www.mit.edu/~xboix/) (xboix@mit.edu)
 
 ## Data
 Our datasets (synthetic and natural) are available at https://dataverse.harvard.edu/dataverse/symmetry.
@@ -35,7 +37,7 @@ All synthetic datasets can be created with `script-name = generate_dataset`
 python main.py \
 --experiment_index=${dataset_id} \
 --code_path={your-code-path} \
---output_path={your-output-path}
+--output_path={your-output-path} \
 --run=generate_dataset \
 --network={network-name}
 ```
@@ -49,7 +51,7 @@ The Dilated and LSTM networks can be trained as follows:
 python main.py \
 --experiment_index={experiment_id} \
 --code_path={your-code-path} \
---output_path={your-output-path}
+--output_path={your-output-path} \
 --run=train \
 --network={network-name}
 ```
@@ -60,7 +62,7 @@ To test networks on test datasets, run:
 python main.py \
 --experiment_index={experiment_id} \
 --code_path={your-code-path} \
---output_path={your-output-path}
+--output_path={your-output-path} \
 --run=evaluate_generalization \
 --network={network-name}
 ```
