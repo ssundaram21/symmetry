@@ -1,6 +1,6 @@
 # Symmetry perception by deep networks
 
-This is the code to reproduce the results in our paper titled ["Symmetry perception by deep networks: Inadequacy of feed-forward architectures and improvements with recurrent connections"](https://arxiv.org/pdf/2112.04162.pdf)
+This is the code to reproduce the results in our paper titled ["Recurrent connections facilitate symmetry perception in deep networks"](https://www.nature.com/articles/s41598-022-25219-w) (_Scientific Reports, 2022_)
 
 ## Authors
 * [Shobhita Sundaram](https://ssundaram21.github.io/) (shobhita@mit.edu)
